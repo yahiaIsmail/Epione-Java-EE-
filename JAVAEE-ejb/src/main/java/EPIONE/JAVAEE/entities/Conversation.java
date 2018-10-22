@@ -1,0 +1,99 @@
+package EPIONE.JAVAEE.entities;
+
+import java.io.Serializable;
+import java.sql.Date;
+import java.util.List;
+import java.util.Objects;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+
+@Entity
+public class Conversation implements Serializable {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int id;
+	private Date dateCreated;
+	
+	@ManyToOne
+	private User user;
+
+	@OneToMany(mappedBy="conversation")
+	private List<SentMessage> sentMessages;
+	
+	@OneToMany(mappedBy="conversation")
+	private List<RecievedMessage> recievedMessages;
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public Date getDateCreated() {
+		return dateCreated;
+	}
+
+	public void setDateCreated(Date dateCreated) {
+		this.dateCreated = dateCreated;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public List<SentMessage> getSentMessages() {
+		return sentMessages;
+	}
+
+	public void setSentMessages(List<SentMessage> sentMessages) {
+		this.sentMessages = sentMessages;
+	}
+
+	public List<RecievedMessage> getRecievedMessages() {
+		return recievedMessages;
+	}
+
+	public void setRecievedMessages(List<RecievedMessage> recievedMessages) {
+		this.recievedMessages = recievedMessages;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		Conversation that = (Conversation) o;
+		return id == that.id &&
+				Objects.equals(dateCreated, that.dateCreated) &&
+				Objects.equals(user, that.user) &&
+				Objects.equals(sentMessages, that.sentMessages) &&
+				Objects.equals(recievedMessages, that.recievedMessages);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id, dateCreated, user, sentMessages, recievedMessages);
+	}
+
+	@Override
+	public String toString() {
+		return "Conversation{" +
+				"id=" + id +
+				", dateCreated=" + dateCreated +
+				", user=" + user +
+				", sentMessages=" + sentMessages +
+				", recievedMessages=" + recievedMessages +
+				'}';
+	}
+}
