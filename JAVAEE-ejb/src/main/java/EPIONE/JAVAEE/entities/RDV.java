@@ -19,6 +19,7 @@ public class RDV implements Serializable {
 	
 
 	@ManyToOne
+<<<<<<< HEAD
 	private User users;//patient
 
 	@ManyToOne
@@ -26,6 +27,9 @@ public class RDV implements Serializable {
 
 	@OneToOne
 	private Motif motif;
+=======
+	private User user;
+>>>>>>> 2008d356333070c6cdd9d73d715f12228cac414d
 	
 	@OneToOne(mappedBy="rendezVous")
 	private MedicalPath medicalPath;
