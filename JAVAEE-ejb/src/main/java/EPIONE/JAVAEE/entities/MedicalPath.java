@@ -4,12 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 
 @Entity
 public class MedicalPath implements Serializable {
@@ -24,6 +19,9 @@ public class MedicalPath implements Serializable {
 	
 	@OneToOne
 	private RDV rendezVous;
+
+	@ManyToMany(mappedBy = "paths")
+	private List<User> users;
 
 	public int getId() {
 		return id;

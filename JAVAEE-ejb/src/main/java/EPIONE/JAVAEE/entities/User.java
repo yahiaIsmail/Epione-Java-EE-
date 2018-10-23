@@ -45,8 +45,8 @@ public class User implements Serializable {
 	@OneToMany(mappedBy = "doctors")
 	private List<RDV> rendezVousDoctors;
 
-	@ManyToOne
-	private MedicalPath path;
+	@ManyToMany
+	private List<MedicalPath> paths;
 
 
 
