@@ -45,13 +45,11 @@ public class User implements Serializable {
 	@OneToMany(mappedBy = "doctors")
 	private List<RDV> rendezVousDoctors;
 
-<<<<<<< HEAD
 	@ManyToOne
 	private MedicalPath path;
 
 
-=======
->>>>>>> 2008d356333070c6cdd9d73d715f12228cac414d
+
 	public int getId() {
 		return id;
 	}
