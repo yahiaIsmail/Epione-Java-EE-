@@ -20,8 +20,8 @@ public class Conversation implements Serializable {
 	private int id;
 	private Date dateCreated;
 	
-	@ManyToOne
-	private User user;
+	@ManyToMany(mappedBy = "conversations")
+	private List<User>users;
 
 	@OneToMany(mappedBy="conversation")
 	private List<SentMessage> sentMessages;
@@ -45,13 +45,7 @@ public class Conversation implements Serializable {
 		this.dateCreated = dateCreated;
 	}
 
-	public User getUser() {
-		return user;
-	}
 
-	public void setUser(User user) {
-		this.user = user;
-	}
 
 	public List<SentMessage> getSentMessages() {
 		return sentMessages;
@@ -76,14 +70,13 @@ public class Conversation implements Serializable {
 		Conversation that = (Conversation) o;
 		return id == that.id &&
 				Objects.equals(dateCreated, that.dateCreated) &&
-				Objects.equals(user, that.user) &&
 				Objects.equals(sentMessages, that.sentMessages) &&
 				Objects.equals(recievedMessages, that.recievedMessages);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id, dateCreated, user, sentMessages, recievedMessages);
+		return Objects.hash(id, dateCreated, sentMessages, recievedMessages);
 	}
 
 	@Override
@@ -91,7 +84,6 @@ public class Conversation implements Serializable {
 		return "Conversation{" +
 				"id=" + id +
 				", dateCreated=" + dateCreated +
-				", user=" + user +
 				", sentMessages=" + sentMessages +
 				", recievedMessages=" + recievedMessages +
 				'}';

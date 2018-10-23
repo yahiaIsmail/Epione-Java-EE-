@@ -19,6 +19,8 @@ public class Motif implements Serializable {
 	@ManyToOne
 	private DoctorData doctor;
 
+	
+
 	public int getId() {
 		return id;
 	}

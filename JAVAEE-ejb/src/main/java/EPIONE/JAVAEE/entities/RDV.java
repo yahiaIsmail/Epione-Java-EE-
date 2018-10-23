@@ -5,13 +5,7 @@ import java.sql.Date;
 import java.util.List;
 import java.util.Objects;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 
 @Entity
 public class RDV implements Serializable {
@@ -23,11 +17,15 @@ public class RDV implements Serializable {
 	private boolean confirmationPatient;
 	private Status status;
 	
-	@ManyToOne
-	private User user;
 
 	@ManyToOne
-	private User userDoctor;
+	private User users;//patient
+
+	@ManyToOne
+	private User doctors;
+
+	@OneToOne
+	private Motif motif;
 	
 	@OneToOne(mappedBy="rendezVous")
 	private MedicalPath medicalPath;
@@ -73,13 +71,7 @@ public class RDV implements Serializable {
 		this.status = status;
 	}
 
-	public User getUser() {
-		return user;
-	}
 
-	public void setUser(User user) {
-		this.user = user;
-	}
 
 	public MedicalPath getMedicalPath() {
 		return medicalPath;
@@ -99,13 +91,12 @@ public class RDV implements Serializable {
 				confirmationPatient == rdv.confirmationPatient &&
 				Objects.equals(dateRDV, rdv.dateRDV) &&
 				status == rdv.status &&
-				Objects.equals(user, rdv.user) &&
 				Objects.equals(medicalPath, rdv.medicalPath);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id, dateRDV, confirmationDoc, confirmationPatient, status, user, medicalPath);
+		return Objects.hash(id, dateRDV, confirmationDoc, confirmationPatient, status, medicalPath);
 	}
 
 	@Override
@@ -116,7 +107,6 @@ public class RDV implements Serializable {
 				", confirmationDoc=" + confirmationDoc +
 				", confirmationPatient=" + confirmationPatient +
 				", status=" + status +
-				", user=" + user +
 				", medicalPath=" + medicalPath +
 				'}';
 	}

@@ -33,20 +33,22 @@ public class User implements Serializable {
 	@ManyToOne
 	private DoctorData doctorData;
 
-	@OneToMany(mappedBy="user")
+	@ManyToMany
 	private List<Conversation> conversations;
 
 	@OneToMany(mappedBy = "user")
 	private List<MessageDoctor> messageDoctors;
 
-	@OneToMany(mappedBy="user")
-	private List<RDV> rendezvous;
+	@OneToMany(mappedBy = "users")
+	private List<RDV> rendezVous;
+
+	@OneToMany(mappedBy = "doctors")
+	private List<RDV> rendezVousDoctors;
 
 	@ManyToOne
 	private MedicalPath path;
 
-	@OneToMany(mappedBy = "userDoctor")
-	private List<RDV> rendezvoudDocteur;
+
 	public int getId() {
 		return id;
 	}
@@ -191,13 +193,6 @@ public class User implements Serializable {
 		this.messageDoctors = messageDoctors;
 	}
 
-	public List<RDV> getRendezvous() {
-		return rendezvous;
-	}
-
-	public void setRendezvous(List<RDV> rendezvous) {
-		this.rendezvous = rendezvous;
-	}
 
 	@Override
 	public boolean equals(Object o) {
@@ -221,13 +216,12 @@ public class User implements Serializable {
 				Objects.equals(address, user.address) &&
 				Objects.equals(doctorData, user.doctorData) &&
 				Objects.equals(conversations, user.conversations) &&
-				Objects.equals(messageDoctors, user.messageDoctors) &&
-				Objects.equals(rendezvous, user.rendezvous);
+				Objects.equals(messageDoctors, user.messageDoctors) ;
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id, firstName, lastName, password, birthday, UrlPhoto, enabled, lastLogin, confirmation, confirmationToken, role, phoneNumber, email, username, address, doctorData, conversations, messageDoctors, rendezvous);
+		return Objects.hash(id, firstName, lastName, password, birthday, UrlPhoto, enabled, lastLogin, confirmation, confirmationToken, role, phoneNumber, email, username, address, doctorData, conversations, messageDoctors);
 	}
 
 	@Override
@@ -251,7 +245,6 @@ public class User implements Serializable {
 				", doctorData=" + doctorData +
 				", conversations=" + conversations +
 				", messageDoctors=" + messageDoctors +
-				", rendezvous=" + rendezvous +
 				'}';
 	}
 }

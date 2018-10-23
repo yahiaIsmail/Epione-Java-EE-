@@ -28,6 +28,9 @@ public class DoctorData implements Serializable {
 	@OneToMany(mappedBy = "doctorData")
 	private List<Curriculum> curriculumList;
 
+	@OneToMany(mappedBy = "doctorData")
+	private List<Transport> transportsList;
+
 	public int getId() {
 		return id;
 	}
