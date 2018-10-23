@@ -18,9 +18,11 @@ public class MedicalPath implements Serializable {
 	private int id;
 	private boolean status;
 	private String justification;
-	
-	@OneToMany(mappedBy="medicalPath")
-	private List<MedicalVisit> medicalVisits;
+
+	@OneToMany(mappedBy = "path")
+	private List<User> pathDoctors;
+
+
 	
 	@OneToOne
 	private RDV rendezVous;
@@ -49,14 +51,6 @@ public class MedicalPath implements Serializable {
 		this.justification = justification;
 	}
 
-	public List<MedicalVisit> getMedicalVisits() {
-		return medicalVisits;
-	}
-
-	public void setMedicalVisits(List<MedicalVisit> medicalVisits) {
-		this.medicalVisits = medicalVisits;
-	}
-
 	public RDV getRendezVous() {
 		return rendezVous;
 	}
@@ -73,13 +67,12 @@ public class MedicalPath implements Serializable {
 		return id == that.id &&
 				status == that.status &&
 				Objects.equals(justification, that.justification) &&
-				Objects.equals(medicalVisits, that.medicalVisits) &&
 				Objects.equals(rendezVous, that.rendezVous);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id, status, justification, medicalVisits, rendezVous);
+		return Objects.hash(id, status, justification, rendezVous);
 	}
 
 	@Override
@@ -88,7 +81,6 @@ public class MedicalPath implements Serializable {
 				"id=" + id +
 				", status=" + status +
 				", justification='" + justification + '\'' +
-				", medicalVisits=" + medicalVisits +
 				", rendezVous=" + rendezVous +
 				'}';
 	}
