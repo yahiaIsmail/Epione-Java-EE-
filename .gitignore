@@ -61,3 +61,4 @@ JAVAEE-web/target/maven-status/maven-compiler-plugin/compile/default-compile/inp
 JAVAEE-ear/JAVAEE-ear.iml
 JAVAEE-web/JAVAEE-web.iml
 JAVAEE.iml
+.idea/uiDesigner.xml
