@@ -62,3 +62,6 @@ JAVAEE-ear/JAVAEE-ear.iml
 JAVAEE-web/JAVAEE-web.iml
 JAVAEE.iml
 .idea/uiDesigner.xml
+JAVAEE-ejb/target/classes/EPIONE/JAVAEE/entities/Motif.class
+JAVAEE-ejb/target/classes/EPIONE/JAVAEE/services/UserService.class
+JAVAEE-ejb/target/classes/EPIONE/JAVAEE/services/UserServiceRemote.class
