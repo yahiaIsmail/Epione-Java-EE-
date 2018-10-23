@@ -21,6 +21,9 @@ public class DoctorData implements Serializable {
 
 	@OneToMany(mappedBy = "doctorData")
 	private List<Expertise> expertise;
+	
+	@OneToMany(mappedBy = "doctor")
+	private List<Motif> motifs;
 
 	@OneToMany(mappedBy = "doctorData")
 	private List<Curriculum> curriculumList;
