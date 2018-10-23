@@ -17,7 +17,8 @@ public class MedicalVisit implements Serializable {
 	private boolean medicalState;
 	private int rating;
 	
-
+	@ManyToOne
+	private MedicalPath medicalPath;
 
 	public int getId() {
 		return id;
@@ -51,6 +52,14 @@ public class MedicalVisit implements Serializable {
 		this.rating = rating;
 	}
 
+	public MedicalPath getMedicalPath() {
+		return medicalPath;
+	}
+
+	public void setMedicalPath(MedicalPath medicalPath) {
+		this.medicalPath = medicalPath;
+	}
+
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
@@ -59,12 +68,13 @@ public class MedicalVisit implements Serializable {
 		return id == that.id &&
 				medicalState == that.medicalState &&
 				rating == that.rating &&
-				Objects.equals(description, that.description) ;
+				Objects.equals(description, that.description) &&
+				Objects.equals(medicalPath, that.medicalPath);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id, description, medicalState, rating);
+		return Objects.hash(id, description, medicalState, rating, medicalPath);
 	}
 
 	@Override
@@ -74,6 +84,7 @@ public class MedicalVisit implements Serializable {
 				", description='" + description + '\'' +
 				", medicalState=" + medicalState +
 				", rating=" + rating +
+				", medicalPath=" + medicalPath +
 				'}';
 	}
 }

@@ -42,9 +42,6 @@ public class User implements Serializable {
 	@OneToMany(mappedBy="user")
 	private List<RDV> rendezvous;
 
-	@ManyToOne
-	private MedicalPath path;
-
 	@OneToMany(mappedBy = "userDoctor")
 	private List<RDV> rendezvoudDocteur;
 	public int getId() {
