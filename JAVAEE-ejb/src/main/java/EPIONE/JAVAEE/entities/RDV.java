@@ -25,7 +25,7 @@ public class RDV implements Serializable {
 	
 	@ManyToOne
 	private User user;
-	
+
 	@OneToOne(mappedBy="rendezVous")
 	private MedicalPath medicalPath;
 
