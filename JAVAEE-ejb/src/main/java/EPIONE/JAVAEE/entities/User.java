@@ -7,8 +7,12 @@ import java.util.List;
 import java.util.Objects;
 
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
+@XmlRootElement
 public class User implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,6 +30,22 @@ public class User implements Serializable {
 	private int phoneNumber;
 	private String email;
 	private String username;
+
+	//delete after
+	private String speciality;
+	private String adr;
+
+	public User() {
+	}
+
+	public User(String firstName, String lastName,String speciality, String adr, String urlPhoto) {
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.speciality=speciality;
+		this.adr = adr;
+		UrlPhoto = urlPhoto;
+
+	}
 
 	@OneToOne
 	private Address address;
@@ -49,7 +69,7 @@ public class User implements Serializable {
 	private List<MedicalPath> paths;
 
 
-
+	@XmlAttribute(name="id",required=true)
 	public int getId() {
 		return id;
 	}
@@ -58,6 +78,7 @@ public class User implements Serializable {
 		this.id = id;
 	}
 
+	@XmlElement(name="firstName")
 	public String getFirstName() {
 		return firstName;
 	}
@@ -66,12 +87,31 @@ public class User implements Serializable {
 		this.firstName = firstName;
 	}
 
+	@XmlElement(name="lastName")
 	public String getLastName() {
 		return lastName;
 	}
 
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
+	}
+
+	@XmlElement(name="speciality")
+	public String getSpeciality() {
+		return speciality;
+	}
+
+	public void setSpeciality(String speciality) {
+		this.speciality = speciality;
+	}
+
+	@XmlElement(name="address")
+	public String getAdr() {
+		return adr;
+	}
+
+	public void setAdr(String adr) {
+		this.adr = adr;
 	}
 
 	public String getPassword() {
