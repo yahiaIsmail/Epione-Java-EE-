@@ -6,12 +6,18 @@ import EPIONE.JAVAEE.entities.User;
 import EPIONE.JAVAEE.services.interfaces.UserServiceRemote;
 
 import javax.ejb.Stateful;
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 import java.util.Base64;
 import java.util.List;
-
-@Stateful
+@Path("/user")
+@Stateless
 public class UserService implements UserServiceRemote {
     @PersistenceContext(unitName = "JAVAEE-ejb")
     EntityManager em;
@@ -70,9 +76,11 @@ public class UserService implements UserServiceRemote {
             return false;
         }
     }
-
+    @GET
+    @Produces(MediaType.TEXT_PLAIN)
+    @Path("/{id}")
     @Override
-    public User getUserById(int id) {
+    public User getUserById(@PathParam("id") int id) {
         try {
             User usr = (User) em.createQuery("SELECT u FROM User u WHERE u.id = :id")
                     .setParameter("id", id)
@@ -84,9 +92,17 @@ public class UserService implements UserServiceRemote {
             if (!usr.getMessageDoctors().isEmpty())
                 usr.setMessageDoctors(usr.getMessageDoctors());
 
-                return usr;
+            return usr;
         } catch (javax.persistence.NoResultException exp) {
             return null;
         }
+    }
+
+    @GET
+    @Produces(MediaType.TEXT_PLAIN)
+    @Path("/hi")
+    @Override
+    public String testRest() {
+        return "test";
     }
 }
