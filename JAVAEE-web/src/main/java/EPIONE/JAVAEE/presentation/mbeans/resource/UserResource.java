@@ -8,6 +8,7 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import java.util.ArrayList;
@@ -21,11 +22,13 @@ public class UserResource {
 
     @GET
     @Produces(MediaType.APPLICATION_XML)
-    @Path("/doctors")
-    public List<User> scrapingAllDoctors()  {
+    @Path("/doctors/{speciality}")
+    public List<User> scrapingAllDoctors(
+            @PathParam(value = "speciality")String speciality
+            )  {
         UserService userService= new UserService();
         List<User> listDoc= new ArrayList<User>();
-        listDoc=userService.scrapingAllDoctors();
+        listDoc=userService.scrapingAllDoctors(speciality);
         return listDoc;
 
     }

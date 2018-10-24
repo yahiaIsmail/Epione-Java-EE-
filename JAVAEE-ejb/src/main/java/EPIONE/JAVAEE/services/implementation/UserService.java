@@ -28,7 +28,7 @@ public class UserService implements UserServiceRemote {
 
 
     @Override
-    public List<User> scrapingAllDoctors()  {
+    public List<User> scrapingAllDoctors(String speciality)  {
         List<String> list= new ArrayList<>();
         User d= new User();
         List<User> listDoc= new ArrayList<User>();
@@ -45,24 +45,24 @@ public class UserService implements UserServiceRemote {
         String lastName="";
 
         //scrapping the first 2 pages
-        //for (compteur=1; compteur<3; compteur++){
-        //            url = "https://www.doctolib.fr/"+speciality+"?page="+compteur;
-        //            try {
-        //                document = Jsoup.connect(url).userAgent("Mozilla").get();
-        //                tmp= document.select(".dl-search-result-presentation");
-        //
-        //            } catch (IOException e) {
-        //                e.printStackTrace();
-        //            }
+        for (compteur=1; compteur<3; compteur++){
+                    url = "https://www.doctolib.fr/"+speciality+"?page="+compteur;
+                    try {
+                        document = Jsoup.connect(url).userAgent("Mozilla").get();
+                        tmp= document.select(".dl-search-result-presentation");
 
-        url = "https://www.doctolib.fr/dentiste";
-        try {
-            document = Jsoup.connect(url).userAgent("Mozilla").get();
-            tmp= document.select(".dl-search-result-presentation");
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        url = "https://www.doctolib.fr/dentiste";
+//        try {
+//            document = Jsoup.connect(url).userAgent("Mozilla").get();
+//            tmp= document.select(".dl-search-result-presentation");
+//
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
 
 
 
@@ -109,6 +109,7 @@ public class UserService implements UserServiceRemote {
                 //  System.out.println("centre !");
             }
 
+        }
         }
         return listDoc;
     }

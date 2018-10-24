@@ -100,3 +100,8 @@ JAVAEE-web/target/JAVAEE-web/WEB-INF/lib/JAVAEE-ejb-0.0.1-SNAPSHOT.jar
 JAVAEE-web/target/JAVAEE-web/WEB-INF/lib/javax.transaction-api-1.3.jar
 JAVAEE-web/target/JAVAEE-web/WEB-INF/lib/jjwt-0.9.1.jar
 JAVAEE-web/target/JAVAEE-web/WEB-INF/lib/jsoup-1.11.3.jar
+JAVAEE-ejb/target/classes/EPIONE/JAVAEE/services/implementation/UserService.class
+JAVAEE-ejb/target/classes/EPIONE/JAVAEE/services/interfaces/UserServiceRemote.class
+JAVAEE-ejb/target/classes/EPIONE/JAVAEE/services/implementation/UserService.class
+JAVAEE-ejb/target/classes/EPIONE/JAVAEE/services/interfaces/UserServiceRemote.class
+JAVAEE-ejb/target/classes/EPIONE/JAVAEE/services/implementation/UserService.class
