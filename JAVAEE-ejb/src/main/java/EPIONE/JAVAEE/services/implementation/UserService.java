@@ -231,6 +231,7 @@ public class UserService implements UserServiceLocal {
        // User moez= new User("moez");
         em.persist(new User(fullName));
 
+
     }
 
 
