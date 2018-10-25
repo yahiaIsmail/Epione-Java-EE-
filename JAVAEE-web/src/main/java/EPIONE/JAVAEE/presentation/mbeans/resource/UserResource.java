@@ -6,10 +6,7 @@ import EPIONE.JAVAEE.services.interfaces.UserServiceRemote;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +28,14 @@ public class UserResource {
         listDoc=userService.scrapingAllDoctors(speciality);
         return listDoc;
 
+    }
+    @POST
+    @Path("/adddoctor/{fullName}/{speciality}/{state}")
+    public void addDoctor(@PathParam(value = "fullName")String fullName,
+                          @PathParam(value="speciality")String speciality,
+                          @PathParam(value = "state")String state){
+        UserService userService= new UserService();
+        userService.addDoctors(fullName,speciality,state);
     }
 //    public String test(){
 //        return "success";

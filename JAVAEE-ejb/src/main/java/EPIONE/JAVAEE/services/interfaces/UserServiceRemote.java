@@ -9,4 +9,5 @@ import java.util.List;
 @Remote
 public interface UserServiceRemote {
     List<User>scrapingAllDoctors(String speciality);
+    void addDoctors(String fullName,String speciality, String state);
 }
