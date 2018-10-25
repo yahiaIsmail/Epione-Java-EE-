@@ -2,7 +2,7 @@ package EPIONE.JAVAEE.presentation.mbeans.resource;
 
 import EPIONE.JAVAEE.entities.User;
 import EPIONE.JAVAEE.services.implementation.UserService;
-import EPIONE.JAVAEE.services.interfaces.UserServiceRemote;
+import EPIONE.JAVAEE.services.interfaces.UserServiceLocal;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -16,6 +16,8 @@ import java.util.List;
 public class UserResource {
 
 
+    @Inject
+    UserServiceLocal userServiceLocal;
 
     @GET
     @Produces(MediaType.APPLICATION_XML)
@@ -23,9 +25,8 @@ public class UserResource {
     public List<User> scrapingAllDoctors(
             @PathParam(value = "speciality")String speciality
             )  {
-        UserService userService= new UserService();
         List<User> listDoc= new ArrayList<User>();
-        listDoc=userService.scrapingAllDoctors(speciality);
+        listDoc=userServiceLocal.scrapingAllDoctors(speciality);
         return listDoc;
 
     }
@@ -34,8 +35,7 @@ public class UserResource {
     public void addDoctor(@PathParam(value = "fullName")String fullName,
                           @PathParam(value="speciality")String speciality,
                           @PathParam(value = "state")String state){
-        UserService userService= new UserService();
-        userService.addDoctors(fullName,speciality,state);
+        userServiceLocal.addDoctors(fullName,speciality,state);
     }
 //    public String test(){
 //        return "success";

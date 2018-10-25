@@ -2,12 +2,11 @@ package EPIONE.JAVAEE.services.interfaces;
 
 import EPIONE.JAVAEE.entities.User;
 
-import javax.ejb.Remote;
-import java.io.IOException;
+import javax.ejb.Local;
 import java.util.List;
 
-@Remote
-public interface UserServiceRemote {
-    List<User>scrapingAllDoctors(String speciality);
+@Local
+public interface UserServiceLocal {
+    List<User> scrapingAllDoctors(String speciality);
     void addDoctors(String fullName,String speciality, String state);
 }

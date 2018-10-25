@@ -1,9 +1,11 @@
 package EPIONE.JAVAEE.services.implementation;
 
 import EPIONE.JAVAEE.entities.User;
-import EPIONE.JAVAEE.services.interfaces.UserServiceRemote;
+import EPIONE.JAVAEE.services.interfaces.UserServiceLocal;
 
 
+import javax.ejb.Local;
+import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -26,9 +28,10 @@ import org.jsoup.select.Elements;
 import java.util.*;
 
 @Stateless
-public class UserService implements UserServiceRemote {
+@LocalBean
+public class UserService implements UserServiceLocal {
 
-    @PersistenceContext
+    @PersistenceContext(unitName = "JAVAEE-ejb")
     EntityManager em;
 
     @Override
@@ -225,7 +228,8 @@ public class UserService implements UserServiceRemote {
             e.printStackTrace();
         }
 
-
+       // User moez= new User("moez");
+        em.persist(new User(fullName));
 
     }
 
