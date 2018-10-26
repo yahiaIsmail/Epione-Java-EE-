@@ -65,6 +65,9 @@ public class User implements Serializable {
 	@OneToMany(mappedBy = "doctor")
 	private List<Expertise> expertiseList;
 
+	@OneToMany(mappedBy = "doctor")
+	private List<Transport> transportList;
+
 	@ManyToOne
 	private DoctorData doctorData;
 
@@ -277,6 +280,13 @@ public class User implements Serializable {
 		this.messageDoctors = messageDoctors;
 	}
 
+	public List<Transport> getTransportList() {
+		return transportList;
+	}
+
+	public void setTransportList(List<Transport> transportList) {
+		this.transportList = transportList;
+	}
 
 	@Override
 	public boolean equals(Object o) {

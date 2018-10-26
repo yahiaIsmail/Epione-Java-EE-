@@ -116,3 +116,7 @@ JAVAEE-ejb/target/classes/EPIONE/JAVAEE/services/interfaces/UserServiceRemote.cl
 JAVAEE-ejb/target/classes/EPIONE/JAVAEE/entities/Motif.class
 JAVAEE-ejb/target/classes/EPIONE/JAVAEE/services/implementation/UserService.class
 JAVAEE-ejb/target/classes/EPIONE/JAVAEE/services/interfaces/UserServiceRemote.class
+JAVAEE-ejb/target/classes/EPIONE/JAVAEE/services/interfaces/UserServiceRemote.class
+JAVAEE-ejb/target/classes/EPIONE/JAVAEE/services/implementation/UserService.class
+JAVAEE-ejb/target/classes/EPIONE/JAVAEE/entities/Transport.class
+JAVAEE-ejb/target/classes/EPIONE/JAVAEE/entities/Motif.class

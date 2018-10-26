@@ -12,7 +12,14 @@ public class Transport {
     private String meansOfTransport;
 
     @ManyToOne
-    private DoctorData doctorData;
+    private User doctor;
+
+    public Transport() {
+    }
+
+    public Transport(String meansOfTransport) {
+        this.meansOfTransport = meansOfTransport;
+    }
 
     public int getId() {
         return id;
@@ -28,6 +35,14 @@ public class Transport {
 
     public void setMeansOfTransport(String meansOfTransport) {
         this.meansOfTransport = meansOfTransport;
+    }
+
+    public User getDoctor() {
+        return doctor;
+    }
+
+    public void setDoctor(User doctor) {
+        this.doctor = doctor;
     }
 
     @Override

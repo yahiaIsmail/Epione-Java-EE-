@@ -2,6 +2,7 @@ package EPIONE.JAVAEE.services.implementation;
 
 import EPIONE.JAVAEE.entities.Address;
 import EPIONE.JAVAEE.entities.Expertise;
+import EPIONE.JAVAEE.entities.Transport;
 import EPIONE.JAVAEE.entities.User;
 import EPIONE.JAVAEE.services.interfaces.UserServiceLocal;
 
@@ -153,6 +154,7 @@ public class UserService implements UserServiceLocal {
         String longitude="";
         String latitude="";
         List<Expertise> expertises= new ArrayList<Expertise>();
+        List<Transport> moyenTrasnsport= new ArrayList<Transport>();
         try {
             Document documentDocteur = Jsoup.connect(urlDocteur).userAgent("Mozilla").get();
 
@@ -234,7 +236,7 @@ public class UserService implements UserServiceLocal {
 
 
             //Scraping 'moyen de trasnsport'
-            List<String> moyenTrasnsport= new ArrayList<String>();
+
             Elements moyenTrasnsportElements= documentDocteur.select(".dl-profile-card")
                     .select(".dl-profile-card-section")
                     .select(".dl-profile-card-content")
@@ -243,7 +245,7 @@ public class UserService implements UserServiceLocal {
                     ;
             for (Element moyenTrasnsportElement: moyenTrasnsportElements){
 
-                moyenTrasnsport.add(moyenTrasnsportElement.text());
+                moyenTrasnsport.add(new Transport(moyenTrasnsportElement.text()));
             }
             System.out.println("********* display 'moyen de transport' *********");
             System.out.println(moyenTrasnsport);
@@ -295,6 +297,12 @@ public class UserService implements UserServiceLocal {
         {
             expertises.get(i).setDoctor(doctor);
             em.persist(expertises.get(i));
+        }
+
+        for(int i=0;i<moyenTrasnsport.size();i++)
+        {
+            moyenTrasnsport.get(i).setDoctor(doctor);
+            em.persist(moyenTrasnsport.get(i));
         }
 
 
