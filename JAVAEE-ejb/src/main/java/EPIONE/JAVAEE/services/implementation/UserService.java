@@ -1,5 +1,6 @@
 package EPIONE.JAVAEE.services.implementation;
 
+import EPIONE.JAVAEE.entities.Address;
 import EPIONE.JAVAEE.entities.User;
 import EPIONE.JAVAEE.services.interfaces.UserServiceLocal;
 
@@ -71,8 +72,10 @@ public class UserService implements UserServiceLocal {
 //            e.printStackTrace();
 //        }
 
-
-
+//        String address[];
+//        Address addressSplited;
+//        String street="";
+//        String zipCity="";
         for(Element p : tmp)
         {
 
@@ -104,10 +107,23 @@ public class UserService implements UserServiceLocal {
 
                 lastName=fullName[fullName.length-1];
 
+//                address=p.select(".dl-text").text().split("\\s+");
+//                for(int x=1;x<address.length;x++){
+//                   if(address[x].matches(".*\\d+.*")){
+//                       for(int i=0; i<x-1;i++){
+//                           street+=address[i]+" ";
+//                       }
+//                       for(int j=x;j<address.length;j++){
+//                           zipCity+=address[j]+" ";
+//                       }
+//                   }
+//
+//                }
+//                System.out.println("Street= " + street + " zipCity= " + zipCity);
                 //fill the doctor's list
                 listDoc.add(new User(name,lastName,
-                        p.select(".dl-search-result-subtitle").text(),
-                        p.select(".dl-text").text(),
+                        p.select(".dl-search-result-subtitle").text(),//speciality scraped
+                        new Address(p.select(".dl-text").text()),
                         "https:"+p.select(".dl-search-result-avatar").select("a").select("img").attr("src")
                 )) ;
 
@@ -129,6 +145,12 @@ public class UserService implements UserServiceLocal {
         String moyenPaiement="";
         String langues="";
         String imgAddress="";
+
+        String address;
+        Address addressSplited=new Address();
+        String fullAddress="";
+        String longitude="";
+        String latitude="";
         try {
             Document documentDocteur = Jsoup.connect(urlDocteur).userAgent("Mozilla").get();
 
@@ -183,24 +205,34 @@ public class UserService implements UserServiceLocal {
 
 
             //Sraping 'adresse'
-            Elements address= documentDocteur.select(".dl-profile-card")
+            Elements addressElements= documentDocteur.select(".dl-profile-card")
                     .select(".dl-profile-card-section")
                     .select(".dl-profile-doctor-place-map")
                     .select("img")
                     ;
             System.out.println("********* display address *********");
-            System.out.println(address.attr("data-map-modal"));
+           // System.out.println(addressElements.attr("data-map-modal"));
+            address=addressElements.attr("data-map-modal");
+
+                fullAddress=address.substring(address.indexOf("title")+8 ,address.indexOf("lat")-3 );
+            latitude=address.substring(address.indexOf("lat")+5 ,address.indexOf("lng")-2 );
+                longitude=address.substring(address.indexOf("lng")+5 ,address.length()-1 );
+//            System.out.println("fulladdress:  "+ fullAddress);
+//            System.out.println("lat: "+ latitude);
+//            System.out.println("lng: "+ longitude);
+
+            addressSplited= new Address(fullAddress,latitude,longitude);
+            System.out.println(addressSplited);
             System.out.println("");
 
 
             System.out.println("********* display image of the address *********");
-            System.out.println(address.attr("src"));
-            imgAddress=address.attr("src");
+            System.out.println(addressElements.attr("src"));
+           // imgAddress=address.attr("src");
             System.out.println("");
 
 
             //Scraping 'moyen de trasnsport'
-
             List<String> moyenTrasnsport= new ArrayList<String>();
             Elements moyenTrasnsportElements= documentDocteur.select(".dl-profile-card")
                     .select(".dl-profile-card-section")
@@ -237,6 +269,8 @@ public class UserService implements UserServiceLocal {
             e.printStackTrace();
         }
 
+        em.persist(addressSplited);
+
         User doctor= new User();
         String fullNameSplit[];
         fullNameSplit=fullName.split("-");
@@ -247,6 +281,7 @@ public class UserService implements UserServiceLocal {
         doctor.setPaimentMethode(moyenPaiement);
         doctor.setSpeciality(speciality);
         doctor.setLanguage(langues.replaceAll("Langues parlées",""));
+        doctor.setAddress(addressSplited);
         //doctor.setImgAddress(imgAddress);
 
        // User moez= new User("moez");

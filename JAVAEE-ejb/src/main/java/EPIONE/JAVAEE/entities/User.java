@@ -35,8 +35,7 @@ public class User implements Serializable {
 	private String email;
 	private String username;
 
-	//delete after
-	private String adr;
+
 
 	public User() {
 	}
@@ -44,16 +43,23 @@ public class User implements Serializable {
 	public User(String firstName){
 		this.firstName=firstName;
 	}
-	public User(String firstName, String lastName,String speciality, String adr, String urlPhoto) {
+	public User(String firstName, String lastName,String speciality,  String urlPhoto) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.speciality=speciality;
-		this.adr = adr;
 		UrlPhoto = urlPhoto;
 
 	}
 
-	@OneToOne
+    public User(String firstName, String lastName, String speciality, Address address, String urlPhoto) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        UrlPhoto = urlPhoto;
+        this.speciality = speciality;
+        this.address = address;
+    }
+
+    @OneToOne
 	private Address address;
 
 	@ManyToOne
@@ -138,14 +144,7 @@ public class User implements Serializable {
         this.paimentMethode = paimentMethode;
     }
 
-    @XmlElement(name="address")
-	public String getAdr() {
-		return adr;
-	}
 
-	public void setAdr(String adr) {
-		this.adr = adr;
-	}
 
 	public String getPassword() {
 		return password;
@@ -236,7 +235,8 @@ public class User implements Serializable {
 		this.username = username;
 	}
 
-	public Address getAddress() {
+    @XmlElement(name="address")
+    public Address getAddress() {
 		return address;
 	}
 
