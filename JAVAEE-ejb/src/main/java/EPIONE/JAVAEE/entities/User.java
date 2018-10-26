@@ -19,9 +19,13 @@ public class User implements Serializable {
 	private int id;
 	private String firstName;
 	private String lastName;
-	private String password;
+    private String UrlPhoto;
+    private String tariff;
+    private String paimentMethode;
+    private String language;
+    private String speciality;
+    private String password;
 	private Date birthday;
-	private String UrlPhoto;
 	private boolean enabled;
 	private Timestamp lastLogin;
 	private String confirmation;
@@ -32,7 +36,6 @@ public class User implements Serializable {
 	private String username;
 
 	//delete after
-	private String speciality;
 	private String adr;
 
 	public User() {
@@ -108,7 +111,34 @@ public class User implements Serializable {
 		this.speciality = speciality;
 	}
 
-	@XmlElement(name="address")
+    @XmlElement(name="tariff")
+    public String getTariff() {
+        return tariff;
+    }
+
+    public void setTariff(String tariff) {
+        this.tariff = tariff;
+    }
+    @XmlElement(name="paimentMethode")
+    public String getPaimentMethode() {
+        return paimentMethode;
+    }
+    @XmlElement(name="language")
+    public String getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
+    }
+
+
+
+    public void setPaimentMethode(String paimentMethode) {
+        this.paimentMethode = paimentMethode;
+    }
+
+    @XmlElement(name="address")
 	public String getAdr() {
 		return adr;
 	}
@@ -133,6 +163,7 @@ public class User implements Serializable {
 		this.birthday = birthday;
 	}
 
+    @XmlElement(name="urlPhoto")
 	public String getUrlPhoto() {
 		return UrlPhoto;
 	}

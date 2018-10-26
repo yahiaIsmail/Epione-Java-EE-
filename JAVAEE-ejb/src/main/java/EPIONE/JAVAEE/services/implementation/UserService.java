@@ -124,6 +124,11 @@ public class UserService implements UserServiceLocal {
     @Override
     public void addDoctors(String fullName,String speciality, String state) {
         String urlDocteur = "https://www.doctolib.fr/"+speciality+"/"+state+"/"+fullName;
+        String url= "";
+        String tariff="";
+        String moyenPaiement="";
+        String langues="";
+        String imgAddress="";
         try {
             Document documentDocteur = Jsoup.connect(urlDocteur).userAgent("Mozilla").get();
 
@@ -132,7 +137,9 @@ public class UserService implements UserServiceLocal {
 
             System.out.println("********* display url photo *********");
             System.out.println("https:"+photoUrl);
+            url="https:"+photoUrl;
             System.out.println("");
+
 
 
             //Scraping 'Tarifs et remboursements' and 'Moyens de paiement'
@@ -147,15 +154,16 @@ public class UserService implements UserServiceLocal {
                 tarif_moyenPaiment.add(tarif_moyenPaimentElement.text());
             }
 
-            String tarif=tarif_moyenPaiment.get(0);
-            String moyenPaiement=tarif_moyenPaiment.get(1);
+            tariff=tarif_moyenPaiment.get(0);
+            moyenPaiement=tarif_moyenPaiment.get(1);
 
             System.out.println("********* display tarif *********");
-            System.out.println("tarif: " + tarif);
+            System.out.println("tarif: " + tariff);
             System.out.println("");
             System.out.println("********* display 'moyen de paiment' *********");
             System.out.println("moyen de paiement: " + moyenPaiement);
             System.out.println("");
+
 
 
             //Scraping 'Expertises, actes et symptômes'
@@ -187,6 +195,7 @@ public class UserService implements UserServiceLocal {
 
             System.out.println("********* display image of the address *********");
             System.out.println(address.attr("src"));
+            imgAddress=address.attr("src");
             System.out.println("");
 
 
@@ -208,7 +217,7 @@ public class UserService implements UserServiceLocal {
             System.out.println("");
 
             //Scraping 'Langues parlées'
-            String langues="";
+
             Elements langueParleesElements= documentDocteur.select(".dl-profile-card")
                     .select(".dl-profile-card-section")
                     .select(".dl-profile-card-content")
@@ -228,8 +237,20 @@ public class UserService implements UserServiceLocal {
             e.printStackTrace();
         }
 
+        User doctor= new User();
+        String fullNameSplit[];
+        fullNameSplit=fullName.split("-");
+        doctor.setFirstName(fullNameSplit[0]);
+        doctor.setLastName(fullNameSplit[1]);
+        doctor.setUrlPhoto(url);
+        doctor.setTariff(tariff.replaceAll("Voir les tarifs",""));
+        doctor.setPaimentMethode(moyenPaiement);
+        doctor.setSpeciality(speciality);
+        doctor.setLanguage(langues.replaceAll("Langues parlées",""));
+        //doctor.setImgAddress(imgAddress);
+
        // User moez= new User("moez");
-        em.persist(new User(fullName));
+        em.persist(doctor);
 
 
     }
