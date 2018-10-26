@@ -19,8 +19,7 @@ public class DoctorData implements Serializable {
 	@OneToMany(mappedBy = "doctorData")
 	private List<User> users;
 
-	@OneToMany(mappedBy = "doctorData")
-	private List<Expertise> expertise;
+
 
 	@OneToMany(mappedBy = "doctorData")
 	private List<Curriculum> curriculumList;
@@ -84,13 +83,6 @@ public class DoctorData implements Serializable {
 		this.users = users;
 	}
 
-	public List<Expertise> getExpertise() {
-		return expertise;
-	}
-
-	public void setExpertise(List<Expertise> expertise) {
-		this.expertise = expertise;
-	}
 
 	public List<Curriculum> getCurriculumList() {
 		return curriculumList;
@@ -100,39 +92,5 @@ public class DoctorData implements Serializable {
 		this.curriculumList = curriculumList;
 	}
 
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
-		DoctorData that = (DoctorData) o;
-		return id == that.id &&
-				Float.compare(that.prices, prices) == 0 &&
-				Objects.equals(description, that.description) &&
-				Objects.equals(languages, that.languages) &&
-				Objects.equals(specialty, that.specialty) &&
-				Objects.equals(additionalInfo, that.additionalInfo) &&
-				Objects.equals(users, that.users) &&
-				Objects.equals(expertise, that.expertise) &&
-				Objects.equals(curriculumList, that.curriculumList);
-	}
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(id, prices, description, languages, specialty, additionalInfo, users, expertise, curriculumList);
-	}
-
-	@Override
-	public String toString() {
-		return "DoctorData{" +
-				"id=" + id +
-				", prices=" + prices +
-				", description='" + description + '\'' +
-				", languages='" + languages + '\'' +
-				", specialty='" + specialty + '\'' +
-				", additionalInfo='" + additionalInfo + '\'' +
-				", users=" + users +
-				", expertise=" + expertise +
-				", curriculumList=" + curriculumList +
-				'}';
-	}
 }

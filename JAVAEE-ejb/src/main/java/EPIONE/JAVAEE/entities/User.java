@@ -62,6 +62,9 @@ public class User implements Serializable {
     @OneToOne
 	private Address address;
 
+	@OneToMany(mappedBy = "doctor")
+	private List<Expertise> expertiseList;
+
 	@ManyToOne
 	private DoctorData doctorData;
 
@@ -144,7 +147,13 @@ public class User implements Serializable {
         this.paimentMethode = paimentMethode;
     }
 
+	public List<Expertise> getExpertiseList() {
+		return expertiseList;
+	}
 
+	public void setExpertiseList(List<Expertise> expertiseList) {
+		this.expertiseList = expertiseList;
+	}
 
 	public String getPassword() {
 		return password;

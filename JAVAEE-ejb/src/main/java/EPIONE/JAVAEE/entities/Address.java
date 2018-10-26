@@ -14,8 +14,8 @@ public class Address implements Serializable {
 	private String latitude;
 
 
-	@OneToOne(mappedBy = "address", cascade =CascadeType.PERSIST)
-	private User user;
+	@OneToOne(mappedBy = "address")
+	private User doctor;
 
 	public Address() {
 	}
@@ -62,12 +62,12 @@ public class Address implements Serializable {
 		this.latitude = latitude;
 	}
 
-	public User getUser() {
-		return user;
+	public User getDoctor() {
+		return doctor;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+	public void setDoctor(User doctor) {
+		this.doctor = doctor;
 	}
 
 	@Override
@@ -79,12 +79,12 @@ public class Address implements Serializable {
 				Objects.equals(fullAddress, address.fullAddress) &&
 				Objects.equals(longit, address.longit) &&
 				Objects.equals(latitude, address.latitude) &&
-				Objects.equals(user, address.user);
+				Objects.equals(doctor, address.doctor);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id, fullAddress, longit, latitude, user);
+		return Objects.hash(id, fullAddress, longit, latitude, doctor);
 	}
 
 	@Override
@@ -94,7 +94,7 @@ public class Address implements Serializable {
 				", fullAddress='" + fullAddress + '\'' +
 				", longit='" + longit + '\'' +
 				", latitude='" + latitude + '\'' +
-				", user=" + user +
+				", doctor=" + doctor +
 				'}';
 	}
 }

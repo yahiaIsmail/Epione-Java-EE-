@@ -1,6 +1,7 @@
 package EPIONE.JAVAEE.services.implementation;
 
 import EPIONE.JAVAEE.entities.Address;
+import EPIONE.JAVAEE.entities.Expertise;
 import EPIONE.JAVAEE.entities.User;
 import EPIONE.JAVAEE.services.interfaces.UserServiceLocal;
 
@@ -151,6 +152,7 @@ public class UserService implements UserServiceLocal {
         String fullAddress="";
         String longitude="";
         String latitude="";
+        List<Expertise> expertises= new ArrayList<Expertise>();
         try {
             Document documentDocteur = Jsoup.connect(urlDocteur).userAgent("Mozilla").get();
 
@@ -195,9 +197,8 @@ public class UserService implements UserServiceLocal {
                     .select(".dl-profile-skill-chip")
                     ;
 
-            List<String> expertises= new ArrayList<String>();
             for (Element expertiseElement: expertiseElements){
-                expertises.add(expertiseElement.text());
+                expertises.add(new Expertise(expertiseElement.text()));
             }
             System.out.println("********* display expertise *********");
             System.out.println(expertises);
@@ -271,6 +272,9 @@ public class UserService implements UserServiceLocal {
 
         em.persist(addressSplited);
 
+
+
+
         User doctor= new User();
         String fullNameSplit[];
         fullNameSplit=fullName.split("-");
@@ -282,10 +286,16 @@ public class UserService implements UserServiceLocal {
         doctor.setSpeciality(speciality);
         doctor.setLanguage(langues.replaceAll("Langues parlées",""));
         doctor.setAddress(addressSplited);
-        //doctor.setImgAddress(imgAddress);
+        doctor.setExpertiseList(expertises);
 
-       // User moez= new User("moez");
         em.persist(doctor);
+
+
+        for(int i=0;i<expertises.size();i++)
+        {
+            expertises.get(i).setDoctor(doctor);
+            em.persist(expertises.get(i));
+        }
 
 
     }
