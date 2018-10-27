@@ -12,6 +12,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Stateless
@@ -44,7 +45,10 @@ public class DemandeService implements DemandeServiceLocal, DemandeServiceRemote
     }
 
     @Override
-    public Demande getDemande(Demande demande) {
-     return em.find(Demande.class,demande);
+    public Collection<Demande> getDemande(Demande demande) {
+     return (Collection<Demande>) em.createNamedQuery("getDemande")
+             .setParameter("firstName",demande.getFirstName()).setParameter("lastName",demande.getLastName())
+                .getResultList();
+
     }
 }

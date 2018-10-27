@@ -36,16 +36,16 @@ public class AdminResource {
         Response.ResponseBuilder builder = null;
         System.out.println(demandeServiceLocal.getDemande(demande));
        // Demande exist= demandeServiceLocal.getDemande(demande);
-//        if(exist==null){
-//            int id= demandeServiceLocal.addDemande(demande);
-//            builder= Response.ok(id);
-//        }
-//        else {
-//            Map<String, String> responseObj = new HashMap<>();
-//            responseObj.put("Duplicated: ", "Demand already exist");
-//            builder = Response.status(Response.Status.CONFLICT).entity(responseObj);
-//
-//        }
+        if(demandeServiceLocal.getDemande(demande).isEmpty()){
+            int id= demandeServiceLocal.addDemande(demande);
+            builder= Response.ok(id);
+        }
+        else {
+            Map<String, String> responseObj = new HashMap<>();
+            responseObj.put("Duplicated: ", "Demand already exist");
+            builder = Response.status(Response.Status.CONFLICT).entity(responseObj);
+
+        }
 
         return builder.build();
     }

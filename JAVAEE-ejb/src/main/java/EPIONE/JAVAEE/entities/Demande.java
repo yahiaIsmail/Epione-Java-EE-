@@ -7,6 +7,11 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
+@NamedQueries({
+        @NamedQuery(name="getDemande",
+                    query = "select d from Demande d " +
+                            "where d.firstName=:firstName AND d.lastName=:lastName")
+})
 @XmlRootElement
 public class Demande implements Serializable{
     @Id
