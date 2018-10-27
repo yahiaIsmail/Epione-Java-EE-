@@ -37,18 +37,26 @@ public class DemandeService implements DemandeServiceLocal, DemandeServiceRemote
 
 
     @Override
-    public int deleteDemande(Demande demande) {
-
-            em.remove(demande);
-            return 1;
+    public void deleteDemande(Demande demande) {
+        System.out.println(demande);
+        //em.remove(em.contains(entity) ? entity : em.merge(entity));
+            em.remove(em.contains(demande) ? demande : em.merge(demande));
 
     }
 
     @Override
-    public Collection<Demande> getDemande(Demande demande) {
-     return (Collection<Demande>) em.createNamedQuery("getDemande")
-             .setParameter("firstName",demande.getFirstName()).setParameter("lastName",demande.getLastName())
+    public List<Demande> getDemande(Demande demande) {
+//     return (Collection<Demande>) em.createNamedQuery("getDemande")
+//             .setParameter("firstName",demande.getFirstName()).setParameter("lastName",demande.getLastName())
+//                .getResultList();
+        return  (List<Demande>)em.createQuery("select d from Demande d where d.email=:email",Demande.class)
+                .setParameter("email",demande.getEmail())
                 .getResultList();
 
+    }
+
+    @Override
+    public Demande getDemandeById(int idDemande) {
+        return em.find(Demande.class,idDemande);
     }
 }

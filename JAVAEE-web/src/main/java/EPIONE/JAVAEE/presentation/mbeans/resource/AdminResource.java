@@ -10,6 +10,7 @@ import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,12 +28,13 @@ public class AdminResource {
     public List<Demande> displayAllDemandes(){
         return demandeServiceLocal.getAllDemandes();
     }
+
+
     @POST
     @Consumes(MediaType.APPLICATION_XML)
     @Path("/adddemande")
     @Produces(MediaType.TEXT_PLAIN)
     public Response addDemande(Demande demande){
-        System.out.println(demande);
         Response.ResponseBuilder builder = null;
         System.out.println(demandeServiceLocal.getDemande(demande));
        // Demande exist= demandeServiceLocal.getDemande(demande);
@@ -49,6 +51,31 @@ public class AdminResource {
 
         return builder.build();
     }
+    @DELETE
+    @Consumes(MediaType.APPLICATION_XML)
+    @Path("/deletedemande")
+    @Produces(MediaType.TEXT_PLAIN)
+    public Response deleteDemande(Demande demande){
+        Response.ResponseBuilder builder = null;
+//        System.out.println(demandeServiceLocal.getDemande(demande));
+        List<Demande> demandes=demandeServiceLocal.getDemande(demande);
 
+        if(demandes.isEmpty()){
+
+            Map<String, String> responseObj = new HashMap<>();
+            responseObj.put("Not Exist: ", "Demand does not exist");
+            builder = Response.status(Response.Status.CONFLICT).entity(responseObj);
+
+
+        }
+        else {
+
+            demandeServiceLocal.deleteDemande(demandes.get(0));
+            builder= Response.ok("deleted");
+
+        }
+
+        return builder.build();
+    }
 }
 

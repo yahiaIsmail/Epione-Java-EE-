@@ -124,3 +124,13 @@ JAVAEE-ejb/target/classes/EPIONE/JAVAEE/services/interfaces/UserServiceRemote.cl
 JAVAEE-ejb/target/classes/EPIONE/JAVAEE/services/implementation/UserService.class
 JAVAEE-ejb/target/classes/EPIONE/JAVAEE/entities/Transport.class
 JAVAEE-ejb/target/classes/EPIONE/JAVAEE/entities/Motif.class
+JAVAEE-ejb/target/classes/EPIONE/JAVAEE/entities/Demande.class
+JAVAEE-ejb/target/classes/EPIONE/JAVAEE/entities/Motif.class
+JAVAEE-ejb/target/classes/EPIONE/JAVAEE/entities/Transport.class
+JAVAEE-ejb/target/classes/EPIONE/JAVAEE/services/implementation/DemandeService.class
+JAVAEE-ejb/target/classes/EPIONE/JAVAEE/services/implementation/UserService.class
+JAVAEE-ejb/target/classes/EPIONE/JAVAEE/services/interfaces/DemandeServiceLocal.class
+JAVAEE-ejb/target/classes/EPIONE/JAVAEE/services/interfaces/DemandeServiceRemote.class
+JAVAEE-ejb/target/classes/EPIONE/JAVAEE/services/interfaces/UserServiceRemote.class
+JAVAEE-web/target/classes/EPIONE/JAVAEE/presentation/mbeans/resource/AdminResource.class
+JAVAEE-web/target/JAVAEE-web/WEB-INF/classes/EPIONE/JAVAEE/presentation/mbeans/resource/AdminResource.class

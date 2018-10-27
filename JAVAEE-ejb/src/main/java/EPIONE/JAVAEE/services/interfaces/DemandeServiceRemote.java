@@ -10,6 +10,7 @@ import java.util.List;
 public interface DemandeServiceRemote {
     int addDemande(Demande demande);
     List<Demande> getAllDemandes();
-    int deleteDemande(Demande demande);
-    Collection<Demande> getDemande(Demande demande);
+    void deleteDemande(Demande demande);
+    List<Demande> getDemande(Demande demande);
+    Demande getDemandeById(int idDemande);
 }
