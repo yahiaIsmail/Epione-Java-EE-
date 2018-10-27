@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import EPIONE.JAVAEE.services.interfaces.UserServiceRemote;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -31,8 +32,7 @@ import org.jsoup.select.Elements;
 import java.util.*;
 
 @Stateless
-@LocalBean
-public class UserService implements UserServiceLocal {
+public class UserService implements UserServiceLocal, UserServiceRemote {
 
     @PersistenceContext(unitName = "JAVAEE-ejb")
     EntityManager em;
@@ -53,6 +53,7 @@ public class UserService implements UserServiceLocal {
         String fullName[];
         String name="";
         String lastName="";
+
 
         //scrapping the first 2 pages
         for (compteur=1; compteur<3; compteur++){
@@ -140,7 +141,7 @@ public class UserService implements UserServiceLocal {
     }
 
     @Override
-    public void addDoctors(String fullName,String speciality, String state) {
+    public int addDoctors(String fullName,String speciality, String state) {
         String urlDocteur = "https://www.doctolib.fr/"+speciality+"/"+state+"/"+fullName;
         String url= "";
         String tariff="";
@@ -155,6 +156,7 @@ public class UserService implements UserServiceLocal {
         String latitude="";
         List<Expertise> expertises= new ArrayList<Expertise>();
         List<Transport> moyenTrasnsport= new ArrayList<Transport>();
+        User doctor= new User();
         try {
             Document documentDocteur = Jsoup.connect(urlDocteur).userAgent("Mozilla").get();
 
@@ -273,6 +275,7 @@ public class UserService implements UserServiceLocal {
 
         } catch (IOException e) {
             e.printStackTrace();
+
         }
 
         em.persist(addressSplited);
@@ -280,7 +283,7 @@ public class UserService implements UserServiceLocal {
 
 
 
-        User doctor= new User();
+
         String fullNameSplit[];
         fullNameSplit=fullName.split("-");
         doctor.setFirstName(fullNameSplit[0]);
@@ -308,7 +311,7 @@ public class UserService implements UserServiceLocal {
             em.persist(moyenTrasnsport.get(i));
         }
 
-
+            return doctor.getId();
     }
 
 

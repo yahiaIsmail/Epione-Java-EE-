@@ -1,24 +1,35 @@
 package EPIONE.JAVAEE.presentation.mbeans.resource;
 
+import EPIONE.JAVAEE.entities.Demande;
 import EPIONE.JAVAEE.entities.User;
 import EPIONE.JAVAEE.services.implementation.UserService;
+import EPIONE.JAVAEE.services.interfaces.DemandeServiceLocal;
 import EPIONE.JAVAEE.services.interfaces.UserServiceLocal;
 
+import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Path("/users")
 @RequestScoped
 public class UserResource {
 
 
-    @Inject
+    @EJB
     UserServiceLocal userServiceLocal;
+   // @Inject
+ //   DemandeServiceLocal demandeServiceLocal;
+
+
+
+
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -38,20 +49,26 @@ public class UserResource {
     @Path("/adddoctor/{fullName}/{speciality}/{state}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public int addDoctor(@PathParam(value = "fullName")String fullName,
+    public Response addDoctor(@PathParam(value = "fullName")String fullName,
                           @PathParam(value="speciality")String speciality,
                           @PathParam(value = "state")String state){
 
-
-        userServiceLocal.addDoctors(fullName,speciality,state);
         Response.ResponseBuilder builder = null;
-        return  1;
+        try{
+            int id =userServiceLocal.addDoctors(fullName,speciality,state);
+           builder= Response.ok(id);
+
+        }
+        catch (Exception e){
+            Map<String, String> responseObj = new HashMap<>();
+            responseObj.put("error", e.getMessage());
+            builder = Response.status(Response.Status.BAD_REQUEST).entity(responseObj);
+        }
+
+
+        return  builder.build();
 
     }
-//    public String test(){
-//        return "success";
-//    }
-
 
 
 
