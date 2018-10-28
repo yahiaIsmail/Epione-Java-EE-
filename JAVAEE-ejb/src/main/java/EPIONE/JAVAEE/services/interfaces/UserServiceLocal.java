@@ -9,4 +9,6 @@ import java.util.List;
 public interface UserServiceLocal {
     List<User> scrapingAllDoctors(String speciality);
     int addDoctors(String firstName,String lastName,String speciality, String state,String email,String password);
+    List<User> getDoctor(User user);
+    List<User> getAllDoctors();
 }

@@ -12,6 +12,7 @@ import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import javax.jws.soap.SOAPBinding;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.ws.rs.GET;
@@ -302,6 +303,19 @@ public class UserService implements UserServiceLocal, UserServiceRemote {
         }
 
             return doctor.getId();
+    }
+
+    @Override
+    public List<User> getDoctor(User user) {
+        return  (List<User>)em.createQuery("select u from User u where u.email=:email",User.class)
+                .setParameter("email",user.getEmail())
+                .getResultList();
+
+    }
+
+    @Override
+    public List<User> getAllDoctors() {
+        return  em.createQuery("select u from User u",User.class).getResultList();
     }
 
 
