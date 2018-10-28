@@ -157,8 +157,17 @@ public class UserService implements UserServiceLocal, UserServiceRemote {
         List<Expertise> expertises= new ArrayList<Expertise>();
         List<Transport> moyenTrasnsport= new ArrayList<Transport>();
         User doctor= new User();
+        int ok=-1;
+        String exist="";
         try {
             Document documentDocteur = Jsoup.connect(urlDocteur).userAgent("Mozilla").get();
+
+            //if user does not exist
+            exist=documentDocteur.select(".dl-profile").text();
+            if(exist.isEmpty()){
+                return -1;
+            }
+            System.out.println("exist: " + exist);
 
             //Scrapping doctor's photo url
             String photoUrl = documentDocteur.select(".dl-profile-header-photo").select("img").attr("src");

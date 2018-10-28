@@ -24,8 +24,6 @@ public class UserResource {
 
     @EJB
     UserServiceLocal userServiceLocal;
-   // @Inject
- //   DemandeServiceLocal demandeServiceLocal;
 
 
 
@@ -56,7 +54,15 @@ public class UserResource {
         Response.ResponseBuilder builder = null;
         try{
             int id =userServiceLocal.addDoctors(fullName,speciality,state);
-           builder= Response.ok(id);
+            if(id==-1)
+            {
+                Map<String, String> responseObj = new HashMap<>();
+                responseObj.put("Unvalid data:", "cannot scrap doctor, please enter a valid doctor data ");
+                builder = Response.status(Response.Status.BAD_REQUEST).entity(responseObj);
+            }
+            else{
+                builder= Response.ok(id);
+            }
 
         }
         catch (Exception e){
