@@ -318,5 +318,35 @@ public class UserService implements UserServiceLocal, UserServiceRemote {
         return  em.createQuery("select u from User u",User.class).getResultList();
     }
 
+    @Override
+    public int addPatient(String firstName, String lastName, String username, String email, String Password) {
+        User user= new User();
+        user.setConfirmation("0");
+        user.setAddress(null);
+        user.setEnabled(true);
+        user.setUsername(username);
+        user.setEmail(email);
+        user.setPassword(Password);
+        user.setFirstName(firstName);
+        user.setLastName(lastName);
+        String token = Base64.getEncoder().encodeToString(user.getUsername().getBytes()) + Base64.getEncoder().encodeToString(user.getPassword().getBytes()) + Base64.getEncoder().encodeToString(user.getEmail().getBytes());
+        user.setConfirmationToken(token);
+        em.persist(user);
+        return user.getId();
+    }
 
+    @Override
+    public boolean activatePatient(String activationToken) {
+        try {
+            User usr = (User) em.createQuery(
+                    "SELECT u FROM User u WHERE u.confirmationToken = :token")
+                    .setParameter("token", activationToken)
+                    .getSingleResult();
+            usr.setConfirmation("1");
+            em.merge(usr);
+            return true;
+        } catch (javax.persistence.NoResultException exp) {
+            return false;
+        }
+    }
 }
