@@ -32,7 +32,6 @@ public class UserResource {
 
 
 
-
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/doctors/{speciality}")
@@ -63,7 +62,7 @@ public class UserResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response addDoctor(User doc){
 
-        String password="";
+        String password=UUID.randomUUID().toString();
 
         Response.ResponseBuilder builder = null;
         try{
@@ -71,7 +70,8 @@ public class UserResource {
                     doc.getLastName(),
                     doc.getSpeciality(),
                     doc.getState(),
-                    doc.getEmail()
+                    doc.getEmail(),
+                    password
             );
             if(id==-1)
             {
@@ -83,10 +83,11 @@ public class UserResource {
                 builder = Response.status(Response.Status.BAD_REQUEST).entity(responseObj);
             }
             else{
-                password=UUID.randomUUID().toString();
+
                 sendMail(doc.getEmail(),
                         "Account added",
                         "you're account has been added your password is:"+ password);
+
                 builder= Response.ok(id);
             }
 

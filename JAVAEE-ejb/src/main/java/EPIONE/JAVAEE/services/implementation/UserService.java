@@ -116,7 +116,7 @@ public class UserService implements UserServiceLocal, UserServiceRemote {
     }
 
     @Override
-    public int addDoctors(String firstName,String lastName,String speciality, String state,String email) {
+    public int addDoctors(String firstName,String lastName,String speciality, String state,String email,String password) {
         String urlDocteur = "https://www.doctolib.fr/"+speciality+"/"+state+"/"+firstName.toLowerCase()+"-"+lastName.toLowerCase();
         String url= "";
         String tariff="";
@@ -274,6 +274,8 @@ public class UserService implements UserServiceLocal, UserServiceRemote {
 
         doctor.setFirstName(firstName);
         doctor.setLastName(lastName);
+        doctor.setPassword(password);
+        doctor.setConfirmation(password);
         doctor.setEmail(email);
         doctor.setState(state);
         doctor.setSpeciality(speciality);
