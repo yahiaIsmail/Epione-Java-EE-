@@ -2,6 +2,7 @@ package EPIONE.JAVAEE.entities;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Objects;
 
 @Entity
@@ -10,8 +11,9 @@ public class MedicalVisit implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	private String description;
-	private boolean medicalState;
+	private Boolean medicalState;
 	private int rating;
+	private Date createdAt;
 	@OneToOne
 	private PathDoctors pathDoctors;
 	
@@ -33,11 +35,11 @@ public class MedicalVisit implements Serializable {
 		this.description = description;
 	}
 
-	public boolean isMedicalState() {
+	public Boolean isMedicalState() {
 		return medicalState;
 	}
 
-	public void setMedicalState(boolean medicalState) {
+	public void setMedicalState(Boolean medicalState) {
 		this.medicalState = medicalState;
 	}
 
@@ -49,7 +51,17 @@ public class MedicalVisit implements Serializable {
 		this.rating = rating;
 	}
 
+	public Boolean getMedicalState() {
+		return medicalState;
+	}
 
+	public PathDoctors getPathDoctors() {
+		return pathDoctors;
+	}
+
+	public void setPathDoctors(PathDoctors pathDoctors) {
+		this.pathDoctors = pathDoctors;
+	}
 
 	@Override
 	public boolean equals(Object o) {
@@ -76,5 +88,13 @@ public class MedicalVisit implements Serializable {
 				", rating=" + rating +
 
 				'}';
+	}
+
+	public Date getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
 	}
 }
