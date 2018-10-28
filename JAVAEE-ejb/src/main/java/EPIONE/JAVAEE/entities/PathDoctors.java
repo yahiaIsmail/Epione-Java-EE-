@@ -17,4 +17,54 @@ public class PathDoctors implements Serializable {
     @OneToOne
     private MedicalVisit medicalVisit;
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getOrdre() {
+        return ordre;
+    }
+
+    public void setOrdre(int ordre) {
+        this.ordre = ordre;
+    }
+
+    public MedicalPath getPath() {
+        return path;
+    }
+
+    public void setPath(MedicalPath path) {
+        this.path = path;
+    }
+
+    public User getDoctor() {
+        return doctor;
+    }
+
+    public void setDoctor(User doctor) {
+        this.doctor = doctor;
+    }
+
+    public MedicalVisit getMedicalVisit() {
+        return medicalVisit;
+    }
+
+    public void setMedicalVisit(MedicalVisit medicalVisit) {
+        this.medicalVisit = medicalVisit;
+    }
+
+    @Override
+    public String toString() {
+        return "PathDoctors{" +
+                "id=" + id +
+                ", ordre=" + ordre +
+                ", path=" + path +
+                ", doctor=" + doctor +
+                ", medicalVisit=" + medicalVisit +
+                '}';
+    }
 }

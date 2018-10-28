@@ -11,8 +11,9 @@ public class MedicalPath implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	private boolean status;
+	private Boolean status;
 	private String justification;
+	private Boolean active;
 	
 
 	
@@ -31,11 +32,11 @@ public class MedicalPath implements Serializable {
 		this.id = id;
 	}
 
-	public boolean isStatus() {
+	public Boolean isStatus() {
 		return status;
 	}
 
-	public void setStatus(boolean status) {
+	public void setStatus(Boolean status) {
 		this.status = status;
 	}
 
@@ -47,7 +48,43 @@ public class MedicalPath implements Serializable {
 		this.justification = justification;
 	}
 
+	public Boolean isActive() {
+		return active;
+	}
 
+	public void setActive(Boolean active) {
+		this.active = active;
+	}
+
+	@Override
+	public String toString() {
+		return "MedicalPath{" +
+				"id=" + id +
+				", status=" + status +
+				", justification='" + justification + '\'' +
+				", active=" + active +
+				", rendezVous=" + rendezVous +
+				", doctorPath=" + doctorPath +
+				'}';
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		MedicalPath path = (MedicalPath) o;
+		return id == path.id &&
+				status == path.status &&
+				active == path.active &&
+				Objects.equals(justification, path.justification) &&
+				Objects.equals(rendezVous, path.rendezVous) &&
+				Objects.equals(doctorPath, path.doctorPath);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id, status, justification, active, rendezVous, doctorPath);
+	}
 
 	public RDV getRendezVous() {
 		return rendezVous;
@@ -57,32 +94,12 @@ public class MedicalPath implements Serializable {
 		this.rendezVous = rendezVous;
 	}
 
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
-		MedicalPath that = (MedicalPath) o;
-		return id == that.id &&
-				status == that.status &&
-				Objects.equals(justification, that.justification) &&
-				Objects.equals(rendezVous, that.rendezVous);
+	public List<PathDoctors> getDoctorPath() {
+		return doctorPath;
 	}
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(id, status, justification, rendezVous);
+	public void setDoctorPath(List<PathDoctors> doctorPath) {
+		this.doctorPath = doctorPath;
 	}
-
-	@Override
-	public String toString() {
-		return "MedicalPath{" +
-				"id=" + id +
-				", status=" + status +
-				", justification='" + justification + '\'' +
-
-				", rendezVous=" + rendezVous +
-				'}';
-	}
-
 
 }

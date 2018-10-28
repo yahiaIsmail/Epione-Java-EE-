@@ -1,24 +1,38 @@
 package EPIONE.JAVAEE.services.implementation;
 
 import EPIONE.JAVAEE.entities.MedicalPath;
+import EPIONE.JAVAEE.entities.PathDoctors;
 import EPIONE.JAVAEE.entities.RDV;
 import com.sun.org.apache.xpath.internal.operations.Bool;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
+import java.util.List;
 
 public class MedicalPathServiceUtils {
-   public boolean Count(EntityManager em, int id ) {
+   public List<MedicalPath> Count(EntityManager em, int id ) {
 
-        TypedQuery<Boolean> count = em.createQuery("SELECT m FROM MedicalPath m WHERE m.rendezVous.id = :id",Boolean.class);
-
-        return count.setParameter("id",id).getSingleResult();
+        TypedQuery<MedicalPath> count = em.createQuery("SELECT m FROM MedicalPath m WHERE m.rendezVous.id = :id",MedicalPath.class);
+            List<MedicalPath> list=count.setParameter("id",id).getResultList();
+            return list;
     }
     public RDV getRdvById(EntityManager em, int id ) {
 
         TypedQuery<RDV> query = em.createQuery("SELECT m FROM RDV m WHERE m.id = :id",RDV.class);
 
         return query.setParameter("id",id).getSingleResult();
+    }
+    public List<MedicalPath>getPathById(EntityManager em, int id ) {
+
+        TypedQuery<MedicalPath> query = em.createQuery("SELECT m FROM MedicalPath m WHERE m.id = :id",MedicalPath.class);
+            List<MedicalPath> list=query.setParameter("id",id).getResultList();
+        return list;
+   }
+    public List<PathDoctors>verify(EntityManager em, int iddoc, int idpath ) {
+
+        TypedQuery<PathDoctors> query = em.createQuery("SELECT p FROM PathDoctors p WHERE p.doctor.id = :iddoc and p.path.id= :idpath",PathDoctors.class);
+       List<PathDoctors> list= query.setParameter("iddoc",iddoc).setParameter("idpath",idpath).getResultList();
+        return list;
     }
 }

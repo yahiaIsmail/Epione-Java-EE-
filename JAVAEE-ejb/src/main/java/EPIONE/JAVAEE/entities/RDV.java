@@ -81,6 +81,32 @@ public class RDV implements Serializable {
 		this.medicalPath = medicalPath;
 	}
 
+	public User getUsers() {
+		return users;
+	}
+
+	public void setUsers(User users) {
+		this.users = users;
+	}
+
+	public User getDoctors() {
+		return doctors;
+	}
+
+	public void setDoctors(User doctors) {
+		this.doctors = doctors;
+	}
+
+	public Motif getMotif() {
+		return motif;
+	}
+
+	public void setMotif(Motif motif) {
+		this.motif = motif;
+	}
+
+
+
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
@@ -91,12 +117,15 @@ public class RDV implements Serializable {
 				confirmationPatient == rdv.confirmationPatient &&
 				Objects.equals(dateRDV, rdv.dateRDV) &&
 				status == rdv.status &&
+				Objects.equals(users, rdv.users) &&
+				Objects.equals(doctors, rdv.doctors) &&
+				Objects.equals(motif, rdv.motif) &&
 				Objects.equals(medicalPath, rdv.medicalPath);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id, dateRDV, confirmationDoc, confirmationPatient, status, medicalPath);
+		return Objects.hash(id, dateRDV, confirmationDoc, confirmationPatient, status, users, doctors, motif, medicalPath);
 	}
 
 	@Override
@@ -107,6 +136,9 @@ public class RDV implements Serializable {
 				", confirmationDoc=" + confirmationDoc +
 				", confirmationPatient=" + confirmationPatient +
 				", status=" + status +
+				", users=" + users +
+				", doctors=" + doctors +
+				", motif=" + motif +
 				", medicalPath=" + medicalPath +
 				'}';
 	}

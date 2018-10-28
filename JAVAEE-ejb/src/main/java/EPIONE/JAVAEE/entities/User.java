@@ -327,29 +327,7 @@ public class User implements Serializable {
 		return Objects.hash(id, firstName, lastName, password, birthday, UrlPhoto, enabled, lastLogin, confirmation, confirmationToken, role, phoneNumber, email, username, address, doctorData, conversations, messageDoctors);
 	}
 
-	@Override
-	public String toString() {
-		return "User{" +
-				"id=" + id +
-				", firstName='" + firstName + '\'' +
-				", lastName='" + lastName + '\'' +
-				", password='" + password + '\'' +
-				", birthday=" + birthday +
-				", UrlPhoto='" + UrlPhoto + '\'' +
-				", enabled=" + enabled +
-				", lastLogin=" + lastLogin +
-				", confirmation='" + confirmation + '\'' +
-				", confirmationToken='" + confirmationToken + '\'' +
-				", role=" + role +
-				", phoneNumber=" + phoneNumber +
-				", email='" + email + '\'' +
-				", username='" + username + '\'' +
-				", address=" + address +
-				", doctorData=" + doctorData +
-				", conversations=" + conversations +
-				", messageDoctors=" + messageDoctors +
-				'}';
-	}
+
 
 	public List<RDV> getRendezVous() {
 		return rendezVous;
@@ -367,5 +345,37 @@ public class User implements Serializable {
 		this.rendezVousDoctors = rendezVousDoctors;
 	}
 
-
+	@Override
+	public String toString() {
+		return "User{" +
+				"id=" + id +
+				", firstName='" + firstName + '\'' +
+				", lastName='" + lastName + '\'' +
+				", UrlPhoto='" + UrlPhoto + '\'' +
+				", tariff='" + tariff + '\'' +
+				", paimentMethode='" + paimentMethode + '\'' +
+				", language='" + language + '\'' +
+				", speciality='" + speciality + '\'' +
+				", password='" + password + '\'' +
+				", birthday=" + birthday +
+				", enabled=" + enabled +
+				", lastLogin=" + lastLogin +
+				", confirmation='" + confirmation + '\'' +
+				", confirmationToken='" + confirmationToken + '\'' +
+				", role=" + role +
+				", phoneNumber=" + phoneNumber +
+				", email='" + email + '\'' +
+				", username='" + username + '\'' +
+				", state='" + state + '\'' +
+				", address=" + address +
+				", expertiseList=" + expertiseList +
+				", transportList=" + transportList +
+				", doctorData=" + doctorData +
+				", conversations=" + conversations +
+				", messageDoctors=" + messageDoctors +
+				", rendezVous=" + rendezVous +
+				", rendezVousDoctors=" + rendezVousDoctors +
+				", pathDoctors=" + pathDoctors +
+				'}';
+	}
 }
