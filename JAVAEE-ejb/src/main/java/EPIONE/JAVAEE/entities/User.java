@@ -83,9 +83,9 @@ public class User implements Serializable {
 
 	@OneToMany(mappedBy = "doctors")
 	private List<RDV> rendezVousDoctors;
+	@OneToOne
+	private PathDoctors pathDoctors;
 
-	@ManyToMany
-	private List<MedicalPath> paths;
 
 
 	@XmlAttribute(name="id")
@@ -350,4 +350,22 @@ public class User implements Serializable {
 				", messageDoctors=" + messageDoctors +
 				'}';
 	}
+
+	public List<RDV> getRendezVous() {
+		return rendezVous;
+	}
+
+	public void setRendezVous(List<RDV> rendezVous) {
+		this.rendezVous = rendezVous;
+	}
+
+	public List<RDV> getRendezVousDoctors() {
+		return rendezVousDoctors;
+	}
+
+	public void setRendezVousDoctors(List<RDV> rendezVousDoctors) {
+		this.rendezVousDoctors = rendezVousDoctors;
+	}
+
+
 }

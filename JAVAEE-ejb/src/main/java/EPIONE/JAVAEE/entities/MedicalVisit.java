@@ -1,10 +1,6 @@
 package EPIONE.JAVAEE.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -16,9 +12,10 @@ public class MedicalVisit implements Serializable {
 	private String description;
 	private boolean medicalState;
 	private int rating;
+	@OneToOne
+	private PathDoctors pathDoctors;
 	
-	@ManyToOne
-	private MedicalPath medicalPath;
+
 
 	public int getId() {
 		return id;
@@ -52,13 +49,7 @@ public class MedicalVisit implements Serializable {
 		this.rating = rating;
 	}
 
-	public MedicalPath getMedicalPath() {
-		return medicalPath;
-	}
 
-	public void setMedicalPath(MedicalPath medicalPath) {
-		this.medicalPath = medicalPath;
-	}
 
 	@Override
 	public boolean equals(Object o) {
@@ -68,13 +59,12 @@ public class MedicalVisit implements Serializable {
 		return id == that.id &&
 				medicalState == that.medicalState &&
 				rating == that.rating &&
-				Objects.equals(description, that.description) &&
-				Objects.equals(medicalPath, that.medicalPath);
+				Objects.equals(description, that.description);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id, description, medicalState, rating, medicalPath);
+		return Objects.hash(id, description, medicalState, rating);
 	}
 
 	@Override
@@ -84,7 +74,7 @@ public class MedicalVisit implements Serializable {
 				", description='" + description + '\'' +
 				", medicalState=" + medicalState +
 				", rating=" + rating +
-				", medicalPath=" + medicalPath +
+
 				'}';
 	}
 }
