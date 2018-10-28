@@ -43,17 +43,31 @@ public class UserResource {
             return listDoc;
 
     }
+//    @POST
+//    @Path("/adddoctor/{fullName}/{speciality}/{state}/{email}")
+//    @Consumes(MediaType.APPLICATION_JSON)
+//    @Produces(MediaType.APPLICATION_JSON)
+//    public Response addDoctor(@PathParam(value = "fullName")String fullName,
+//                          @PathParam(value="speciality")String speciality,
+//                          @PathParam(value = "state")String state,
+//                              @PathParam(value="email")String email
+//    ){
+
     @POST
-    @Path("/adddoctor/{fullName}/{speciality}/{state}")
-    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("/adddoctor")
+    @Consumes(MediaType.APPLICATION_XML)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response addDoctor(@PathParam(value = "fullName")String fullName,
-                          @PathParam(value="speciality")String speciality,
-                          @PathParam(value = "state")String state){
+    public Response addDoctor(User doc){
+
 
         Response.ResponseBuilder builder = null;
         try{
-            int id =userServiceLocal.addDoctors(fullName,speciality,state);
+            int id =userServiceLocal.addDoctors(doc.getFirstName(),
+                    doc.getLastName(),
+                    doc.getSpeciality(),
+                    doc.getState(),
+                    doc.getEmail()
+            );
             if(id==-1)
             {
                 Map<String, String> responseObj = new HashMap<>();

@@ -34,6 +34,7 @@ public class User implements Serializable {
 	private int phoneNumber;
 	private String email;
 	private String username;
+	private String state;
 
 
 
@@ -87,7 +88,7 @@ public class User implements Serializable {
 	private List<MedicalPath> paths;
 
 
-	@XmlAttribute(name="id",required=true)
+	@XmlAttribute(name="id")
 	public int getId() {
 		return id;
 	}
@@ -144,9 +145,16 @@ public class User implements Serializable {
         this.language = language;
     }
 
+	@XmlElement(name="state")
+	public String getState() {
+		return state;
+	}
 
+	public void setState(String state) {
+		this.state = state;
+	}
 
-    public void setPaimentMethode(String paimentMethode) {
+	public void setPaimentMethode(String paimentMethode) {
         this.paimentMethode = paimentMethode;
     }
 
@@ -231,6 +239,7 @@ public class User implements Serializable {
 		this.phoneNumber = phoneNumber;
 	}
 
+	@XmlElement(name="email")
 	public String getEmail() {
 		return email;
 	}

@@ -66,19 +66,6 @@ public class UserService implements UserServiceLocal, UserServiceRemote {
                         e.printStackTrace();
                     }
 
-//        url = "https://www.doctolib.fr/dentiste";
-//        try {
-//            document = Jsoup.connect(url).userAgent("Mozilla").get();
-//            tmp= document.select(".dl-search-result-presentation");
-//
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-
-//        String address[];
-//        Address addressSplited;
-//        String street="";
-//        String zipCity="";
         for(Element p : tmp)
         {
 
@@ -110,19 +97,7 @@ public class UserService implements UserServiceLocal, UserServiceRemote {
 
                 lastName=fullName[fullName.length-1];
 
-//                address=p.select(".dl-text").text().split("\\s+");
-//                for(int x=1;x<address.length;x++){
-//                   if(address[x].matches(".*\\d+.*")){
-//                       for(int i=0; i<x-1;i++){
-//                           street+=address[i]+" ";
-//                       }
-//                       for(int j=x;j<address.length;j++){
-//                           zipCity+=address[j]+" ";
-//                       }
-//                   }
-//
-//                }
-//                System.out.println("Street= " + street + " zipCity= " + zipCity);
+
                 //fill the doctor's list
                 listDoc.add(new User(name,lastName,
                         p.select(".dl-search-result-subtitle").text(),//speciality scraped
@@ -141,8 +116,8 @@ public class UserService implements UserServiceLocal, UserServiceRemote {
     }
 
     @Override
-    public int addDoctors(String fullName,String speciality, String state) {
-        String urlDocteur = "https://www.doctolib.fr/"+speciality+"/"+state+"/"+fullName;
+    public int addDoctors(String firstName,String lastName,String speciality, String state,String email) {
+        String urlDocteur = "https://www.doctolib.fr/"+speciality+"/"+state+"/"+firstName.toLowerCase()+"-"+lastName.toLowerCase();
         String url= "";
         String tariff="";
         String moyenPaiement="";
@@ -296,14 +271,15 @@ public class UserService implements UserServiceLocal, UserServiceRemote {
 
 
 
-        String fullNameSplit[];
-        fullNameSplit=fullName.split("-");
-        doctor.setFirstName(fullNameSplit[0]);
-        doctor.setLastName(fullNameSplit[1]);
+
+        doctor.setFirstName(firstName);
+        doctor.setLastName(lastName);
+        doctor.setEmail(email);
+        doctor.setState(state);
+        doctor.setSpeciality(speciality);
         doctor.setUrlPhoto(url);
         doctor.setTariff(tariff.replaceAll("Voir les tarifs",""));
         doctor.setPaimentMethode(moyenPaiement);
-        doctor.setSpeciality(speciality);
         doctor.setLanguage(langues.replaceAll("Langues parlées",""));
         doctor.setAddress(addressSplited);
         doctor.setExpertiseList(expertises);
