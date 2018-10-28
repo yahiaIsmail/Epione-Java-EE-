@@ -16,6 +16,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.*;
+import javax.mail.*;
+import javax.mail.internet.*;
+
 
 @Path("/users")
 @RequestScoped
@@ -59,6 +63,7 @@ public class UserResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response addDoctor(User doc){
 
+        String password="";
 
         Response.ResponseBuilder builder = null;
         try{
@@ -70,16 +75,24 @@ public class UserResource {
             );
             if(id==-1)
             {
+                sendMail(doc.getEmail(),
+                        "Account not added",
+                        "you're account has not been added please check your informations in your demand");
                 Map<String, String> responseObj = new HashMap<>();
                 responseObj.put("Unvalid data:", "cannot scrap doctor, please enter a valid doctor data ");
                 builder = Response.status(Response.Status.BAD_REQUEST).entity(responseObj);
             }
             else{
+                password=UUID.randomUUID().toString();
+                sendMail(doc.getEmail(),
+                        "Account added",
+                        "you're account has been added your password is:"+ password);
                 builder= Response.ok(id);
             }
 
         }
         catch (Exception e){
+
             Map<String, String> responseObj = new HashMap<>();
             responseObj.put("error", e.getMessage());
             builder = Response.status(Response.Status.BAD_REQUEST).entity(responseObj);
@@ -89,6 +102,37 @@ public class UserResource {
         return  builder.build();
 
     }
+
+    public void sendMail(String mailTo,String subject, String body){
+        String returnStatement = null;
+        Properties properties = new Properties();
+        properties.put("mail.smtp.host", "smtp.gmail.com");
+        properties.put("mail.smtp.port", "587");
+        properties.put("mail.smtp.auth", "true");
+        properties.put("mail.smtp.starttls.enable", "true");
+        try {
+            Authenticator auth = new Authenticator() {
+                public PasswordAuthentication getPasswordAuthentication() {
+                    return new PasswordAuthentication("haddadmoezPI@gmail.com", "PI_mail_test");
+                }
+            };
+            Session session = Session.getInstance(properties, auth);
+            Message message = new MimeMessage(session);
+            message.setFrom(new InternetAddress("haddadmoezPI@gmail.com"));
+            message.setRecipient(Message.RecipientType.TO, new InternetAddress(mailTo));
+            message.setSentDate(new Date());
+            message.setSubject(subject);
+            message.setText(body);
+            returnStatement = "The e-mail was sent successfully";
+            System.out.println(returnStatement);
+            Transport.send(message);
+        } catch (Exception e) {
+            returnStatement = "error in sending mail";
+            e.printStackTrace();
+        }
+    }
+
+
 
 
 
