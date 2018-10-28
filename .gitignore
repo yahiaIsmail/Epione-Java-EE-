@@ -141,3 +141,6 @@ JAVAEE-ejb/target/classes/EPIONE/JAVAEE/services/implementation/UserService.clas
 JAVAEE-ejb/target/classes/EPIONE/JAVAEE/services/implementation/DemandeService.class
 JAVAEE-ejb/target/classes/EPIONE/JAVAEE/entities/Transport.class
 JAVAEE-ejb/target/classes/EPIONE/JAVAEE/entities/Motif.class
+JAVAEE-ejb/target/classes/EPIONE/JAVAEE/services/implementation/DemandeService.class
+*.xml
+.project
