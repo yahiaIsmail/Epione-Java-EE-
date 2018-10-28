@@ -255,7 +255,10 @@ public class UserService implements UserServiceLocal, UserServiceRemote {
                     .select("span")
                     ;
             for (Element moyenTrasnsportElement: moyenTrasnsportElements){
-                if(moyenTrasnsportElement.text().substring(0,3).equals("Bus")){
+                if(moyenTrasnsportElement.text().substring(0,3).equals("Bus") ||
+
+                        moyenTrasnsportElement.text().substring(0,5).equals("Métro")
+                ){
               //  System.out.println(moyenTrasnsportElement.text().substring(0,3));
                     moyenTrasnsport.add(new Transport(moyenTrasnsportElement.text()));
                 }
