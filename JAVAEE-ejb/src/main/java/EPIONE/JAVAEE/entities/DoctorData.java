@@ -16,7 +16,7 @@ public class DoctorData implements Serializable {
 	private String specialty;
 	private String additionalInfo;
 
-	@OneToMany(mappedBy = "doctorData")
+	@OneToMany(mappedBy = "doctorData",fetch = FetchType.EAGER)
 	private List<User> users;
 
 

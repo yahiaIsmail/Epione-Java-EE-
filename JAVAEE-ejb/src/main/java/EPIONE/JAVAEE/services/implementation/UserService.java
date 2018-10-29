@@ -1,9 +1,6 @@
 package EPIONE.JAVAEE.services.implementation;
 
-import EPIONE.JAVAEE.entities.Address;
-import EPIONE.JAVAEE.entities.Expertise;
-import EPIONE.JAVAEE.entities.Transport;
-import EPIONE.JAVAEE.entities.User;
+import EPIONE.JAVAEE.entities.*;
 import EPIONE.JAVAEE.services.interfaces.UserServiceLocal;
 
 
@@ -284,8 +281,9 @@ public class UserService implements UserServiceLocal, UserServiceRemote {
         doctor.setTariff(tariff.replaceAll("Voir les tarifs",""));
         doctor.setPaimentMethode(moyenPaiement);
         doctor.setLanguage(langues.replaceAll("Langues parlées",""));
-        doctor.setAddress(addressSplited);
-        doctor.setExpertiseList(expertises);
+     //   doctor.setAddress(addressSplited);
+      //  doctor.setExpertiseList(expertises);
+        doctor.setRole(Roles.Doctor);
 
         em.persist(doctor);
 
@@ -315,8 +313,15 @@ public class UserService implements UserServiceLocal, UserServiceRemote {
 
     @Override
     public List<User> getAllDoctors() {
-        return  em.createQuery("select u from User u",User.class).getResultList();
+
+        return  em.createQuery("select u from User u" +
+                " join fetch u.expertiseList e "+
+                " where u.role=:role",User.class)
+                .setParameter("role",Roles.Doctor)
+                .getResultList();
     }
+
+
 
 
 }

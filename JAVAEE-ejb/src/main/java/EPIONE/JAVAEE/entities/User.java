@@ -1,8 +1,15 @@
 package EPIONE.JAVAEE.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
 import java.io.Serializable;
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -63,11 +70,13 @@ public class User implements Serializable {
     @OneToOne
 	private Address address;
 
-	@OneToMany(mappedBy = "doctor")
-	private List<Expertise> expertiseList;
 
-	@OneToMany(mappedBy = "doctor")
-	private List<Transport> transportList;
+	@OneToMany(mappedBy = "doctor", fetch = FetchType.EAGER)
+	private List<Expertise> expertiseList= new ArrayList<>();
+
+
+	@OneToMany(mappedBy = "doctor", fetch = FetchType.EAGER )
+	private List<Transport> transportList ;
 
 	@ManyToOne
 	private DoctorData doctorData;
