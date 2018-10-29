@@ -2,13 +2,6 @@ package EPIONE.JAVAEE.services.implementation;
 
 import EPIONE.JAVAEE.entities.RDV;
 import EPIONE.JAVAEE.services.interfaces.RdvJourServiceLocal;
-import com.itextpdf.text.BaseColor;
-import com.itextpdf.text.Document;
-import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Element;
-import com.itextpdf.text.pdf.PdfPCell;
-import com.itextpdf.text.pdf.PdfPTable;
-import com.itextpdf.text.pdf.PdfWriter;
 
 
 import javax.ejb.Stateless;
@@ -33,7 +26,7 @@ public class RdvJourService implements RdvJourServiceLocal {
 
     @Override
     public Collection<RDV> ProgrammeJourneJ(int docId,int year,int month,int day) {
-        Query query = em.createQuery("SELECT r FROM RDV r WHERE r.doctors.id =:d and YEAR(r.dateRDV)=:year and MONTH(r.dateRDV)=:month and DAY(r.dateRDV)=:day");
+      /*  Query query = em.createQuery("SELECT r FROM RDV r WHERE r.doctors.id =:d and YEAR(r.dateRDV)=:year and MONTH(r.dateRDV)=:month and DAY(r.dateRDV)=:day");
         query.setParameter("day", day);
         query.setParameter("month", month);
         query.setParameter("year", year);
@@ -42,14 +35,15 @@ public class RdvJourService implements RdvJourServiceLocal {
         if (lst.size()==0)
             return null;
         else
-            return lst;
+            return lst;*/
+      return null;
     }
 
 
     @Override
-    public void generateExcel(int docId) throws FileNotFoundException, DocumentException {
+    public void generateExcel(int docId) throws FileNotFoundException {
 
-        Query query = em.createQuery("SELECT r FROM RDV r WHERE r.doctors.id =:d ");
+       /* Query query = em.createQuery("SELECT r FROM RDV r WHERE r.doctors.id =:d ");
         query.setParameter("d",docId);
         Collection<RDV> lst = (Collection<RDV>) query.getResultList();
 
@@ -81,7 +75,7 @@ public class RdvJourService implements RdvJourServiceLocal {
         document.open();
         document.add(table);
         document.close();
-        System.out.println("Done");
+        System.out.println("Done");*/
 
     }
 }

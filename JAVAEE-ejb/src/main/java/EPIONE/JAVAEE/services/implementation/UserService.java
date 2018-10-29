@@ -23,7 +23,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import EPIONE.JAVAEE.services.interfaces.UserServiceRemote;
-import com.google.api.client.util.DateTime;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -62,22 +61,12 @@ public class UserService implements UserServiceLocal, UserServiceRemote {
             try {
                 document = Jsoup.connect(url).userAgent("Mozilla").get();
                 tmp = document.select(".dl-search-result-presentation");
-        for (compteur=1; compteur<3; compteur++){
-            url = "https://www.doctolib.fr/"+speciality+"?page="+compteur;
-            try {
-                document = Jsoup.connect(url).userAgent("Mozilla").get();
-                tmp= document.select(".dl-search-result-presentation");
 
             } catch (IOException e) {
                 e.printStackTrace();
             }
 
             for (Element p : tmp) {
-
-            for(Element p : tmp)
-            {
-
-                fullName=p.select(".dl-search-result-name").text().split("\\s+");
 
                 fullName = p.select(".dl-search-result-name").text().split("\\s+");
 
@@ -90,16 +79,6 @@ public class UserService implements UserServiceLocal, UserServiceRemote {
                     lastName = "";
 
                     //put the name and last name in string :
-                //condition if the selected element is Doctor
-                if(fullName[0].equals("Dr")){
-
-                    //initialize the name and last name
-                    name=""; lastName="";
-
-                    //put the name and last name in string :
-
-                    //if the doctor has more than a word in his first name or more than a world in his last name
-                    if(fullName.length>2){
 
                     //if the doctor has more than a word in his first name or more than a world in his last name
                     if (fullName.length > 2) {
@@ -107,9 +86,6 @@ public class UserService implements UserServiceLocal, UserServiceRemote {
 
                         for (int x = 1; x < fullName.length - 1; x++) {
                             name += fullName[x] + " ";
-                        for(int x=1; x<fullName.length-1;x++){
-                            name+= fullName[x]+" ";
-
 
                         }
                     }
@@ -130,21 +106,6 @@ public class UserService implements UserServiceLocal, UserServiceRemote {
 
 
                 } else if (fullName[0].equals("Centre")) {
-                        name=fullName[1];
-                    }
-
-                    lastName=fullName[fullName.length-1];
-
-
-                    //fill the doctor's list
-                    listDoc.add(new User(name,lastName,
-                            p.select(".dl-search-result-subtitle").text(),//speciality scraped
-                            new Address(p.select(".dl-text").text()),
-                            "https:"+p.select(".dl-search-result-avatar").select("a").select("img").attr("src")
-                    )) ;
-
-
-                }else if(fullName[0].equals("Centre")){
                     //  System.out.println("centre !");
                 }
 
@@ -185,12 +146,9 @@ public class UserService implements UserServiceLocal, UserServiceRemote {
             //Scrapping doctor's photo url
             String photoUrl = documentDocteur.select(".dl-profile-header-photo").select("img").attr("src");
 
-            System.out.println("********* display url photo *********");
+            System.out.println("******* display url photo *******");
             System.out.println("https:" + photoUrl);
             url = "https:" + photoUrl;
-            System.out.println("******* display url photo *******");
-            System.out.println("https:"+photoUrl);
-            url="https:"+photoUrl;
             System.out.println("");
 
 
@@ -236,22 +194,13 @@ public class UserService implements UserServiceLocal, UserServiceRemote {
                     .select(".dl-profile-card-section")
                     .select(".dl-profile-doctor-place-map")
                     .select("img");
-            System.out.println("********* display address *********");
+            System.out.println("******* display address *******");
             // System.out.println(addressElements.attr("data-map-modal"));
             address = addressElements.attr("data-map-modal");
 
             fullAddress = address.substring(address.indexOf("title") + 8, address.indexOf("lat") - 3);
             latitude = address.substring(address.indexOf("lat") + 5, address.indexOf("lng") - 2);
             longitude = address.substring(address.indexOf("lng") + 5, address.length() - 1);
-                    .select("img")
-                    ;
-            System.out.println("******* display address *******");
-            // System.out.println(addressElements.attr("data-map-modal"));
-            address=addressElements.attr("data-map-modal");
-
-            fullAddress=address.substring(address.indexOf("title")+8 ,address.indexOf("lat")-3 );
-            latitude=address.substring(address.indexOf("lat")+5 ,address.indexOf("lng")-2 );
-            longitude=address.substring(address.indexOf("lng")+5 ,address.length()-1 );
 //            System.out.println("fulladdress:  "+ fullAddress);
 //            System.out.println("lat: "+ latitude);
 //            System.out.println("lng: "+ longitude);
@@ -279,12 +228,6 @@ public class UserService implements UserServiceLocal, UserServiceRemote {
 
                         moyenTrasnsportElement.text().substring(0, 5).equals("Métro")
                 ) {
-                    .select("span");
-            for (Element moyenTrasnsportElement: moyenTrasnsportElements){
-                if(moyenTrasnsportElement.text().substring(0,3).equals("Bus") ||
-
-                        moyenTrasnsportElement.text().substring(0,5).equals("Métro")
-                        ){
                     //  System.out.println(moyenTrasnsportElement.text().substring(0,3));
                     moyenTrasnsport.add(new Transport(moyenTrasnsportElement.text()));
                 }
@@ -304,8 +247,6 @@ public class UserService implements UserServiceLocal, UserServiceRemote {
                     .select(".dl-profile-row-section");
 
             langues = langueParleesElements.first().text();
-            System.out.println("********* display 'Langues parlées' *********");
-            langues=langueParleesElements.first().text();
             System.out.println("******* display 'Langues parlées' *******");
             System.out.println(langues);
             System.out.println("");
@@ -330,7 +271,6 @@ public class UserService implements UserServiceLocal, UserServiceRemote {
         doctor.setTariff(tariff.replaceAll("Voir les tarifs", ""));
         doctor.setPaimentMethode(moyenPaiement);
         doctor.setLanguage(langues.replaceAll("Langues parlées", ""));
-        doctor.setLanguage(langues.replaceAll("Langues parlées",""));
         //   doctor.setAddress(addressSplited);
         //  doctor.setExpertiseList(expertises);
         doctor.setRole(Roles.Doctor);
@@ -403,7 +343,8 @@ public class UserService implements UserServiceLocal, UserServiceRemote {
     }
 
     @Override
-    public int takeRvdPatient(String emailPatient, String emailDoctor, int motifId, int year, int month, int day, int hour, int minutes) {
+    public int takeRvdPatient(String emailPatient, String emailDoctor, int motifId, int year, int month,
+                              int day, int hour, int minutes) {
         try {
             User patient = (User) em.createQuery(
                     "SELECT u FROM User u WHERE u.email = :emailPatient")
@@ -415,7 +356,7 @@ public class UserService implements UserServiceLocal, UserServiceRemote {
                     .getSingleResult();
             Address doctorAddress = doctor.getAddress();
 
-            Motif motif =  (Motif) em.createQuery(
+            Motif motif = (Motif) em.createQuery(
                     "SELECT m FROM Motif m WHERE m.id = :id")
                     .setParameter("id", motifId)
                     .getSingleResult();
@@ -443,3 +384,6 @@ public class UserService implements UserServiceLocal, UserServiceRemote {
         }
     }
 }
+
+
+
