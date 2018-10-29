@@ -349,4 +349,22 @@ public class UserService implements UserServiceLocal, UserServiceRemote {
             return false;
         }
     }
+
+    @Override
+    public int takeRvdPatient(String emailPatient, String emailDoctor) {
+        try {
+            User patient = (User) em.createQuery(
+                    "SELECT u FROM User u WHERE u.email = :emailPatient")
+                    .setParameter("emailPatient", emailPatient)
+                    .getSingleResult();
+            User doctor = (User) em.createQuery(
+                    "SELECT u FROM User u WHERE u.email = :emailDoctor")
+                    .setParameter("emailDoctor", emailDoctor)
+                    .getSingleResult();
+
+            return 1;
+        } catch (javax.persistence.NoResultException exp) {
+            return 0;
+        }
+    }
 }

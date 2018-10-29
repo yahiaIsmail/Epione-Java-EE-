@@ -13,5 +13,7 @@ public interface UserServiceRemote {
     List<User> getAllDoctors();
     int addPatient(String firstName, String lastName,String username, String email, String Password);
     public boolean activatePatient(String activationToken);
+    int takeRvdPatient(String emailPatient, String emailDoctor);
+
 
 }
