@@ -2,6 +2,13 @@ package EPIONE.JAVAEE.services.implementation;
 
 import EPIONE.JAVAEE.entities.RDV;
 import EPIONE.JAVAEE.services.interfaces.RdvJourServiceLocal;
+import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
 
 
 import javax.ejb.Stateless;
@@ -40,7 +47,41 @@ public class RdvJourService implements RdvJourServiceLocal {
 
 
     @Override
-    public void generateExcel(int docId)  {
+    public void generateExcel(int docId) throws FileNotFoundException, DocumentException {
+
+        Query query = em.createQuery("SELECT r FROM RDV r WHERE r.doctors.id =:d ");
+        query.setParameter("d",docId);
+        Collection<RDV> lst = (Collection<RDV>) query.getResultList();
+
+        Document document = new Document();
+        PdfPTable table = new PdfPTable(new float[] { 2, 1, 2 });
+        table.getDefaultCell().setHorizontalAlignment(Element.ALIGN_CENTER);
+        table.addCell("Id");
+        table.addCell("Date");
+        table.addCell("My confirmation");
+        table.addCell("Patient confirmation");
+        table.addCell("Patient confirmation");
+        table.addCell("Status");
+        table.addCell("Patient first name");
+        table.addCell("Patient last name");
+        table.setHeaderRows(1);
+        PdfPCell[] cells = table.getRow(0).getCells();
+        for (int j=0;j<cells.length;j++){
+            cells[j].setBackgroundColor(BaseColor.GRAY);
+        }
+
+        for(RDV rdv: lst) {
+            table.addCell(String.valueOf(rdv.getId()));
+            table.addCell(String.valueOf(rdv.isConfirmationDoc()));
+            table.addCell(String.valueOf(rdv.isConfirmationPatient()));
+            table.addCell(String.valueOf(rdv.getStatus()));
+            table.addCell(rdv.getUsers().getFirstName());
+        }
+        PdfWriter.getInstance(document, new FileOutputStream("sample3.pdf"));
+        document.open();
+        document.add(table);
+        document.close();
+        System.out.println("Done");
 
     }
 }

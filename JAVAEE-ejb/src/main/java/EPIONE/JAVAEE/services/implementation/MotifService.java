@@ -8,7 +8,10 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
+import javax.ws.rs.Path;
 
+
+import EPIONE.JAVAEE.entities.DoctorData;
 import EPIONE.JAVAEE.entities.Motif;
 import EPIONE.JAVAEE.entities.User;
 import EPIONE.JAVAEE.services.interfaces.MotifServiceLocal;

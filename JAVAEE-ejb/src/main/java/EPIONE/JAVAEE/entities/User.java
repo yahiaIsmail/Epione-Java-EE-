@@ -76,20 +76,20 @@ public class User implements Serializable {
 	private Address address;
 
 
-	@OneToMany(mappedBy = "doctor")
+	@OneToMany(mappedBy = "doctor", fetch = FetchType.EAGER)
 	private List<Expertise> expertiseList= new ArrayList<>();
 
 
-	@OneToMany(mappedBy = "doctor")
+	@OneToMany(mappedBy = "doctor", fetch = FetchType.EAGER )
 	private List<Transport> transportList ;
 
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
 	private List<Conversation> conversations;
 
-	@OneToMany(mappedBy = "user")
+	@OneToMany(mappedBy = "user",fetch = FetchType.EAGER,cascade = CascadeType.ALL)
 	private List<MessageDoctor> messageDoctors;
 
-	@OneToMany(mappedBy = "users")
+	@OneToMany(mappedBy = "users",fetch = FetchType.EAGER,cascade = CascadeType.ALL)
 	private List<RDV> rendezVous;
 
 

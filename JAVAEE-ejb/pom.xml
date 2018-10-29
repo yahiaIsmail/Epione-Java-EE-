@@ -65,7 +65,11 @@
 			<artifactId>google-http-client</artifactId>
 			<version>1.16.0-rc</version>
 		</dependency>
-
+		<dependency>
+			<groupId>com.itextpdf</groupId>
+			<artifactId>itextpdf</artifactId>
+			<version>RELEASE</version>
+		</dependency>
 
 
 	</dependencies>
