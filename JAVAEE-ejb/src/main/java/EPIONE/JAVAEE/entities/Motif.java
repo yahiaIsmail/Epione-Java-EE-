@@ -15,15 +15,11 @@ public class Motif implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	private String description;
-<<<<<<< HEAD
-	
+
 	@ManyToOne
 	private User doctor;
-=======
 
->>>>>>> 76e4cd93b61adaace56b5625328272e4172cdac2
 
-	
 
 	public int getId() {
 		return id;
@@ -41,7 +37,6 @@ public class Motif implements Serializable {
 		this.description = description;
 	}
 
-<<<<<<< HEAD
 	public User getDoctor() {
 		return doctor;
 	}
@@ -49,15 +44,13 @@ public class Motif implements Serializable {
 	public void setDoctor(User doctor) {
 		this.doctor = doctor;
 	}
-=======
-
->>>>>>> 76e4cd93b61adaace56b5625328272e4172cdac2
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((description == null) ? 0 : description.hashCode());
+		result = prime * result + ((doctor == null) ? 0 : doctor.hashCode());
 		result = prime * result + id;
 		return result;
 	}
@@ -76,6 +69,11 @@ public class Motif implements Serializable {
 				return false;
 		} else if (!description.equals(other.description))
 			return false;
+		if (doctor == null) {
+			if (other.doctor != null)
+				return false;
+		} else if (!doctor.equals(other.doctor))
+			return false;
 		if (id != other.id)
 			return false;
 		return true;
@@ -83,8 +81,8 @@ public class Motif implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Motif [id=" + id + ", description=" + description + "]";
+		return "Motif [id=" + id + ", description=" + description + ", doctor=" + doctor + "]";
 	}
-	
-	
+
+
 }

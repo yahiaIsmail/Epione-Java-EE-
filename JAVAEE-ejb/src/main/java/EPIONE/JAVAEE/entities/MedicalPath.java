@@ -16,20 +16,15 @@ public class MedicalPath implements Serializable {
 	private String justification;
 	private Boolean active;
 	private Date createdAt;
-	
 
-	
+
+
 	@OneToOne
 	private RDV rendezVous;
 
-<<<<<<< HEAD
-	@ManyToMany(mappedBy = "paths" )
-	private List<User> users;
-=======
 
 	@OneToMany(mappedBy = "path",cascade = CascadeType.REMOVE )
 	private List<PathDoctors> doctorPath;
->>>>>>> 76e4cd93b61adaace56b5625328272e4172cdac2
 
 	public int getId() {
 		return id;
@@ -70,7 +65,7 @@ public class MedicalPath implements Serializable {
 				", status=" + status +
 				", justification='" + justification + '\'' +
 				", active=" + active +
-				", rendezVous=" + rendezVous +
+
 				", doctorPath=" + doctorPath +
 				'}';
 	}

@@ -55,66 +55,60 @@ public class UserService implements UserServiceLocal, UserServiceRemote {
 
         //scrapping the first 2 pages
         for (compteur=1; compteur<3; compteur++){
-                    url = "https://www.doctolib.fr/"+speciality+"?page="+compteur;
-                    try {
-                        document = Jsoup.connect(url).userAgent("Mozilla").get();
-                        tmp= document.select(".dl-search-result-presentation");
+            url = "https://www.doctolib.fr/"+speciality+"?page="+compteur;
+            try {
+                document = Jsoup.connect(url).userAgent("Mozilla").get();
+                tmp= document.select(".dl-search-result-presentation");
 
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-
-        for(Element p : tmp)
-        {
-
-            fullName=p.select(".dl-search-result-name").text().split("\\s+");
-
-
-            //condition if the selected element is Doctor
-            if(fullName[0].equals("Dr")){
-
-                //initialize the name and last name
-                name=""; lastName="";
-
-                //put the name and last name in string :
-
-                //if the doctor has more than a word in his first name or more than a world in his last name
-                if(fullName.length>2){
-
-
-
-                    for(int x=1; x<fullName.length-1;x++){
-                        name+= fullName[x]+" ";
-
-                    }
-                }
-                //if the doctor has one word in his first name
-                else {
-                    name=fullName[1];
-                }
-
-                lastName=fullName[fullName.length-1];
-
-
-                //fill the doctor's list
-<<<<<<< HEAD
-              /*  listDoc.add(new User(name,lastName,
-                        p.select(".dl-search-result-subtitle").text(),
-                        p.select(".dl-text").text(),
-=======
-                listDoc.add(new User(name,lastName,
-                        p.select(".dl-search-result-subtitle").text(),//speciality scraped
-                        new Address(p.select(".dl-text").text()),
->>>>>>> 76e4cd93b61adaace56b5625328272e4172cdac2
-                        "https:"+p.select(".dl-search-result-avatar").select("a").select("img").attr("src")
-                )) ;*/
-
-
-            }else if(fullName[0].equals("Centre")){
-                //  System.out.println("centre !");
+            } catch (IOException e) {
+                e.printStackTrace();
             }
 
-        }
+            for(Element p : tmp)
+            {
+
+                fullName=p.select(".dl-search-result-name").text().split("\\s+");
+
+
+                //condition if the selected element is Doctor
+                if(fullName[0].equals("Dr")){
+
+                    //initialize the name and last name
+                    name=""; lastName="";
+
+                    //put the name and last name in string :
+
+                    //if the doctor has more than a word in his first name or more than a world in his last name
+                    if(fullName.length>2){
+
+
+
+                        for(int x=1; x<fullName.length-1;x++){
+                            name+= fullName[x]+" ";
+
+                        }
+                    }
+                    //if the doctor has one word in his first name
+                    else {
+                        name=fullName[1];
+                    }
+
+                    lastName=fullName[fullName.length-1];
+
+
+                    //fill the doctor's list
+                    listDoc.add(new User(name,lastName,
+                            p.select(".dl-search-result-subtitle").text(),//speciality scraped
+                            new Address(p.select(".dl-text").text()),
+                            "https:"+p.select(".dl-search-result-avatar").select("a").select("img").attr("src")
+                    )) ;
+
+
+                }else if(fullName[0].equals("Centre")){
+                    //  System.out.println("centre !");
+                }
+
+            }
         }
         return listDoc;
     }
@@ -151,7 +145,7 @@ public class UserService implements UserServiceLocal, UserServiceRemote {
             //Scrapping doctor's photo url
             String photoUrl = documentDocteur.select(".dl-profile-header-photo").select("img").attr("src");
 
-            System.out.println("********* display url photo *********");
+            System.out.println("******* display url photo *******");
             System.out.println("https:"+photoUrl);
             url="https:"+photoUrl;
             System.out.println("");
@@ -173,10 +167,10 @@ public class UserService implements UserServiceLocal, UserServiceRemote {
             tariff=tarif_moyenPaiment.get(0);
             moyenPaiement=tarif_moyenPaiment.get(1);
 
-            System.out.println("********* display tarif *********");
+            System.out.println("******* display tarif *******");
             System.out.println("tarif: " + tariff);
             System.out.println("");
-            System.out.println("********* display 'moyen de paiment' *********");
+            System.out.println("******* display 'moyen de paiment' *******");
             System.out.println("moyen de paiement: " + moyenPaiement);
             System.out.println("");
 
@@ -192,7 +186,7 @@ public class UserService implements UserServiceLocal, UserServiceRemote {
             for (Element expertiseElement: expertiseElements){
                 expertises.add(new Expertise(expertiseElement.text()));
             }
-            System.out.println("********* display expertise *********");
+            System.out.println("******* display expertise *******");
             System.out.println(expertises);
             System.out.println("");
 
@@ -203,13 +197,13 @@ public class UserService implements UserServiceLocal, UserServiceRemote {
                     .select(".dl-profile-doctor-place-map")
                     .select("img")
                     ;
-            System.out.println("********* display address *********");
-           // System.out.println(addressElements.attr("data-map-modal"));
+            System.out.println("******* display address *******");
+            // System.out.println(addressElements.attr("data-map-modal"));
             address=addressElements.attr("data-map-modal");
 
-                fullAddress=address.substring(address.indexOf("title")+8 ,address.indexOf("lat")-3 );
+            fullAddress=address.substring(address.indexOf("title")+8 ,address.indexOf("lat")-3 );
             latitude=address.substring(address.indexOf("lat")+5 ,address.indexOf("lng")-2 );
-                longitude=address.substring(address.indexOf("lng")+5 ,address.length()-1 );
+            longitude=address.substring(address.indexOf("lng")+5 ,address.length()-1 );
 //            System.out.println("fulladdress:  "+ fullAddress);
 //            System.out.println("lat: "+ latitude);
 //            System.out.println("lng: "+ longitude);
@@ -219,9 +213,9 @@ public class UserService implements UserServiceLocal, UserServiceRemote {
             System.out.println("");
 
 
-            System.out.println("********* display image of the address *********");
+            System.out.println("******* display image of the address *******");
             System.out.println(addressElements.attr("src"));
-           // imgAddress=address.attr("src");
+            // imgAddress=address.attr("src");
             System.out.println("");
 
 
@@ -237,13 +231,13 @@ public class UserService implements UserServiceLocal, UserServiceRemote {
                 if(moyenTrasnsportElement.text().substring(0,3).equals("Bus") ||
 
                         moyenTrasnsportElement.text().substring(0,5).equals("Métro")
-                ){
-              //  System.out.println(moyenTrasnsportElement.text().substring(0,3));
+                        ){
+                    //  System.out.println(moyenTrasnsportElement.text().substring(0,3));
                     moyenTrasnsport.add(new Transport(moyenTrasnsportElement.text()));
                 }
 
             }
-            System.out.println("********* display 'moyen de transport' *********");
+            System.out.println("******* display 'moyen de transport' *******");
             System.out.println(moyenTrasnsport);
             System.out.println("");
 
@@ -258,7 +252,7 @@ public class UserService implements UserServiceLocal, UserServiceRemote {
                     ;
 
             langues=langueParleesElements.first().text();
-            System.out.println("********* display 'Langues parlées' *********");
+            System.out.println("******* display 'Langues parlées' *******");
             System.out.println(langues);
             System.out.println("");
 
@@ -287,8 +281,8 @@ public class UserService implements UserServiceLocal, UserServiceRemote {
         doctor.setTariff(tariff.replaceAll("Voir les tarifs",""));
         doctor.setPaimentMethode(moyenPaiement);
         doctor.setLanguage(langues.replaceAll("Langues parlées",""));
-     //   doctor.setAddress(addressSplited);
-      //  doctor.setExpertiseList(expertises);
+        //   doctor.setAddress(addressSplited);
+        //  doctor.setExpertiseList(expertises);
         doctor.setRole(Roles.Doctor);
 
         em.persist(doctor);
@@ -306,7 +300,7 @@ public class UserService implements UserServiceLocal, UserServiceRemote {
             em.persist(moyenTrasnsport.get(i));
         }
 
-            return doctor.getId();
+        return doctor.getId();
     }
 
     @Override

@@ -104,29 +104,6 @@ public class RDV implements Serializable {
 		this.medicalPath = medicalPath;
 	}
 
-	public User getUsers() {
-		return users;
-	}
-
-	public void setUsers(User users) {
-		this.users = users;
-	}
-
-	public User getDoctors() {
-		return doctors;
-	}
-
-	public void setDoctors(User doctors) {
-		this.doctors = doctors;
-	}
-
-	public Motif getMotif() {
-		return motif;
-	}
-
-	public void setMotif(Motif motif) {
-		this.motif = motif;
-	}
 
 
 

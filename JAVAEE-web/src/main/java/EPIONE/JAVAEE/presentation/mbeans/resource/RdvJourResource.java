@@ -62,7 +62,7 @@ public class RdvJourResource {
     @Produces(MediaType.TEXT_PLAIN)
     @Path("/programmeJourneJ/{id}")
     public Response ProgrammeJourneJ(@PathParam(value = "id")int id) throws IOException {
-rs.generateExcel(id);
+    //rs.generateExcel(id);
         return Response.ok().entity("okk").build();
     }
 }

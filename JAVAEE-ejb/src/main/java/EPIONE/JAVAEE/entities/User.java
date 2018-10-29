@@ -47,11 +47,6 @@ public class User implements Serializable {
 	private String state;
 
 
-<<<<<<< HEAD
-
-
-=======
->>>>>>> 76e4cd93b61adaace56b5625328272e4172cdac2
 
 	public User() {
 	}
@@ -59,18 +54,12 @@ public class User implements Serializable {
 	public User(String firstName){
 		this.firstName=firstName;
 	}
-<<<<<<< HEAD
-	public User(String firstName, String lastName,String speciality, String urlPhoto) {
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.speciality=speciality;
 
-=======
 	public User(String firstName, String lastName,String speciality,  String urlPhoto) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.speciality=speciality;
->>>>>>> 76e4cd93b61adaace56b5625328272e4172cdac2
+
 		UrlPhoto = urlPhoto;
 
 	}
@@ -95,23 +84,19 @@ public class User implements Serializable {
 	private List<Transport> transportList ;
 
 	@ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
-	private Set<Conversation> conversations;
+	private List<Conversation> conversations;
 
 	@OneToMany(mappedBy = "user",fetch = FetchType.EAGER,cascade = CascadeType.ALL)
-	private Set<MessageDoctor> messageDoctors;
+	private List<MessageDoctor> messageDoctors;
 
 	@OneToMany(mappedBy = "users",fetch = FetchType.EAGER,cascade = CascadeType.ALL)
-	private Set<RDV> rendezVous;
+	private List<RDV> rendezVous;
 
-<<<<<<< HEAD
-	@OneToMany(mappedBy = "doctors",fetch = FetchType.EAGER,cascade = CascadeType.ALL)
-	private Set<RDV> rendezVousDoctors;
-=======
+
 	@OneToMany(mappedBy = "doctors")
 	private List<RDV> rendezVousDoctors;
 	@OneToOne
 	private PathDoctors pathDoctors;
->>>>>>> 76e4cd93b61adaace56b5625328272e4172cdac2
 
 
 
@@ -185,9 +170,7 @@ public class User implements Serializable {
         this.paimentMethode = paimentMethode;
     }
 
-<<<<<<< HEAD
 
-=======
 	public List<Expertise> getExpertiseList() {
 		return expertiseList;
 	}
@@ -195,7 +178,7 @@ public class User implements Serializable {
 	public void setExpertiseList(List<Expertise> expertiseList) {
 		this.expertiseList = expertiseList;
 	}
->>>>>>> 76e4cd93b61adaace56b5625328272e4172cdac2
+
 
 	public String getPassword() {
 		return password;
@@ -297,22 +280,6 @@ public class User implements Serializable {
 	}
 
 
-
-	public Set<Conversation> getConversations() {
-		return conversations;
-	}
-
-	public void setConversations(Set<Conversation> conversations) {
-		this.conversations = conversations;
-	}
-
-	public Set<MessageDoctor> getMessageDoctors() {
-		return messageDoctors;
-	}
-
-	public void setMessageDoctors(Set<MessageDoctor> messageDoctors) {
-		this.messageDoctors = messageDoctors;
-	}
 
 	public List<Transport> getTransportList() {
 		return transportList;

@@ -72,8 +72,10 @@ public class RdvJourService implements RdvJourServiceLocal {
 
         for(RDV rdv: lst) {
             table.addCell(String.valueOf(rdv.getId()));
-            table.addCell("Age:"+i);
-            table.addCell("Location:"+i);
+            table.addCell(String.valueOf(rdv.isConfirmationDoc()));
+            table.addCell(String.valueOf(rdv.isConfirmationPatient()));
+            table.addCell(String.valueOf(rdv.getStatus()));
+            table.addCell(rdv.getUsers().getFirstName());
         }
         PdfWriter.getInstance(document, new FileOutputStream("sample3.pdf"));
         document.open();

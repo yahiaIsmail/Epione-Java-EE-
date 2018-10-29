@@ -11,45 +11,33 @@ import javax.persistence.TypedQuery;
 import javax.ws.rs.Path;
 
 
-<<<<<<< HEAD
 import EPIONE.JAVAEE.entities.DoctorData;
 import EPIONE.JAVAEE.entities.Motif;
 import EPIONE.JAVAEE.entities.User;
-=======
-import EPIONE.JAVAEE.entities.Motif;
->>>>>>> 76e4cd93b61adaace56b5625328272e4172cdac2
 import EPIONE.JAVAEE.services.interfaces.MotifServiceLocal;
 
 
 @Stateless
 public class MotifService implements MotifServiceLocal {
 
-<<<<<<< HEAD
-	
+
 	@PersistenceContext
 	EntityManager em;
-	
+
 	@Override
 	public int ajouterMotif(Motif motif) {
 		em.persist(motif);
 		return 1;
-=======
-
-	@Override
-	public int ajouterMotif(Motif motif) {
-		return 0;
->>>>>>> 76e4cd93b61adaace56b5625328272e4172cdac2
 	}
 
 	@Override
 	public void affecterMotifDoctor(int motifId, int docId) {
-<<<<<<< HEAD
 		Motif m = em.find(Motif.class, motifId);
 		User d = em.find(User.class, docId);
 		List<Motif> lstM = new ArrayList<Motif>() ;
 		lstM.add(m);
 		m.setDoctor(d);
-		
+
 	}
 
 	@Override
@@ -66,7 +54,7 @@ public class MotifService implements MotifServiceLocal {
 		return 0;
 	}
 
-	
+
 	@Override
 	public List<String> listerMotifByDoc(User doc) {
 		TypedQuery<String> query = em.createQuery("select m.description from Motif m where m.doctor.id=:id",String.class);
@@ -77,18 +65,4 @@ public class MotifService implements MotifServiceLocal {
 		return lst;
 	}
 
-=======
-
-	}
-
-	@Override
-	public int modifierMotif(int motifId, String desc) {
-		return 0;
-	}
-
-	@Override
-	public int supprimerMotif(int motifId) {
-		return 0;
-	}
->>>>>>> 76e4cd93b61adaace56b5625328272e4172cdac2
 }
