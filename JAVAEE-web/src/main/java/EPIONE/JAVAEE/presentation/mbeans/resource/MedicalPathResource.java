@@ -1,12 +1,14 @@
 package EPIONE.JAVAEE.presentation.mbeans.resource;
 
 import EPIONE.JAVAEE.entities.MedicalPath;
+import EPIONE.JAVAEE.entities.MedicalVisit;
 import EPIONE.JAVAEE.entities.PathDoctors;
 import EPIONE.JAVAEE.services.interfaces.MedicalPathServiceLocal;
 
 
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
+import javax.json.JsonObject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Status;
@@ -85,12 +87,14 @@ public class MedicalPathResource {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    @Path("/addDoctorToPath/{pathId}/{doctorId}")
+    @Path("/addDoctorToPath/{pathId}/{doctorId}/{description}")
     public Response addDoctorToPatientPath(@PathParam(value = "pathId") int pathId,
-                                           @PathParam(value = "doctorId") int doctorId, PathDoctors pathDoctors) {
+                                           @PathParam(value = "doctorId") int doctorId,
+                                           @PathParam(value="description" )String description,
+                                           PathDoctors pathDoctors
+                                          ) {
 
-
-       String x= medipath.addDoctorsToPath(pathId, doctorId,pathDoctors);
+       String x= medipath.addDoctorsToPath(pathId, doctorId,pathDoctors,description);
        if (!x.equals("Patient")){
         if(x.equals("Added Doctor to path Successfully !"))
         {
@@ -113,14 +117,27 @@ public class MedicalPathResource {
     public Response removeDoctorFromPath(@PathParam(value = "pathId") int pathId,
                                          @PathParam(value = "doctorId") int doctorId) {
 
-        medipath.removeDoctorFromPath(pathId, doctorId);
-        return Response.ok().entity("removed Doctor from patient path Successfully !").build();
+       String x= medipath.removeDoctorFromPath(pathId, doctorId);
+       if(x.equals("ok"))
+           return Response.status(Response.Status.ACCEPTED).build();
+        else
+           return Response.status(Response.Status.BAD_REQUEST).build();
 
     }
     /****END Removing Doctor from patient path Web****/
     /**
      *
      */
+/******Update MedicalVisitStatus************************/
 
-
+    @PUT
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("/updateMedicalVisitStatus/{pathDocId}")
+    public Response updateMedicalPath(@PathParam(value = "pathDocId") int pathDocId,MedicalVisit medicalVisit)
+    {
+        // MedicalPath path=medipath.getPathById(pathId);
+        medipath.updateMedicalVisitStatus(pathDocId,medicalVisit);
+        return Response.status(Status.STATUS_COMMITTED).build();
+    }
 }

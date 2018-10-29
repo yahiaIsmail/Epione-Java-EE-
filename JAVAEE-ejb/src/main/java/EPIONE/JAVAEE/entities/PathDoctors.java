@@ -14,7 +14,7 @@ public class PathDoctors implements Serializable {
     private MedicalPath path;
     @OneToOne
     private User doctor;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.REMOVE)
     private MedicalVisit medicalVisit;
 
     public int getId() {

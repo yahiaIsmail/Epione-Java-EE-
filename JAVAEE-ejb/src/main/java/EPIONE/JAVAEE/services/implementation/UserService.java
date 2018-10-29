@@ -321,7 +321,58 @@ public class UserService implements UserServiceLocal, UserServiceRemote {
                 .getResultList();
     }
 
+    @Override
+    public int addPatient(String firstName, String lastName, String username, String email, String Password) {
+        User user= new User();
+        user.setConfirmation("0");
+        user.setAddress(null);
+        user.setEnabled(true);
+        user.setUsername(username);
+        user.setEmail(email);
+        user.setPassword(Password);
+        user.setFirstName(firstName);
+        user.setLastName(lastName);
+        String token = Base64.getEncoder().encodeToString(user.getUsername().getBytes()) + Base64.getEncoder().encodeToString(user.getPassword().getBytes()) + Base64.getEncoder().encodeToString(user.getEmail().getBytes());
+        user.setConfirmationToken(token);
+        em.persist(user);
+        return user.getId();
+    }
+
+<<<<<<< HEAD
 
 
+=======
+    @Override
+    public boolean activatePatient(String activationToken) {
+        try {
+            User usr = (User) em.createQuery(
+                    "SELECT u FROM User u WHERE u.confirmationToken = :token")
+                    .setParameter("token", activationToken)
+                    .getSingleResult();
+            usr.setConfirmation("1");
+            em.merge(usr);
+            return true;
+        } catch (javax.persistence.NoResultException exp) {
+            return false;
+        }
+    }
 
+    @Override
+    public int takeRvdPatient(String emailPatient, String emailDoctor) {
+        try {
+            User patient = (User) em.createQuery(
+                    "SELECT u FROM User u WHERE u.email = :emailPatient")
+                    .setParameter("emailPatient", emailPatient)
+                    .getSingleResult();
+            User doctor = (User) em.createQuery(
+                    "SELECT u FROM User u WHERE u.email = :emailDoctor")
+                    .setParameter("emailDoctor", emailDoctor)
+                    .getSingleResult();
+
+            return 1;
+        } catch (javax.persistence.NoResultException exp) {
+            return 0;
+        }
+    }
+>>>>>>> 0a5652821e16ae730ef06ea4a80b79934675f762
 }

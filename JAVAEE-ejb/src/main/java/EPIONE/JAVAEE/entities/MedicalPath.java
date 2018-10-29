@@ -1,6 +1,7 @@
 package EPIONE.JAVAEE.entities;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -14,6 +15,7 @@ public class MedicalPath implements Serializable {
 	private Boolean status;
 	private String justification;
 	private Boolean active;
+	private Date createdAt;
 	
 
 	
@@ -21,7 +23,7 @@ public class MedicalPath implements Serializable {
 	private RDV rendezVous;
 
 
-	@OneToMany(mappedBy = "path")
+	@OneToMany(mappedBy = "path",cascade = CascadeType.REMOVE )
 	private List<PathDoctors> doctorPath;
 
 	public int getId() {
@@ -102,4 +104,19 @@ public class MedicalPath implements Serializable {
 		this.doctorPath = doctorPath;
 	}
 
+	public Boolean getStatus() {
+		return status;
+	}
+
+	public Boolean getActive() {
+		return active;
+	}
+
+	public Date getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
+	}
 }
