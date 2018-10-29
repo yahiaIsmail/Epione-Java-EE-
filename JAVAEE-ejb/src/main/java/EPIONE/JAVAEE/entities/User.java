@@ -5,14 +5,17 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 import javax.persistence.*;
+import javax.transaction.Transactional;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
 @XmlRootElement
+@Transactional
 public class User implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,8 +38,8 @@ public class User implements Serializable {
 	private String email;
 	private String username;
 
-	//delete after
-	private String adr;
+
+
 
 	public User() {
 	}
@@ -44,11 +47,11 @@ public class User implements Serializable {
 	public User(String firstName){
 		this.firstName=firstName;
 	}
-	public User(String firstName, String lastName,String speciality, String adr, String urlPhoto) {
+	public User(String firstName, String lastName,String speciality, String urlPhoto) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.speciality=speciality;
-		this.adr = adr;
+
 		UrlPhoto = urlPhoto;
 
 	}
@@ -59,17 +62,17 @@ public class User implements Serializable {
 	@ManyToOne
 	private DoctorData doctorData;
 
-	@ManyToMany
-	private List<Conversation> conversations;
+	@ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+	private Set<Conversation> conversations;
 
-	@OneToMany(mappedBy = "user")
-	private List<MessageDoctor> messageDoctors;
+	@OneToMany(mappedBy = "user",fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+	private Set<MessageDoctor> messageDoctors;
 
-	@OneToMany(mappedBy = "users")
-	private List<RDV> rendezVous;
+	@OneToMany(mappedBy = "users",fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+	private Set<RDV> rendezVous;
 
-	@OneToMany(mappedBy = "doctors")
-	private List<RDV> rendezVousDoctors;
+	@OneToMany(mappedBy = "doctors",fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+	private Set<RDV> rendezVousDoctors;
 
 	@ManyToMany
 	private List<MedicalPath> paths;
@@ -138,14 +141,7 @@ public class User implements Serializable {
         this.paimentMethode = paimentMethode;
     }
 
-    @XmlElement(name="address")
-	public String getAdr() {
-		return adr;
-	}
 
-	public void setAdr(String adr) {
-		this.adr = adr;
-	}
 
 	public String getPassword() {
 		return password;
@@ -252,19 +248,19 @@ public class User implements Serializable {
 		this.doctorData = doctorData;
 	}
 
-	public List<Conversation> getConversations() {
+	public Set<Conversation> getConversations() {
 		return conversations;
 	}
 
-	public void setConversations(List<Conversation> conversations) {
+	public void setConversations(Set<Conversation> conversations) {
 		this.conversations = conversations;
 	}
 
-	public List<MessageDoctor> getMessageDoctors() {
+	public Set<MessageDoctor> getMessageDoctors() {
 		return messageDoctors;
 	}
 
-	public void setMessageDoctors(List<MessageDoctor> messageDoctors) {
+	public void setMessageDoctors(Set<MessageDoctor> messageDoctors) {
 		this.messageDoctors = messageDoctors;
 	}
 

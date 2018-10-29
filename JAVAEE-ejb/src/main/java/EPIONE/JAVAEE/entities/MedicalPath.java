@@ -20,7 +20,7 @@ public class MedicalPath implements Serializable {
 	@OneToOne
 	private RDV rendezVous;
 
-	@ManyToMany(mappedBy = "paths")
+	@ManyToMany(mappedBy = "paths" )
 	private List<User> users;
 
 	public int getId() {

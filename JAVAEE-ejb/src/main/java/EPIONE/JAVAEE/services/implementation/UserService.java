@@ -105,11 +105,11 @@ public class UserService implements UserServiceLocal {
                 lastName=fullName[fullName.length-1];
 
                 //fill the doctor's list
-                listDoc.add(new User(name,lastName,
+              /*  listDoc.add(new User(name,lastName,
                         p.select(".dl-search-result-subtitle").text(),
                         p.select(".dl-text").text(),
                         "https:"+p.select(".dl-search-result-avatar").select("a").select("img").attr("src")
-                )) ;
+                )) ;*/
 
 
             }else if(fullName[0].equals("Centre")){

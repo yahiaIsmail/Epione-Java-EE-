@@ -17,7 +17,7 @@ public class Motif implements Serializable {
 	private String description;
 	
 	@ManyToOne
-	private DoctorData doctor;
+	private User doctor;
 
 	
 
@@ -37,11 +37,11 @@ public class Motif implements Serializable {
 		this.description = description;
 	}
 
-	public DoctorData getDoctor() {
+	public User getDoctor() {
 		return doctor;
 	}
 
-	public void setDoctor(DoctorData doctor) {
+	public void setDoctor(User doctor) {
 		this.doctor = doctor;
 	}
 
