@@ -14,8 +14,7 @@ public class Curriculum implements Serializable {
 	private String description;
 	private Date diplomaDate;
 
-	@ManyToOne
-	private DoctorData doctorData;
+
 
 	public int getId() {
 		return id;
@@ -41,13 +40,6 @@ public class Curriculum implements Serializable {
 		this.diplomaDate = diplomaDate;
 	}
 
-	public DoctorData getDoctorData() {
-		return doctorData;
-	}
-
-	public void setDoctorData(DoctorData doctorData) {
-		this.doctorData = doctorData;
-	}
 
 	@Override
 	public boolean equals(Object o) {
@@ -56,13 +48,12 @@ public class Curriculum implements Serializable {
 		Curriculum that = (Curriculum) o;
 		return id == that.id &&
 				Objects.equals(description, that.description) &&
-				Objects.equals(diplomaDate, that.diplomaDate) &&
-				Objects.equals(doctorData, that.doctorData);
+				Objects.equals(diplomaDate, that.diplomaDate) ;
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id, description, diplomaDate, doctorData);
+		return Objects.hash(id, description, diplomaDate);
 	}
 
 	@Override
@@ -71,7 +62,6 @@ public class Curriculum implements Serializable {
 				"id=" + id +
 				", description='" + description + '\'' +
 				", diplomaDate=" + diplomaDate +
-				", doctorData=" + doctorData +
 				'}';
 	}
 }
