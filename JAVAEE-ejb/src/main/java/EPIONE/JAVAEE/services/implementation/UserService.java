@@ -338,10 +338,7 @@ public class UserService implements UserServiceLocal, UserServiceRemote {
         return user.getId();
     }
 
-<<<<<<< HEAD
 
-
-=======
     @Override
     public boolean activatePatient(String activationToken) {
         try {
@@ -374,5 +371,4 @@ public class UserService implements UserServiceLocal, UserServiceRemote {
             return 0;
         }
     }
->>>>>>> 0a5652821e16ae730ef06ea4a80b79934675f762
 }
