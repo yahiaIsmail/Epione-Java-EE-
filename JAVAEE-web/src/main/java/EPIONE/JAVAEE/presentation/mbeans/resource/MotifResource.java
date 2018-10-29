@@ -5,11 +5,15 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+<<<<<<< HEAD
 import javax.print.Doc;
+=======
+>>>>>>> 76e4cd93b61adaace56b5625328272e4172cdac2
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+<<<<<<< HEAD
 import EPIONE.JAVAEE.entities.DoctorData;
 import EPIONE.JAVAEE.entities.Motif;
 import EPIONE.JAVAEE.entities.User;
@@ -22,6 +26,10 @@ import sun.plugin2.util.PojoUtil;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+=======
+import EPIONE.JAVAEE.entities.Motif;
+import EPIONE.JAVAEE.services.interfaces.MotifServiceLocal;
+>>>>>>> 76e4cd93b61adaace56b5625328272e4172cdac2
 
 @Path("/motif")
 @RequestScoped
@@ -44,6 +52,7 @@ public class MotifResource {
 
     @POST
     @Produces(MediaType.APPLICATION_JSON)
+<<<<<<< HEAD
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/add")
     public Response ajouterMotif(Motif motif) {
@@ -51,6 +60,17 @@ public class MotifResource {
 		ms.ajouterMotif(motif);
 
         return Response.ok().entity("New motif created ").build();
+=======
+    @Path("/add/{description}")
+    public Response ajouterMotif(@PathParam(value = "description")String description) {
+
+		System.out.println(description);
+		Motif motif = new Motif();
+		motif.setDescription(description);
+		ms.ajouterMotif(motif);
+
+        return Response.ok().entity("New motif created "+description).build();
+>>>>>>> 76e4cd93b61adaace56b5625328272e4172cdac2
 
 	}
 
@@ -78,6 +98,7 @@ public class MotifResource {
 
         ms.affecterMotifDoctor(idMotif,idDoc);
         Motif motif =em.find(Motif.class,idMotif);
+<<<<<<< HEAD
         if(motif.getDoctor()!=null)
         {
             return Response.ok().entity("The motif "+idMotif+" is affected to doctor "+idDoc).build();
@@ -122,5 +143,18 @@ public class MotifResource {
             return Response.noContent().entity("No motif found ").build();
         }
     }
+=======
+     //   if(motif.getDoctor()!=null)
+       // {
+            return Response.ok().entity("The motif "+idMotif+" is affected to doctor "+idDoc).build();
+        //}
+        //else
+        //{
+        //    return Response.noContent().entity("The motif "+idMotif+" is not affected to doctor "+idDoc).build();
+        //}
+
+    }
+
+>>>>>>> 76e4cd93b61adaace56b5625328272e4172cdac2
 
 }

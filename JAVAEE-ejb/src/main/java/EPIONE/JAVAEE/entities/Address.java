@@ -9,16 +9,26 @@ public class Address implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	private float longit;
-	private float attitude;
-	private String street;
-	private String city;
-	private String town;
-	private int postalCode;
-	private String country;
+	private String fullAddress;
+	private String longit;
+	private String latitude;
+
 
 	@OneToOne(mappedBy = "address")
-	private User user;
+	private User doctor;
+
+	public Address() {
+	}
+
+	public Address(String fullAddress) {
+		this.fullAddress = fullAddress;
+	}
+
+	public Address(String fullAddress, String latitude, String longit) {
+		this.fullAddress = fullAddress;
+		this.latitude = latitude;
+		this.longit = longit;
+	}
 
 	public int getId() {
 		return id;
@@ -28,68 +38,36 @@ public class Address implements Serializable {
 		this.id = id;
 	}
 
-	public float getLongit() {
+	public String getFullAddress() {
+		return fullAddress;
+	}
+
+	public void setFullAddress(String fullAddress) {
+		this.fullAddress = fullAddress;
+	}
+
+	public String getLongit() {
 		return longit;
 	}
 
-	public void setLongit(float longit) {
+	public void setLongit(String longit) {
 		this.longit = longit;
 	}
 
-	public float getAttitude() {
-		return attitude;
+	public String getLatitude() {
+		return latitude;
 	}
 
-	public void setAttitude(float attitude) {
-		this.attitude = attitude;
+	public void setLatitude(String latitude) {
+		this.latitude = latitude;
 	}
 
-	public String getStreet() {
-		return street;
+	public User getDoctor() {
+		return doctor;
 	}
 
-	public void setStreet(String street) {
-		this.street = street;
-	}
-
-	public String getCity() {
-		return city;
-	}
-
-	public void setCity(String city) {
-		this.city = city;
-	}
-
-	public String getTown() {
-		return town;
-	}
-
-	public void setTown(String town) {
-		this.town = town;
-	}
-
-	public int getPostalCode() {
-		return postalCode;
-	}
-
-	public void setPostalCode(int postalCode) {
-		this.postalCode = postalCode;
-	}
-
-	public String getCountry() {
-		return country;
-	}
-
-	public void setCountry(String country) {
-		this.country = country;
-	}
-
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
+	public void setDoctor(User doctor) {
+		this.doctor = doctor;
 	}
 
 	@Override
@@ -98,33 +76,25 @@ public class Address implements Serializable {
 		if (o == null || getClass() != o.getClass()) return false;
 		Address address = (Address) o;
 		return id == address.id &&
-				Float.compare(address.longit, longit) == 0 &&
-				Float.compare(address.attitude, attitude) == 0 &&
-				postalCode == address.postalCode &&
-				Objects.equals(street, address.street) &&
-				Objects.equals(city, address.city) &&
-				Objects.equals(town, address.town) &&
-				Objects.equals(country, address.country) &&
-				Objects.equals(user, address.user);
+				Objects.equals(fullAddress, address.fullAddress) &&
+				Objects.equals(longit, address.longit) &&
+				Objects.equals(latitude, address.latitude) &&
+				Objects.equals(doctor, address.doctor);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id, longit, attitude, street, city, town, postalCode, country, user);
+		return Objects.hash(id, fullAddress, longit, latitude, doctor);
 	}
 
 	@Override
 	public String toString() {
 		return "Address{" +
 				"id=" + id +
-				", longit=" + longit +
-				", attitude=" + attitude +
-				", street='" + street + '\'' +
-				", city='" + city + '\'' +
-				", town='" + town + '\'' +
-				", postalCode=" + postalCode +
-				", country='" + country + '\'' +
-				", user=" + user +
+				", fullAddress='" + fullAddress + '\'' +
+				", longit='" + longit + '\'' +
+				", latitude='" + latitude + '\'' +
+				", doctor=" + doctor +
 				'}';
 	}
 }

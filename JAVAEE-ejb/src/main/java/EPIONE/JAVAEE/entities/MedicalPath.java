@@ -1,6 +1,7 @@
 package EPIONE.JAVAEE.entities;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -11,17 +12,24 @@ public class MedicalPath implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	private boolean status;
+	private Boolean status;
 	private String justification;
+	private Boolean active;
+	private Date createdAt;
 	
-	@OneToMany(mappedBy="medicalPath")
-	private List<MedicalVisit> medicalVisits;
+
 	
 	@OneToOne
 	private RDV rendezVous;
 
+<<<<<<< HEAD
 	@ManyToMany(mappedBy = "paths" )
 	private List<User> users;
+=======
+
+	@OneToMany(mappedBy = "path",cascade = CascadeType.REMOVE )
+	private List<PathDoctors> doctorPath;
+>>>>>>> 76e4cd93b61adaace56b5625328272e4172cdac2
 
 	public int getId() {
 		return id;
@@ -31,11 +39,11 @@ public class MedicalPath implements Serializable {
 		this.id = id;
 	}
 
-	public boolean isStatus() {
+	public Boolean isStatus() {
 		return status;
 	}
 
-	public void setStatus(boolean status) {
+	public void setStatus(Boolean status) {
 		this.status = status;
 	}
 
@@ -47,12 +55,42 @@ public class MedicalPath implements Serializable {
 		this.justification = justification;
 	}
 
-	public List<MedicalVisit> getMedicalVisits() {
-		return medicalVisits;
+	public Boolean isActive() {
+		return active;
 	}
 
-	public void setMedicalVisits(List<MedicalVisit> medicalVisits) {
-		this.medicalVisits = medicalVisits;
+	public void setActive(Boolean active) {
+		this.active = active;
+	}
+
+	@Override
+	public String toString() {
+		return "MedicalPath{" +
+				"id=" + id +
+				", status=" + status +
+				", justification='" + justification + '\'' +
+				", active=" + active +
+				", rendezVous=" + rendezVous +
+				", doctorPath=" + doctorPath +
+				'}';
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		MedicalPath path = (MedicalPath) o;
+		return id == path.id &&
+				status == path.status &&
+				active == path.active &&
+				Objects.equals(justification, path.justification) &&
+				Objects.equals(rendezVous, path.rendezVous) &&
+				Objects.equals(doctorPath, path.doctorPath);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id, status, justification, active, rendezVous, doctorPath);
 	}
 
 	public RDV getRendezVous() {
@@ -63,31 +101,27 @@ public class MedicalPath implements Serializable {
 		this.rendezVous = rendezVous;
 	}
 
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
-		MedicalPath that = (MedicalPath) o;
-		return id == that.id &&
-				status == that.status &&
-				Objects.equals(justification, that.justification) &&
-				Objects.equals(medicalVisits, that.medicalVisits) &&
-				Objects.equals(rendezVous, that.rendezVous);
+	public List<PathDoctors> getDoctorPath() {
+		return doctorPath;
 	}
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(id, status, justification, medicalVisits, rendezVous);
+	public void setDoctorPath(List<PathDoctors> doctorPath) {
+		this.doctorPath = doctorPath;
 	}
 
-	@Override
-	public String toString() {
-		return "MedicalPath{" +
-				"id=" + id +
-				", status=" + status +
-				", justification='" + justification + '\'' +
-				", medicalVisits=" + medicalVisits +
-				", rendezVous=" + rendezVous +
-				'}';
+	public Boolean getStatus() {
+		return status;
+	}
+
+	public Boolean getActive() {
+		return active;
+	}
+
+	public Date getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
 	}
 }

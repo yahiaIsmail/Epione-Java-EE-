@@ -5,13 +5,7 @@ import java.sql.Date;
 import java.util.List;
 import java.util.Objects;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 
 @Entity
 public class Conversation implements Serializable {
@@ -20,7 +14,7 @@ public class Conversation implements Serializable {
 	private int id;
 	private Date dateCreated;
 	
-	@ManyToMany(mappedBy = "conversations")
+	@ManyToMany(mappedBy = "conversations",fetch = FetchType.EAGER)
 	private List<User>users;
 
 	@OneToMany(mappedBy="conversation")

@@ -1,6 +1,9 @@
 package EPIONE.JAVAEE.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlTransient;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -11,8 +14,16 @@ public class Expertise implements Serializable {
 	private int id;
 	private String content;
 
+	@JsonIgnore
 	@ManyToOne
-	private DoctorData doctorData;
+	private User doctor;
+
+	public Expertise() {
+	}
+
+	public Expertise(String content) {
+		this.content = content;
+	}
 
 	public int getId() {
 		return id;
@@ -30,12 +41,12 @@ public class Expertise implements Serializable {
 		this.content = content;
 	}
 
-	public DoctorData getDoctorData() {
-		return doctorData;
+	public User getDoctor() {
+		return doctor;
 	}
 
-	public void setDoctorData(DoctorData doctorData) {
-		this.doctorData = doctorData;
+	public void setDoctor(User doctor) {
+		this.doctor = doctor;
 	}
 
 	@Override
@@ -45,12 +56,12 @@ public class Expertise implements Serializable {
 		Expertise expertise = (Expertise) o;
 		return id == expertise.id &&
 				Objects.equals(content, expertise.content) &&
-				Objects.equals(doctorData, expertise.doctorData);
+				Objects.equals(doctor, expertise.doctor);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id, content, doctorData);
+		return Objects.hash(id, content, doctor);
 	}
 
 	@Override
@@ -58,7 +69,6 @@ public class Expertise implements Serializable {
 		return "Expertise{" +
 				"id=" + id +
 				", content='" + content + '\'' +
-				", doctorData=" + doctorData +
 				'}';
 	}
 }

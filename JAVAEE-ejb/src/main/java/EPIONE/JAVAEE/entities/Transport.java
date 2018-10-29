@@ -1,5 +1,7 @@
 package EPIONE.JAVAEE.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Objects;
 
@@ -11,8 +13,16 @@ public class Transport {
 
     private String meansOfTransport;
 
+    @JsonIgnore
     @ManyToOne
-    private DoctorData doctorData;
+    private User doctor;
+
+    public Transport() {
+    }
+
+    public Transport(String meansOfTransport) {
+        this.meansOfTransport = meansOfTransport;
+    }
 
     public int getId() {
         return id;
@@ -28,6 +38,14 @@ public class Transport {
 
     public void setMeansOfTransport(String meansOfTransport) {
         this.meansOfTransport = meansOfTransport;
+    }
+
+    public User getDoctor() {
+        return doctor;
+    }
+
+    public void setDoctor(User doctor) {
+        this.doctor = doctor;
     }
 
     @Override

@@ -1,11 +1,8 @@
 package EPIONE.JAVAEE.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Objects;
 
 @Entity
@@ -14,11 +11,13 @@ public class MedicalVisit implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	private String description;
-	private boolean medicalState;
+	private Boolean medicalState;
 	private int rating;
+	private Date createdAt;
+	@OneToOne
+	private PathDoctors pathDoctors;
 	
-	@ManyToOne
-	private MedicalPath medicalPath;
+
 
 	public int getId() {
 		return id;
@@ -36,11 +35,11 @@ public class MedicalVisit implements Serializable {
 		this.description = description;
 	}
 
-	public boolean isMedicalState() {
+	public Boolean isMedicalState() {
 		return medicalState;
 	}
 
-	public void setMedicalState(boolean medicalState) {
+	public void setMedicalState(Boolean medicalState) {
 		this.medicalState = medicalState;
 	}
 
@@ -52,12 +51,16 @@ public class MedicalVisit implements Serializable {
 		this.rating = rating;
 	}
 
-	public MedicalPath getMedicalPath() {
-		return medicalPath;
+	public Boolean getMedicalState() {
+		return medicalState;
 	}
 
-	public void setMedicalPath(MedicalPath medicalPath) {
-		this.medicalPath = medicalPath;
+	public PathDoctors getPathDoctors() {
+		return pathDoctors;
+	}
+
+	public void setPathDoctors(PathDoctors pathDoctors) {
+		this.pathDoctors = pathDoctors;
 	}
 
 	@Override
@@ -68,13 +71,12 @@ public class MedicalVisit implements Serializable {
 		return id == that.id &&
 				medicalState == that.medicalState &&
 				rating == that.rating &&
-				Objects.equals(description, that.description) &&
-				Objects.equals(medicalPath, that.medicalPath);
+				Objects.equals(description, that.description);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id, description, medicalState, rating, medicalPath);
+		return Objects.hash(id, description, medicalState, rating);
 	}
 
 	@Override
@@ -84,7 +86,15 @@ public class MedicalVisit implements Serializable {
 				", description='" + description + '\'' +
 				", medicalState=" + medicalState +
 				", rating=" + rating +
-				", medicalPath=" + medicalPath +
+
 				'}';
+	}
+
+	public Date getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
 	}
 }

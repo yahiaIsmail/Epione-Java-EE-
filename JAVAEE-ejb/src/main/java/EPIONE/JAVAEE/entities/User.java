@@ -1,8 +1,15 @@
 package EPIONE.JAVAEE.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
 import java.io.Serializable;
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -37,9 +44,14 @@ public class User implements Serializable {
 	private int phoneNumber;
 	private String email;
 	private String username;
+	private String state;
 
 
+<<<<<<< HEAD
 
+
+=======
+>>>>>>> 76e4cd93b61adaace56b5625328272e4172cdac2
 
 	public User() {
 	}
@@ -47,20 +59,40 @@ public class User implements Serializable {
 	public User(String firstName){
 		this.firstName=firstName;
 	}
+<<<<<<< HEAD
 	public User(String firstName, String lastName,String speciality, String urlPhoto) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.speciality=speciality;
 
+=======
+	public User(String firstName, String lastName,String speciality,  String urlPhoto) {
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.speciality=speciality;
+>>>>>>> 76e4cd93b61adaace56b5625328272e4172cdac2
 		UrlPhoto = urlPhoto;
 
 	}
 
-	@OneToOne
+    public User(String firstName, String lastName, String speciality, Address address, String urlPhoto) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        UrlPhoto = urlPhoto;
+        this.speciality = speciality;
+        this.address = address;
+    }
+
+    @OneToOne
 	private Address address;
 
-	@ManyToOne
-	private DoctorData doctorData;
+
+	@OneToMany(mappedBy = "doctor", fetch = FetchType.EAGER)
+	private List<Expertise> expertiseList= new ArrayList<>();
+
+
+	@OneToMany(mappedBy = "doctor", fetch = FetchType.EAGER )
+	private List<Transport> transportList ;
 
 	@ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
 	private Set<Conversation> conversations;
@@ -71,14 +103,19 @@ public class User implements Serializable {
 	@OneToMany(mappedBy = "users",fetch = FetchType.EAGER,cascade = CascadeType.ALL)
 	private Set<RDV> rendezVous;
 
+<<<<<<< HEAD
 	@OneToMany(mappedBy = "doctors",fetch = FetchType.EAGER,cascade = CascadeType.ALL)
 	private Set<RDV> rendezVousDoctors;
+=======
+	@OneToMany(mappedBy = "doctors")
+	private List<RDV> rendezVousDoctors;
+	@OneToOne
+	private PathDoctors pathDoctors;
+>>>>>>> 76e4cd93b61adaace56b5625328272e4172cdac2
 
-	@ManyToMany
-	private List<MedicalPath> paths;
 
 
-	@XmlAttribute(name="id",required=true)
+	@XmlAttribute(name="id")
 	public int getId() {
 		return id;
 	}
@@ -135,13 +172,30 @@ public class User implements Serializable {
         this.language = language;
     }
 
+	@XmlElement(name="state")
+	public String getState() {
+		return state;
+	}
 
+	public void setState(String state) {
+		this.state = state;
+	}
 
-    public void setPaimentMethode(String paimentMethode) {
+	public void setPaimentMethode(String paimentMethode) {
         this.paimentMethode = paimentMethode;
     }
 
+<<<<<<< HEAD
 
+=======
+	public List<Expertise> getExpertiseList() {
+		return expertiseList;
+	}
+
+	public void setExpertiseList(List<Expertise> expertiseList) {
+		this.expertiseList = expertiseList;
+	}
+>>>>>>> 76e4cd93b61adaace56b5625328272e4172cdac2
 
 	public String getPassword() {
 		return password;
@@ -216,6 +270,7 @@ public class User implements Serializable {
 		this.phoneNumber = phoneNumber;
 	}
 
+	@XmlElement(name="email")
 	public String getEmail() {
 		return email;
 	}
@@ -232,7 +287,8 @@ public class User implements Serializable {
 		this.username = username;
 	}
 
-	public Address getAddress() {
+    @XmlElement(name="address")
+    public Address getAddress() {
 		return address;
 	}
 
@@ -240,13 +296,7 @@ public class User implements Serializable {
 		this.address = address;
 	}
 
-	public DoctorData getDoctorData() {
-		return doctorData;
-	}
 
-	public void setDoctorData(DoctorData doctorData) {
-		this.doctorData = doctorData;
-	}
 
 	public Set<Conversation> getConversations() {
 		return conversations;
@@ -264,6 +314,13 @@ public class User implements Serializable {
 		this.messageDoctors = messageDoctors;
 	}
 
+	public List<Transport> getTransportList() {
+		return transportList;
+	}
+
+	public void setTransportList(List<Transport> transportList) {
+		this.transportList = transportList;
+	}
 
 	@Override
 	public boolean equals(Object o) {
@@ -285,14 +342,31 @@ public class User implements Serializable {
 				Objects.equals(email, user.email) &&
 				Objects.equals(username, user.username) &&
 				Objects.equals(address, user.address) &&
-				Objects.equals(doctorData, user.doctorData) &&
 				Objects.equals(conversations, user.conversations) &&
 				Objects.equals(messageDoctors, user.messageDoctors) ;
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id, firstName, lastName, password, birthday, UrlPhoto, enabled, lastLogin, confirmation, confirmationToken, role, phoneNumber, email, username, address, doctorData, conversations, messageDoctors);
+		return Objects.hash(id, firstName, lastName, password, birthday, UrlPhoto, enabled, lastLogin, confirmation, confirmationToken, role, phoneNumber, email, username, address, conversations, messageDoctors);
+	}
+
+
+
+	public List<RDV> getRendezVous() {
+		return rendezVous;
+	}
+
+	public void setRendezVous(List<RDV> rendezVous) {
+		this.rendezVous = rendezVous;
+	}
+
+	public List<RDV> getRendezVousDoctors() {
+		return rendezVousDoctors;
+	}
+
+	public void setRendezVousDoctors(List<RDV> rendezVousDoctors) {
+		this.rendezVousDoctors = rendezVousDoctors;
 	}
 
 	@Override
@@ -301,9 +375,13 @@ public class User implements Serializable {
 				"id=" + id +
 				", firstName='" + firstName + '\'' +
 				", lastName='" + lastName + '\'' +
+				", UrlPhoto='" + UrlPhoto + '\'' +
+				", tariff='" + tariff + '\'' +
+				", paimentMethode='" + paimentMethode + '\'' +
+				", language='" + language + '\'' +
+				", speciality='" + speciality + '\'' +
 				", password='" + password + '\'' +
 				", birthday=" + birthday +
-				", UrlPhoto='" + UrlPhoto + '\'' +
 				", enabled=" + enabled +
 				", lastLogin=" + lastLogin +
 				", confirmation='" + confirmation + '\'' +
@@ -312,10 +390,15 @@ public class User implements Serializable {
 				", phoneNumber=" + phoneNumber +
 				", email='" + email + '\'' +
 				", username='" + username + '\'' +
+				", state='" + state + '\'' +
 				", address=" + address +
-				", doctorData=" + doctorData +
+				", expertiseList=" + expertiseList +
+				", transportList=" + transportList +
 				", conversations=" + conversations +
 				", messageDoctors=" + messageDoctors +
+				", rendezVous=" + rendezVous +
+				", rendezVousDoctors=" + rendezVousDoctors +
+				", pathDoctors=" + pathDoctors +
 				'}';
 	}
 }
