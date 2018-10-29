@@ -5,12 +5,15 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.print.Doc;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import EPIONE.JAVAEE.entities.Motif;
+import EPIONE.JAVAEE.entities.User;
 import EPIONE.JAVAEE.services.interfaces.MotifServiceLocal;
+
 
 @Path("/motif")
 @RequestScoped
@@ -33,17 +36,15 @@ public class MotifResource {
 
     @POST
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("/add/{description}")
-    public Response ajouterMotif(@PathParam(value = "description")String description) {
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("/add")
+    public Response ajouterMotif(Motif motif) {
 
-		System.out.println(description);
-		Motif motif = new Motif();
-		motif.setDescription(description);
-		ms.ajouterMotif(motif);
+        ms.ajouterMotif(motif);
 
-        return Response.ok().entity("New motif created "+description).build();
+        return Response.ok().entity("New motif created ").build();
 
-	}
+    }
 
     @PUT
     @Produces(MediaType.APPLICATION_JSON)
@@ -80,5 +81,38 @@ public class MotifResource {
 
     }
 
+    @DELETE
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/delete/{id}")
+    public Response affecterMotif(@PathParam(value = "id")int id) {
+
+        ms.supprimerMotif(id);
+        Motif motif =em.find(Motif.class,id);
+        if(motif==null)
+        {
+            return Response.ok().entity("The motif was deleted").build();
+        }
+        else
+        {
+            return Response.noContent().entity("The motif could not be deleted").build();
+        }
+
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/motifDoctor/{idDoc}")
+    public Response listerMotifByDocResource(@PathParam(value = "idDoc")int idDoc) {
+        User d = em.find(User.class,idDoc);
+
+        if(ms.listerMotifByDoc(d)!=null)
+        {
+            return Response.ok(ms.listerMotifByDoc(d)).build();
+        }
+        else
+        {
+            return Response.noContent().entity("No motif found ").build();
+        }
+    }
 
 }

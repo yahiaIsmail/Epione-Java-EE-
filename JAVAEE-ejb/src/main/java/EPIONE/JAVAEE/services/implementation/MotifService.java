@@ -8,11 +8,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
-import javax.ws.rs.Path;
 
-
-import EPIONE.JAVAEE.entities.DoctorData;
 import EPIONE.JAVAEE.entities.Motif;
+import EPIONE.JAVAEE.entities.User;
 import EPIONE.JAVAEE.services.interfaces.MotifServiceLocal;
 
 
@@ -32,7 +30,7 @@ public class MotifService implements MotifServiceLocal {
 	@Override
 	public void affecterMotifDoctor(int motifId, int docId) {
 		Motif m = em.find(Motif.class, motifId);
-		DoctorData d = em.find(DoctorData.class, docId);
+		User d = em.find(User.class, docId);
 		List<Motif> lstM = new ArrayList<Motif>() ;
 		lstM.add(m);
 		m.setDoctor(d);
@@ -49,22 +47,18 @@ public class MotifService implements MotifServiceLocal {
 	@Override
 	public int supprimerMotif(int motifId) {
 		Motif motif = em.find(Motif.class, motifId);
-		motif.setDoctor(null);
 		em.remove(motif);
 		return 0;
 	}
 
 
 	@Override
-	public List<String> listerMotifByDoc(DoctorData doc) {
-		TypedQuery<String> query = em.createQuery("select m.description from Motif m where doctor="+doc,String.class);
+	public List<String> listerMotifByDoc(User doc) {
+		TypedQuery<String> query = em.createQuery("select m.description from Motif m where m.doctor.id=:id",String.class);
+		query.setParameter("id", doc.getId());
 		List<String> lst = new ArrayList<String>() ;
 		lst = query.getResultList();
 
-		for(int i=0;i<lst.size();i++)
-		{
-			System.out.println(lst.get(i));
-		}
 		return lst;
 	}
 

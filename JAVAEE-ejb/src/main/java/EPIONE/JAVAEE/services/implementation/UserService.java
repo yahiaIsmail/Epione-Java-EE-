@@ -57,20 +57,37 @@ public class UserService implements UserServiceLocal, UserServiceRemote {
 
 
         //scrapping the first 2 pages
+<<<<<<< HEAD
         for (compteur = 1; compteur < 3; compteur++) {
             url = "https://www.doctolib.fr/" + speciality + "?page=" + compteur;
             try {
                 document = Jsoup.connect(url).userAgent("Mozilla").get();
                 tmp = document.select(".dl-search-result-presentation");
+=======
+        for (compteur=1; compteur<3; compteur++){
+            url = "https://www.doctolib.fr/"+speciality+"?page="+compteur;
+            try {
+                document = Jsoup.connect(url).userAgent("Mozilla").get();
+                tmp= document.select(".dl-search-result-presentation");
+>>>>>>> 647c65e3a4b42c06cbec66dfff54e2bafa42f0e0
 
             } catch (IOException e) {
                 e.printStackTrace();
             }
+<<<<<<< HEAD
 
             for (Element p : tmp) {
+=======
+
+            for(Element p : tmp)
+            {
+
+                fullName=p.select(".dl-search-result-name").text().split("\\s+");
+>>>>>>> 647c65e3a4b42c06cbec66dfff54e2bafa42f0e0
 
                 fullName = p.select(".dl-search-result-name").text().split("\\s+");
 
+<<<<<<< HEAD
 
                 //condition if the selected element is Doctor
                 if (fullName[0].equals("Dr")) {
@@ -80,18 +97,36 @@ public class UserService implements UserServiceLocal, UserServiceRemote {
                     lastName = "";
 
                     //put the name and last name in string :
+=======
+                //condition if the selected element is Doctor
+                if(fullName[0].equals("Dr")){
+
+                    //initialize the name and last name
+                    name=""; lastName="";
+
+                    //put the name and last name in string :
+
+                    //if the doctor has more than a word in his first name or more than a world in his last name
+                    if(fullName.length>2){
+>>>>>>> 647c65e3a4b42c06cbec66dfff54e2bafa42f0e0
 
                     //if the doctor has more than a word in his first name or more than a world in his last name
                     if (fullName.length > 2) {
 
 
+<<<<<<< HEAD
                         for (int x = 1; x < fullName.length - 1; x++) {
                             name += fullName[x] + " ";
+=======
+                        for(int x=1; x<fullName.length-1;x++){
+                            name+= fullName[x]+" ";
+>>>>>>> 647c65e3a4b42c06cbec66dfff54e2bafa42f0e0
 
                         }
                     }
                     //if the doctor has one word in his first name
                     else {
+<<<<<<< HEAD
                         name = fullName[1];
                     }
 
@@ -107,6 +142,23 @@ public class UserService implements UserServiceLocal, UserServiceRemote {
 
 
                 } else if (fullName[0].equals("Centre")) {
+=======
+                        name=fullName[1];
+                    }
+
+                    lastName=fullName[fullName.length-1];
+
+
+                    //fill the doctor's list
+                    listDoc.add(new User(name,lastName,
+                            p.select(".dl-search-result-subtitle").text(),//speciality scraped
+                            new Address(p.select(".dl-text").text()),
+                            "https:"+p.select(".dl-search-result-avatar").select("a").select("img").attr("src")
+                    )) ;
+
+
+                }else if(fullName[0].equals("Centre")){
+>>>>>>> 647c65e3a4b42c06cbec66dfff54e2bafa42f0e0
                     //  System.out.println("centre !");
                 }
 
@@ -147,9 +199,15 @@ public class UserService implements UserServiceLocal, UserServiceRemote {
             //Scrapping doctor's photo url
             String photoUrl = documentDocteur.select(".dl-profile-header-photo").select("img").attr("src");
 
+<<<<<<< HEAD
             System.out.println("********* display url photo *********");
             System.out.println("https:" + photoUrl);
             url = "https:" + photoUrl;
+=======
+            System.out.println("******* display url photo *******");
+            System.out.println("https:"+photoUrl);
+            url="https:"+photoUrl;
+>>>>>>> 647c65e3a4b42c06cbec66dfff54e2bafa42f0e0
             System.out.println("");
 
 
@@ -168,10 +226,10 @@ public class UserService implements UserServiceLocal, UserServiceRemote {
             tariff = tarif_moyenPaiment.get(0);
             moyenPaiement = tarif_moyenPaiment.get(1);
 
-            System.out.println("********* display tarif *********");
+            System.out.println("******* display tarif *******");
             System.out.println("tarif: " + tariff);
             System.out.println("");
-            System.out.println("********* display 'moyen de paiment' *********");
+            System.out.println("******* display 'moyen de paiment' *******");
             System.out.println("moyen de paiement: " + moyenPaiement);
             System.out.println("");
 
@@ -185,7 +243,7 @@ public class UserService implements UserServiceLocal, UserServiceRemote {
             for (Element expertiseElement : expertiseElements) {
                 expertises.add(new Expertise(expertiseElement.text()));
             }
-            System.out.println("********* display expertise *********");
+            System.out.println("******* display expertise *******");
             System.out.println(expertises);
             System.out.println("");
 
@@ -194,6 +252,7 @@ public class UserService implements UserServiceLocal, UserServiceRemote {
             Elements addressElements = documentDocteur.select(".dl-profile-card")
                     .select(".dl-profile-card-section")
                     .select(".dl-profile-doctor-place-map")
+<<<<<<< HEAD
                     .select("img");
             System.out.println("********* display address *********");
             // System.out.println(addressElements.attr("data-map-modal"));
@@ -202,6 +261,17 @@ public class UserService implements UserServiceLocal, UserServiceRemote {
             fullAddress = address.substring(address.indexOf("title") + 8, address.indexOf("lat") - 3);
             latitude = address.substring(address.indexOf("lat") + 5, address.indexOf("lng") - 2);
             longitude = address.substring(address.indexOf("lng") + 5, address.length() - 1);
+=======
+                    .select("img")
+                    ;
+            System.out.println("******* display address *******");
+            // System.out.println(addressElements.attr("data-map-modal"));
+            address=addressElements.attr("data-map-modal");
+
+            fullAddress=address.substring(address.indexOf("title")+8 ,address.indexOf("lat")-3 );
+            latitude=address.substring(address.indexOf("lat")+5 ,address.indexOf("lng")-2 );
+            longitude=address.substring(address.indexOf("lng")+5 ,address.length()-1 );
+>>>>>>> 647c65e3a4b42c06cbec66dfff54e2bafa42f0e0
 //            System.out.println("fulladdress:  "+ fullAddress);
 //            System.out.println("lat: "+ latitude);
 //            System.out.println("lng: "+ longitude);
@@ -211,7 +281,7 @@ public class UserService implements UserServiceLocal, UserServiceRemote {
             System.out.println("");
 
 
-            System.out.println("********* display image of the address *********");
+            System.out.println("******* display image of the address *******");
             System.out.println(addressElements.attr("src"));
             // imgAddress=address.attr("src");
             System.out.println("");
@@ -223,18 +293,28 @@ public class UserService implements UserServiceLocal, UserServiceRemote {
                     .select(".dl-profile-card-section")
                     .select(".dl-profile-card-content")
                     .select(".dl-profile-text")
+<<<<<<< HEAD
                     .select("span");
             for (Element moyenTrasnsportElement : moyenTrasnsportElements) {
                 if (moyenTrasnsportElement.text().substring(0, 3).equals("Bus") ||
 
                         moyenTrasnsportElement.text().substring(0, 5).equals("Métro")
                 ) {
+=======
+                    .select("span")
+                    ;
+            for (Element moyenTrasnsportElement: moyenTrasnsportElements){
+                if(moyenTrasnsportElement.text().substring(0,3).equals("Bus") ||
+
+                        moyenTrasnsportElement.text().substring(0,5).equals("Métro")
+                        ){
+>>>>>>> 647c65e3a4b42c06cbec66dfff54e2bafa42f0e0
                     //  System.out.println(moyenTrasnsportElement.text().substring(0,3));
                     moyenTrasnsport.add(new Transport(moyenTrasnsportElement.text()));
                 }
 
             }
-            System.out.println("********* display 'moyen de transport' *********");
+            System.out.println("******* display 'moyen de transport' *******");
             System.out.println(moyenTrasnsport);
             System.out.println("");
 
@@ -247,8 +327,13 @@ public class UserService implements UserServiceLocal, UserServiceRemote {
                     .select(".dl-profile-row-section")
                     .select(".dl-profile-row-section");
 
+<<<<<<< HEAD
             langues = langueParleesElements.first().text();
             System.out.println("********* display 'Langues parlées' *********");
+=======
+            langues=langueParleesElements.first().text();
+            System.out.println("******* display 'Langues parlées' *******");
+>>>>>>> 647c65e3a4b42c06cbec66dfff54e2bafa42f0e0
             System.out.println(langues);
             System.out.println("");
 
@@ -271,7 +356,11 @@ public class UserService implements UserServiceLocal, UserServiceRemote {
         doctor.setUrlPhoto(url);
         doctor.setTariff(tariff.replaceAll("Voir les tarifs", ""));
         doctor.setPaimentMethode(moyenPaiement);
+<<<<<<< HEAD
         doctor.setLanguage(langues.replaceAll("Langues parlées", ""));
+=======
+        doctor.setLanguage(langues.replaceAll("Langues parlées",""));
+>>>>>>> 647c65e3a4b42c06cbec66dfff54e2bafa42f0e0
         //   doctor.setAddress(addressSplited);
         //  doctor.setExpertiseList(expertises);
         doctor.setRole(Roles.Doctor);
