@@ -3,9 +3,11 @@
 	<persistence-unit name="JAVAEE-ejb">
 		<jta-data-source>java:/epionnedatabase</jta-data-source>
 		<properties>
+			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5InnoDBDialect"/>
 			<property name="hibernate.hbm2ddl.auto" value="update" />
 			<property name="hibernate.show_sql" value="true" />
 			<property name="hibernate.format_sql" value="true" />
+
 		</properties>
 	</persistence-unit>
 </persistence>

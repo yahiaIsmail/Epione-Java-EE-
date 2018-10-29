@@ -8,8 +8,9 @@ import EPIONE.JAVAEE.persistence.Todo;
 
 @Local
 public interface TodoServiceLocal {
-	
-	void create(Todo todo);
-	List<Todo> findAll();
+
+    void create(Todo todo);
+
+    List<Todo> findAll();
 
 }

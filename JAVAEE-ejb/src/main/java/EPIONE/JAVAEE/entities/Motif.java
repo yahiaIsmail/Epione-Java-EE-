@@ -11,78 +11,77 @@ import javax.persistence.ManyToOne;
 @Entity
 public class Motif implements Serializable {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
-	private String description;
-	
-	@ManyToOne
-	private DoctorData doctor;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+    private String description;
 
-	
+    @ManyToOne
+    private User doctor;
 
-	public int getId() {
-		return id;
-	}
 
-	public void setId(int id) {
-		this.id = id;
-	}
+    public int getId() {
+        return id;
+    }
 
-	public String getDescription() {
-		return description;
-	}
+    public void setId(int id) {
+        this.id = id;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public String getDescription() {
+        return description;
+    }
 
-	public DoctorData getDoctor() {
-		return doctor;
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-	public void setDoctor(DoctorData doctor) {
-		this.doctor = doctor;
-	}
+    public User getDoctor() {
+        return doctor;
+    }
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((description == null) ? 0 : description.hashCode());
-		result = prime * result + ((doctor == null) ? 0 : doctor.hashCode());
-		result = prime * result + id;
-		return result;
-	}
+    public void setDoctor(User doctor) {
+        this.doctor = doctor;
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Motif other = (Motif) obj;
-		if (description == null) {
-			if (other.description != null)
-				return false;
-		} else if (!description.equals(other.description))
-			return false;
-		if (doctor == null) {
-			if (other.doctor != null)
-				return false;
-		} else if (!doctor.equals(other.doctor))
-			return false;
-		if (id != other.id)
-			return false;
-		return true;
-	}
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((description == null) ? 0 : description.hashCode());
+        result = prime * result + ((doctor == null) ? 0 : doctor.hashCode());
+        result = prime * result + id;
+        return result;
+    }
 
-	@Override
-	public String toString() {
-		return "Motif [id=" + id + ", description=" + description + ", doctor=" + doctor + "]";
-	}
-	
-	
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Motif other = (Motif) obj;
+        if (description == null) {
+            if (other.description != null)
+                return false;
+        } else if (!description.equals(other.description))
+            return false;
+        if (doctor == null) {
+            if (other.doctor != null)
+                return false;
+        } else if (!doctor.equals(other.doctor))
+            return false;
+        if (id != other.id)
+            return false;
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "Motif [id=" + id + ", description=" + description + ", doctor=" + doctor + "]";
+    }
+
+
 }

@@ -1,5 +1,7 @@
 package EPIONE.JAVAEE.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Objects;
 
@@ -11,6 +13,7 @@ public class Transport {
 
     private String meansOfTransport;
 
+    @JsonIgnore
     @ManyToOne
     private User doctor;
 

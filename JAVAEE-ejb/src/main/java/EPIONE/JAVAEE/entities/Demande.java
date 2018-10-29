@@ -1,4 +1,5 @@
 package EPIONE.JAVAEE.entities;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
@@ -13,7 +14,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 //                            "where d.firstName=:firstName AND d.lastName=:lastName")
 //})
 @XmlRootElement
-public class Demande implements Serializable{
+public class Demande implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -23,7 +24,7 @@ public class Demande implements Serializable{
     private String state;
     private String speciality;
 
-    @XmlAttribute(name="id")
+    @XmlAttribute(name = "id")
     public int getId() {
         return id;
     }
@@ -32,7 +33,7 @@ public class Demande implements Serializable{
         this.id = id;
     }
 
-    @XmlElement(name="firstName")
+    @XmlElement(name = "firstName")
     public String getFirstName() {
         return firstName;
     }
@@ -40,7 +41,8 @@ public class Demande implements Serializable{
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
-    @XmlElement(name="lastName")
+
+    @XmlElement(name = "lastName")
     public String getLastName() {
         return lastName;
     }
@@ -48,7 +50,8 @@ public class Demande implements Serializable{
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
-    @XmlElement(name="email")
+
+    @XmlElement(name = "email")
     public String getEmail() {
         return email;
     }
@@ -56,7 +59,8 @@ public class Demande implements Serializable{
     public void setEmail(String email) {
         this.email = email;
     }
-    @XmlElement(name="state")
+
+    @XmlElement(name = "state")
     public String getState() {
         return state;
     }
@@ -64,7 +68,8 @@ public class Demande implements Serializable{
     public void setState(String state) {
         this.state = state;
     }
-    @XmlElement(name="speciality")
+
+    @XmlElement(name = "speciality")
     public String getSpeciality() {
         return speciality;
     }

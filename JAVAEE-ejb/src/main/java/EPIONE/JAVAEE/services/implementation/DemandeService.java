@@ -20,27 +20,27 @@ public class DemandeService implements DemandeServiceLocal, DemandeServiceRemote
 
     @PersistenceContext(unitName = "JAVAEE-ejb")
     EntityManager em;
+
     @Override
     public int addDemande(Demande demande) {
-            em.persist(demande);
-            return demande.getId();
+        em.persist(demande);
+        return demande.getId();
     }
 
     @Override
     public List<Demande> getAllDemandes() {
-        List<Demande> d= new ArrayList<>();
-        List<Demande> d1= new ArrayList<>();
-        return  em.createQuery("select d from Demande d",Demande.class).getResultList();
+        List<Demande> d = new ArrayList<>();
+        List<Demande> d1 = new ArrayList<>();
+        return em.createQuery("select d from Demande d", Demande.class).getResultList();
 
     }
-
 
 
     @Override
     public void deleteDemande(Demande demande) {
         System.out.println(demande);
         //em.remove(em.contains(entity) ? entity : em.merge(entity));
-            em.remove(em.contains(demande) ? demande : em.merge(demande));
+        em.remove(em.contains(demande) ? demande : em.merge(demande));
 
     }
 
@@ -49,14 +49,14 @@ public class DemandeService implements DemandeServiceLocal, DemandeServiceRemote
 //     return (Collection<Demande>) em.createNamedQuery("getDemande")
 //             .setParameter("firstName",demande.getFirstName()).setParameter("lastName",demande.getLastName())
 //                .getResultList();
-        return  (List<Demande>)em.createQuery("select d from Demande d where d.email=:email",Demande.class)
-                .setParameter("email",demande.getEmail())
+        return (List<Demande>) em.createQuery("select d from Demande d where d.email=:email", Demande.class)
+                .setParameter("email", demande.getEmail())
                 .getResultList();
 
     }
 
     @Override
     public Demande getDemandeById(int idDemande) {
-        return em.find(Demande.class,idDemande);
+        return em.find(Demande.class, idDemande);
     }
 }

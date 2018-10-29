@@ -30,19 +30,17 @@ public class UserResource {
     UserServiceLocal userServiceLocal;
 
 
-
-
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/doctors/{speciality}")
     public List<User> scrapingAllDoctors(
-            @PathParam(value = "speciality")String speciality
-            )  {
-        List<User> listDoc= new ArrayList<User>();
-        listDoc=userServiceLocal.scrapingAllDoctors(speciality);
-        if(listDoc.isEmpty())
-        {return null;}
-        else
+            @PathParam(value = "speciality") String speciality
+    ) {
+        List<User> listDoc = new ArrayList<User>();
+        listDoc = userServiceLocal.scrapingAllDoctors(speciality);
+        if (listDoc.isEmpty()) {
+            return null;
+        } else
             return listDoc;
 
     }
@@ -60,65 +58,62 @@ public class UserResource {
     @Path("/adddoctor")
     @Consumes(MediaType.APPLICATION_XML)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response addDoctor(User doc){
+    public Response addDoctor(User doc) {
 
-        String password=UUID.randomUUID().toString();
+        String password = UUID.randomUUID().toString();
 
         Response.ResponseBuilder builder = null;
         //System.out.println(userServiceLocal.getDoctor(doc));
-        if(userServiceLocal.getDoctor(doc).isEmpty()) {
-            try{
-                int id =userServiceLocal.addDoctors(doc.getFirstName(),
+        if (userServiceLocal.getDoctor(doc).isEmpty()) {
+            try {
+                int id = userServiceLocal.addDoctors(doc.getFirstName(),
                         doc.getLastName(),
                         doc.getSpeciality(),
                         doc.getState(),
                         doc.getEmail(),
                         password
                 );
-                if(id==-1)
-                {
+                if (id == -1) {
                     sendMail(doc.getEmail(),
                             "Account not added",
                             "you're account has not been added please check your informations in your demand");
                     Map<String, String> responseObj = new HashMap<>();
                     responseObj.put("Unvalid data:", "cannot scrap doctor, please enter a valid doctor data ");
                     builder = Response.status(Response.Status.BAD_REQUEST).entity(responseObj);
-                }
-                else{
+                } else {
 
                     sendMail(doc.getEmail(),
                             "Account added",
-                            "you're account has been added your password is:"+ password);
+                            "you're account has been added your password is:" + password);
 
-                    builder= Response.ok(id);
+                    builder = Response.ok(id);
                 }
 
-            }
-            catch (Exception e){
+            } catch (Exception e) {
 
                 Map<String, String> responseObj = new HashMap<>();
                 responseObj.put("error", e.getMessage());
                 builder = Response.status(Response.Status.BAD_REQUEST).entity(responseObj);
             }
-        }
-        else {
+        } else {
             Map<String, String> responseObj = new HashMap<>();
             responseObj.put("Duplicated: ", " Doctor already registred !");
             builder = Response.status(Response.Status.BAD_REQUEST).entity(responseObj);
         }
 
 
-        return  builder.build();
+        return builder.build();
 
     }
+
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/registereddoctors")
-    public List<User> displayRegistredDoctors(){
+    public List<User> displayRegistredDoctors() {
         return userServiceLocal.getAllDoctors();
     }
 
-    public void sendMail(String mailTo,String subject, String body){
+    public void sendMail(String mailTo, String subject, String body) {
         String returnStatement = null;
         Properties properties = new Properties();
         properties.put("mail.smtp.host", "smtp.gmail.com");

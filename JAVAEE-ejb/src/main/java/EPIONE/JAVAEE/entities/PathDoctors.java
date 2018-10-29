@@ -8,7 +8,7 @@ import java.util.List;
 public class PathDoctors implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-   private int id;
+    private int id;
     private int ordre;
     @ManyToOne
     private MedicalPath path;
