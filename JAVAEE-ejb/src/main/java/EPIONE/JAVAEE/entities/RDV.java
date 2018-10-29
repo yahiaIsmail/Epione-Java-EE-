@@ -1,7 +1,7 @@
 package EPIONE.JAVAEE.entities;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -12,7 +12,6 @@ public class RDV implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	@Temporal(TemporalType.TIMESTAMP)
 	private Date dateRDV;
 	private boolean confirmationDoc;
 	private boolean confirmationPatient;
@@ -72,6 +71,16 @@ public class RDV implements Serializable {
 		this.status = status;
 	}
 
+
+
+	public MedicalPath getMedicalPath() {
+		return medicalPath;
+	}
+
+	public void setMedicalPath(MedicalPath medicalPath) {
+		this.medicalPath = medicalPath;
+	}
+
 	public User getUsers() {
 		return users;
 	}
@@ -95,15 +104,6 @@ public class RDV implements Serializable {
 	public void setMotif(Motif motif) {
 		this.motif = motif;
 	}
-
-	public MedicalPath getMedicalPath() {
-		return medicalPath;
-	}
-
-	public void setMedicalPath(MedicalPath medicalPath) {
-		this.medicalPath = medicalPath;
-	}
-
 
 
 

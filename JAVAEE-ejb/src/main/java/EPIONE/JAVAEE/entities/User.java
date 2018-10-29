@@ -12,17 +12,14 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 import javax.persistence.*;
-import javax.transaction.Transactional;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
 @XmlRootElement
-@Transactional
 public class User implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -54,12 +51,10 @@ public class User implements Serializable {
 	public User(String firstName){
 		this.firstName=firstName;
 	}
-
 	public User(String firstName, String lastName,String speciality,  String urlPhoto) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.speciality=speciality;
-
 		UrlPhoto = urlPhoto;
 
 	}
@@ -76,12 +71,15 @@ public class User implements Serializable {
 	private Address address;
 
 
-	@OneToMany(mappedBy = "doctor")
+	@OneToMany(mappedBy = "doctor", fetch = FetchType.EAGER)
 	private List<Expertise> expertiseList= new ArrayList<>();
 
 
-	@OneToMany(mappedBy = "doctor")
+	@OneToMany(mappedBy = "doctor", fetch = FetchType.EAGER )
 	private List<Transport> transportList ;
+
+	@ManyToOne
+	private DoctorData doctorData;
 
 	@ManyToMany
 	private List<Conversation> conversations;
@@ -91,7 +89,6 @@ public class User implements Serializable {
 
 	@OneToMany(mappedBy = "users")
 	private List<RDV> rendezVous;
-
 
 	@OneToMany(mappedBy = "doctors")
 	private List<RDV> rendezVousDoctors;
@@ -170,7 +167,6 @@ public class User implements Serializable {
         this.paimentMethode = paimentMethode;
     }
 
-
 	public List<Expertise> getExpertiseList() {
 		return expertiseList;
 	}
@@ -178,7 +174,6 @@ public class User implements Serializable {
 	public void setExpertiseList(List<Expertise> expertiseList) {
 		this.expertiseList = expertiseList;
 	}
-
 
 	public String getPassword() {
 		return password;
@@ -279,7 +274,29 @@ public class User implements Serializable {
 		this.address = address;
 	}
 
+	public DoctorData getDoctorData() {
+		return doctorData;
+	}
 
+	public void setDoctorData(DoctorData doctorData) {
+		this.doctorData = doctorData;
+	}
+
+	public List<Conversation> getConversations() {
+		return conversations;
+	}
+
+	public void setConversations(List<Conversation> conversations) {
+		this.conversations = conversations;
+	}
+
+	public List<MessageDoctor> getMessageDoctors() {
+		return messageDoctors;
+	}
+
+	public void setMessageDoctors(List<MessageDoctor> messageDoctors) {
+		this.messageDoctors = messageDoctors;
+	}
 
 	public List<Transport> getTransportList() {
 		return transportList;
@@ -309,13 +326,14 @@ public class User implements Serializable {
 				Objects.equals(email, user.email) &&
 				Objects.equals(username, user.username) &&
 				Objects.equals(address, user.address) &&
+				Objects.equals(doctorData, user.doctorData) &&
 				Objects.equals(conversations, user.conversations) &&
 				Objects.equals(messageDoctors, user.messageDoctors) ;
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id, firstName, lastName, password, birthday, UrlPhoto, enabled, lastLogin, confirmation, confirmationToken, role, phoneNumber, email, username, address, conversations, messageDoctors);
+		return Objects.hash(id, firstName, lastName, password, birthday, UrlPhoto, enabled, lastLogin, confirmation, confirmationToken, role, phoneNumber, email, username, address, doctorData, conversations, messageDoctors);
 	}
 
 
@@ -361,6 +379,7 @@ public class User implements Serializable {
 				", address=" + address +
 				", expertiseList=" + expertiseList +
 				", transportList=" + transportList +
+				", doctorData=" + doctorData +
 				", conversations=" + conversations +
 				", messageDoctors=" + messageDoctors +
 				", rendezVous=" + rendezVous +

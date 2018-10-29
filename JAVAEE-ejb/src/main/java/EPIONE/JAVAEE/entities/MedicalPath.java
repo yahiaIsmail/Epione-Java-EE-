@@ -16,9 +16,9 @@ public class MedicalPath implements Serializable {
 	private String justification;
 	private Boolean active;
 	private Date createdAt;
+	
 
-
-
+	
 	@OneToOne
 	private RDV rendezVous;
 
@@ -65,7 +65,7 @@ public class MedicalPath implements Serializable {
 				", status=" + status +
 				", justification='" + justification + '\'' +
 				", active=" + active +
-
+				", rendezVous=" + rendezVous +
 				", doctorPath=" + doctorPath +
 				'}';
 	}

@@ -15,11 +15,11 @@ public class Motif implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	private String description;
-
+	
 	@ManyToOne
-	private User doctor;
+	private DoctorData doctor;
 
-
+	
 
 	public int getId() {
 		return id;
@@ -37,11 +37,11 @@ public class Motif implements Serializable {
 		this.description = description;
 	}
 
-	public User getDoctor() {
+	public DoctorData getDoctor() {
 		return doctor;
 	}
 
-	public void setDoctor(User doctor) {
+	public void setDoctor(DoctorData doctor) {
 		this.doctor = doctor;
 	}
 
@@ -83,6 +83,6 @@ public class Motif implements Serializable {
 	public String toString() {
 		return "Motif [id=" + id + ", description=" + description + ", doctor=" + doctor + "]";
 	}
-
-
+	
+	
 }

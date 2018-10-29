@@ -4,8 +4,9 @@ import java.util.List;
 
 import javax.ejb.Local;
 
+
+import EPIONE.JAVAEE.entities.DoctorData;
 import EPIONE.JAVAEE.entities.Motif;
-import EPIONE.JAVAEE.entities.User;
 
 @Local
 public interface MotifServiceLocal {
@@ -14,6 +15,5 @@ public interface MotifServiceLocal {
 	public void affecterMotifDoctor(int motifId, int docId);
 	public int modifierMotif(int motifId, String desc);
 	public int supprimerMotif(int motifId);
-	public List<String> listerMotifByDoc(User user);
-
+	public List<String> listerMotifByDoc(DoctorData doc);
 }
