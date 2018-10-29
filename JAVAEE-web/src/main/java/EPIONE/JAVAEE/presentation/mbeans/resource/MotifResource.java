@@ -69,14 +69,14 @@ public class MotifResource {
 
         ms.affecterMotifDoctor(idMotif,idDoc);
         Motif motif =em.find(Motif.class,idMotif);
-        if(motif.getDoctor()!=null)
-        {
+     //   if(motif.getDoctor()!=null)
+       // {
             return Response.ok().entity("The motif "+idMotif+" is affected to doctor "+idDoc).build();
-        }
-        else
-        {
-            return Response.noContent().entity("The motif "+idMotif+" is not affected to doctor "+idDoc).build();
-        }
+        //}
+        //else
+        //{
+        //    return Response.noContent().entity("The motif "+idMotif+" is not affected to doctor "+idDoc).build();
+        //}
 
     }
 

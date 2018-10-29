@@ -78,9 +78,6 @@ public class User implements Serializable {
 	@OneToMany(mappedBy = "doctor", fetch = FetchType.EAGER )
 	private List<Transport> transportList ;
 
-	@ManyToOne
-	private DoctorData doctorData;
-
 	@ManyToMany
 	private List<Conversation> conversations;
 
@@ -274,13 +271,7 @@ public class User implements Serializable {
 		this.address = address;
 	}
 
-	public DoctorData getDoctorData() {
-		return doctorData;
-	}
 
-	public void setDoctorData(DoctorData doctorData) {
-		this.doctorData = doctorData;
-	}
 
 	public List<Conversation> getConversations() {
 		return conversations;
@@ -326,14 +317,13 @@ public class User implements Serializable {
 				Objects.equals(email, user.email) &&
 				Objects.equals(username, user.username) &&
 				Objects.equals(address, user.address) &&
-				Objects.equals(doctorData, user.doctorData) &&
 				Objects.equals(conversations, user.conversations) &&
 				Objects.equals(messageDoctors, user.messageDoctors) ;
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id, firstName, lastName, password, birthday, UrlPhoto, enabled, lastLogin, confirmation, confirmationToken, role, phoneNumber, email, username, address, doctorData, conversations, messageDoctors);
+		return Objects.hash(id, firstName, lastName, password, birthday, UrlPhoto, enabled, lastLogin, confirmation, confirmationToken, role, phoneNumber, email, username, address, conversations, messageDoctors);
 	}
 
 
@@ -379,7 +369,6 @@ public class User implements Serializable {
 				", address=" + address +
 				", expertiseList=" + expertiseList +
 				", transportList=" + transportList +
-				", doctorData=" + doctorData +
 				", conversations=" + conversations +
 				", messageDoctors=" + messageDoctors +
 				", rendezVous=" + rendezVous +
