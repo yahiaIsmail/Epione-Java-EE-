@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.sql.Date;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 import javax.persistence.*;
 
@@ -15,7 +16,7 @@ public class Conversation implements Serializable {
     private Date dateCreated;
 
     @ManyToMany(mappedBy = "conversations", fetch = FetchType.EAGER)
-    private List<User> users;
+    private Set<User> users;
 
     @OneToMany(mappedBy = "conversation")
     private List<SentMessage> sentMessages;

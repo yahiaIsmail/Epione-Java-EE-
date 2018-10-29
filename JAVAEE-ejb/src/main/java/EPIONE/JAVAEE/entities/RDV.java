@@ -1,5 +1,7 @@
 package EPIONE.JAVAEE.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -19,9 +21,11 @@ public class RDV implements Serializable {
     private Status status;
 
 
+    @JsonIgnore
     @ManyToOne
     private User users;//patient
 
+    @JsonIgnore
     @ManyToOne
     private User doctors;
 

@@ -75,12 +75,12 @@ public class User implements Serializable {
     private Address address;
 
 
-    @OneToMany(mappedBy = "doctor")
-    private List<Expertise> expertiseList = new ArrayList<>();
+    @OneToMany(mappedBy = "doctor",fetch = FetchType.EAGER)
+    private Set<Expertise> expertiseList ;
 
 
-    @OneToMany(mappedBy = "doctor")
-    private List<Transport> transportList;
+    @OneToMany(mappedBy = "doctor",fetch = FetchType.EAGER)
+    private Set<Transport> transportList;
 
     @ManyToMany
     private List<Conversation> conversations;
@@ -88,12 +88,12 @@ public class User implements Serializable {
     @OneToMany(mappedBy = "user")
     private List<MessageDoctor> messageDoctors;
 
-    @OneToMany(mappedBy = "users")
-    private List<RDV> rendezVous;
+    @OneToMany(mappedBy = "users", fetch = FetchType.EAGER)
+    private Set<RDV> rendezVous;
 
 
-    @OneToMany(mappedBy = "doctors")
-    private List<RDV> rendezVousDoctors;
+    @OneToMany(mappedBy = "doctors",fetch= FetchType.EAGER)
+    private Set<RDV> rendezVousDoctors;
     @OneToOne
     private PathDoctors pathDoctors;
 
@@ -170,15 +170,17 @@ public class User implements Serializable {
         this.paimentMethode = paimentMethode;
     }
 
-
-    public List<Expertise> getExpertiseList() {
+    public Set<Expertise> getExpertiseList() {
         return expertiseList;
     }
 
-    public void setExpertiseList(List<Expertise> expertiseList) {
+    public void setExpertiseList(Set<Expertise> expertiseList) {
         this.expertiseList = expertiseList;
     }
 
+    public void setTransportList(Set<Transport> transportList) {
+        this.transportList = transportList;
+    }
 
     public String getPassword() {
         return password;
@@ -280,12 +282,8 @@ public class User implements Serializable {
     }
 
 
-    public List<Transport> getTransportList() {
+    public Set<Transport> getTransportList() {
         return transportList;
-    }
-
-    public void setTransportList(List<Transport> transportList) {
-        this.transportList = transportList;
     }
 
     @Override
@@ -317,20 +315,19 @@ public class User implements Serializable {
         return Objects.hash(id, firstName, lastName, password, birthday, UrlPhoto, enabled, lastLogin, confirmation, confirmationToken, role, phoneNumber, email, username, address, conversations, messageDoctors);
     }
 
-
-    public List<RDV> getRendezVous() {
+    public Set<RDV> getRendezVous() {
         return rendezVous;
     }
 
-    public void setRendezVous(List<RDV> rendezVous) {
+    public void setRendezVous(Set<RDV> rendezVous) {
         this.rendezVous = rendezVous;
     }
 
-    public List<RDV> getRendezVousDoctors() {
+    public Set<RDV> getRendezVousDoctors() {
         return rendezVousDoctors;
     }
 
-    public void setRendezVousDoctors(List<RDV> rendezVousDoctors) {
+    public void setRendezVousDoctors(Set<RDV> rendezVousDoctors) {
         this.rendezVousDoctors = rendezVousDoctors;
     }
 
