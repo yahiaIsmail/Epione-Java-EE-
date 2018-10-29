@@ -23,7 +23,7 @@ public class MotifResource {
     EntityManager em;
 
     @EJB
-    MotifServiceLocal ms ;
+    MotifServiceLocal ms;
 
 
     @GET
@@ -49,34 +49,28 @@ public class MotifResource {
     @PUT
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/update/{id}/{description}")
-    public Response modifierMotif(@PathParam(value = "id")int id, @PathParam(value = "description")String description) {
+    public Response modifierMotif(@PathParam(value = "id") int id, @PathParam(value = "description") String description) {
 
-        ms.modifierMotif(id,description);
-        Motif motif = em.find(Motif.class,id);
-        if(motif.getDescription().equals(description))
-        {
-            return Response.ok().entity("The description is now "+description).build();
-        }
-        else
-        {
-            return Response.noContent().entity("The description didn't change to "+description).build();
+        ms.modifierMotif(id, description);
+        Motif motif = em.find(Motif.class, id);
+        if (motif.getDescription().equals(description)) {
+            return Response.ok().entity("The description is now " + description).build();
+        } else {
+            return Response.noContent().entity("The description didn't change to " + description).build();
         }
     }
 
     @PUT
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/affect/{idMotif}/{idDoc}")
-    public Response affecterMotif(@PathParam(value = "idMotif")int idMotif,@PathParam(value = "idDoc")int idDoc) {
+    public Response affecterMotif(@PathParam(value = "idMotif") int idMotif, @PathParam(value = "idDoc") int idDoc) {
 
-        ms.affecterMotifDoctor(idMotif,idDoc);
-        Motif motif =em.find(Motif.class,idMotif);
-        if(motif.getDoctor()!=null)
-        {
-            return Response.ok().entity("The motif "+idMotif+" is affected to doctor "+idDoc).build();
-        }
-        else
-        {
-            return Response.noContent().entity("The motif "+idMotif+" is not affected to doctor "+idDoc).build();
+        ms.affecterMotifDoctor(idMotif, idDoc);
+        Motif motif = em.find(Motif.class, idMotif);
+        if (motif.getDoctor() != null) {
+            return Response.ok().entity("The motif " + idMotif + " is affected to doctor " + idDoc).build();
+        } else {
+            return Response.noContent().entity("The motif " + idMotif + " is not affected to doctor " + idDoc).build();
         }
 
     }
@@ -84,16 +78,13 @@ public class MotifResource {
     @DELETE
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/delete/{id}")
-    public Response affecterMotif(@PathParam(value = "id")int id) {
+    public Response affecterMotif(@PathParam(value = "id") int id) {
 
         ms.supprimerMotif(id);
-        Motif motif =em.find(Motif.class,id);
-        if(motif==null)
-        {
+        Motif motif = em.find(Motif.class, id);
+        if (motif == null) {
             return Response.ok().entity("The motif was deleted").build();
-        }
-        else
-        {
+        } else {
             return Response.noContent().entity("The motif could not be deleted").build();
         }
 
@@ -102,15 +93,12 @@ public class MotifResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/motifDoctor/{idDoc}")
-    public Response listerMotifByDocResource(@PathParam(value = "idDoc")int idDoc) {
-        User d = em.find(User.class,idDoc);
+    public Response listerMotifByDocResource(@PathParam(value = "idDoc") int idDoc) {
+        User d = em.find(User.class, idDoc);
 
-        if(ms.listerMotifByDoc(d)!=null)
-        {
+        if (ms.listerMotifByDoc(d) != null) {
             return Response.ok(ms.listerMotifByDoc(d)).build();
-        }
-        else
-        {
+        } else {
             return Response.noContent().entity("No motif found ").build();
         }
     }

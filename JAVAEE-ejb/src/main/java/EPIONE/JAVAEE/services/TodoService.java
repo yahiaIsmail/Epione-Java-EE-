@@ -10,19 +10,20 @@ import EPIONE.JAVAEE.persistence.Todo;
 
 @Stateless
 public class TodoService implements TodoServiceRemote, TodoServiceLocal {
-	
-	@PersistenceContext
-	private EntityManager em;
+
+    @PersistenceContext
+    private EntityManager em;
 
     public TodoService() {
     }
 
-	public void create(Todo todo) {
-		em.persist(todo);
-	}
+    public void create(Todo todo) {
+        em.persist(todo);
+    }
 
-	public List<Todo> findAll() {
-		return em.createQuery("from Todo", Todo.class).getResultList();
-	}
+    public List<Todo> findAll() {
+        return em.createQuery("from Todo", Todo.class).getResultList();
+    }
 
 }
+

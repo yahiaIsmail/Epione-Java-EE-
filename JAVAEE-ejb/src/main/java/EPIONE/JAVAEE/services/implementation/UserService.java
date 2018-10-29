@@ -251,7 +251,6 @@ public class UserService implements UserServiceLocal, UserServiceRemote {
             System.out.println(langues);
             System.out.println("");
 
-
         } catch (IOException e) {
             e.printStackTrace();
 

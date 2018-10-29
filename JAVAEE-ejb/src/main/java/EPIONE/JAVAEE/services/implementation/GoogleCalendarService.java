@@ -16,15 +16,15 @@ public class GoogleCalendarService implements GoogleCalendarServiceLocal {
 
     @Override
     public void synchronizeGoogleCalendar(String adr) throws IOException {
-        adr ="skanderellouze94@gmail.com";
+        adr = "skanderellouze94@gmail.com";
         Event event = new Event()
                 .setSummary("Google I/O 2015")
                 .setLocation("800 Howard St., San Francisco, CA 94103")
                 .setDescription("A chance to hear more about Google's developer products.");
 
-     //   Calendar service = new Calendar.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT))
-     //           .setApplicationName(APPLICATION_NAME)
-     //           .build();
+        //   Calendar service = new Calendar.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT))
+        //           .setApplicationName(APPLICATION_NAME)
+        //           .build();
 
         String calendarId = "primary";
         //event = service.events().insert(calendarId, event).execute();

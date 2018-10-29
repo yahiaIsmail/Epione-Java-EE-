@@ -12,3 +12,4 @@ public interface GoogleCalendarServiceLocal {
 
     public void synchronizeGoogleCalendar(String adr) throws IOException;
 }
+

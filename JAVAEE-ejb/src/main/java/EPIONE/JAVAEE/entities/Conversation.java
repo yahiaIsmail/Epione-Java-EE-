@@ -9,77 +9,76 @@ import javax.persistence.*;
 
 @Entity
 public class Conversation implements Serializable {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
-	private Date dateCreated;
-	
-	@ManyToMany(mappedBy = "conversations",fetch = FetchType.EAGER)
-	private List<User>users;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+    private Date dateCreated;
 
-	@OneToMany(mappedBy="conversation")
-	private List<SentMessage> sentMessages;
-	
-	@OneToMany(mappedBy="conversation")
-	private List<RecievedMessage> recievedMessages;
+    @ManyToMany(mappedBy = "conversations", fetch = FetchType.EAGER)
+    private List<User> users;
 
-	public int getId() {
-		return id;
-	}
+    @OneToMany(mappedBy = "conversation")
+    private List<SentMessage> sentMessages;
 
-	public void setId(int id) {
-		this.id = id;
-	}
+    @OneToMany(mappedBy = "conversation")
+    private List<RecievedMessage> recievedMessages;
 
-	public Date getDateCreated() {
-		return dateCreated;
-	}
+    public int getId() {
+        return id;
+    }
 
-	public void setDateCreated(Date dateCreated) {
-		this.dateCreated = dateCreated;
-	}
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public Date getDateCreated() {
+        return dateCreated;
+    }
+
+    public void setDateCreated(Date dateCreated) {
+        this.dateCreated = dateCreated;
+    }
 
 
+    public List<SentMessage> getSentMessages() {
+        return sentMessages;
+    }
 
-	public List<SentMessage> getSentMessages() {
-		return sentMessages;
-	}
+    public void setSentMessages(List<SentMessage> sentMessages) {
+        this.sentMessages = sentMessages;
+    }
 
-	public void setSentMessages(List<SentMessage> sentMessages) {
-		this.sentMessages = sentMessages;
-	}
+    public List<RecievedMessage> getRecievedMessages() {
+        return recievedMessages;
+    }
 
-	public List<RecievedMessage> getRecievedMessages() {
-		return recievedMessages;
-	}
+    public void setRecievedMessages(List<RecievedMessage> recievedMessages) {
+        this.recievedMessages = recievedMessages;
+    }
 
-	public void setRecievedMessages(List<RecievedMessage> recievedMessages) {
-		this.recievedMessages = recievedMessages;
-	}
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Conversation that = (Conversation) o;
+        return id == that.id &&
+                Objects.equals(dateCreated, that.dateCreated) &&
+                Objects.equals(sentMessages, that.sentMessages) &&
+                Objects.equals(recievedMessages, that.recievedMessages);
+    }
 
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
-		Conversation that = (Conversation) o;
-		return id == that.id &&
-				Objects.equals(dateCreated, that.dateCreated) &&
-				Objects.equals(sentMessages, that.sentMessages) &&
-				Objects.equals(recievedMessages, that.recievedMessages);
-	}
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, dateCreated, sentMessages, recievedMessages);
+    }
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(id, dateCreated, sentMessages, recievedMessages);
-	}
-
-	@Override
-	public String toString() {
-		return "Conversation{" +
-				"id=" + id +
-				", dateCreated=" + dateCreated +
-				", sentMessages=" + sentMessages +
-				", recievedMessages=" + recievedMessages +
-				'}';
-	}
+    @Override
+    public String toString() {
+        return "Conversation{" +
+                "id=" + id +
+                ", dateCreated=" + dateCreated +
+                ", sentMessages=" + sentMessages +
+                ", recievedMessages=" + recievedMessages +
+                '}';
+    }
 }

@@ -11,5 +11,5 @@ import java.util.Collection;
 
 @Local
 public interface RdvJourServiceLocal {
-    public Collection<RDV> ProgrammeJourneJ(int docId,int year, int month, int day);
+    public Collection<RDV> ProgrammeJourneJ(int docId, int year, int month, int day);
 }

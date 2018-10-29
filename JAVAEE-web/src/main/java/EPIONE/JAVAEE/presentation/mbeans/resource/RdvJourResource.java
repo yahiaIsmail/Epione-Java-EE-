@@ -28,7 +28,7 @@ public class RdvJourResource {
     EntityManager em;
 
     @EJB
-    RdvJourServiceLocal rs ;
+    RdvJourServiceLocal rs;
 
     @GET
     @Produces(MediaType.TEXT_PLAIN)
@@ -41,19 +41,16 @@ public class RdvJourResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/programmeJourne/{id}/{year}/{month}/{day}")
-    public Response ProgrammeJourne(@PathParam(value = "id")int id,
-                                    @PathParam(value = "year")int year,
-                                    @PathParam(value = "month")int month,
-                                    @PathParam(value = "day")int day) {
+    public Response ProgrammeJourne(@PathParam(value = "id") int id,
+                                    @PathParam(value = "year") int year,
+                                    @PathParam(value = "month") int month,
+                                    @PathParam(value = "day") int day) {
 
 
-        if(rs.ProgrammeJourneJ(id,year,month,day)!=null)
-        {
-            return Response.ok(rs.ProgrammeJourneJ(id,year,month,day)).build();
-        }
-        else
-        {
-            return Response.ok().entity("No appointment "+year+"/"+month+"/"+day).build();
+        if (rs.ProgrammeJourneJ(id, year, month, day) != null) {
+            return Response.ok(rs.ProgrammeJourneJ(id, year, month, day)).build();
+        } else {
+            return Response.ok().entity("No appointment " + year + "/" + month + "/" + day).build();
         }
 
     }
@@ -61,8 +58,8 @@ public class RdvJourResource {
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     @Path("/programmeJourneJ/{id}")
-    public Response ProgrammeJourneJ(@PathParam(value = "id")int id) throws IOException {
-    //rs.generateExcel(id);
+    public Response ProgrammeJourneJ(@PathParam(value = "id") int id) throws IOException {
+        //rs.generateExcel(id);
         return Response.ok().entity("okk").build();
     }
 }

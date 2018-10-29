@@ -24,45 +24,44 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @Transactional
 public class User implements Serializable {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
-	private String firstName;
-	private String lastName;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+    private String firstName;
+    private String lastName;
     private String UrlPhoto;
     private String tariff;
     private String paimentMethode;
     private String language;
     private String speciality;
     private String password;
-	private Date birthday;
-	private boolean enabled;
-	private Timestamp lastLogin;
-	private String confirmation;
-	private String confirmationToken;
-	private Roles role;
-	private int phoneNumber;
-	private String email;
-	private String username;
-	private String state;
+    private Date birthday;
+    private boolean enabled;
+    private Timestamp lastLogin;
+    private String confirmation;
+    private String confirmationToken;
+    private Roles role;
+    private int phoneNumber;
+    private String email;
+    private String username;
+    private String state;
 
 
+    public User() {
+    }
 
-	public User() {
-	}
+    public User(String firstName) {
+        this.firstName = firstName;
+    }
 
-	public User(String firstName){
-		this.firstName=firstName;
-	}
+    public User(String firstName, String lastName, String speciality, String urlPhoto) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.speciality = speciality;
 
-	public User(String firstName, String lastName,String speciality,  String urlPhoto) {
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.speciality=speciality;
+        UrlPhoto = urlPhoto;
 
-		UrlPhoto = urlPhoto;
-
-	}
+    }
 
     public User(String firstName, String lastName, String speciality, Address address, String urlPhoto) {
         this.firstName = firstName;
@@ -73,70 +72,69 @@ public class User implements Serializable {
     }
 
     @OneToOne
-	private Address address;
+    private Address address;
 
 
-	@OneToMany(mappedBy = "doctor")
-	private List<Expertise> expertiseList= new ArrayList<>();
+    @OneToMany(mappedBy = "doctor")
+    private List<Expertise> expertiseList = new ArrayList<>();
 
 
-	@OneToMany(mappedBy = "doctor" )
-	private List<Transport> transportList ;
+    @OneToMany(mappedBy = "doctor")
+    private List<Transport> transportList;
 
-	@ManyToMany
-	private List<Conversation> conversations;
+    @ManyToMany
+    private List<Conversation> conversations;
 
-	@OneToMany(mappedBy = "user")
-	private List<MessageDoctor> messageDoctors;
+    @OneToMany(mappedBy = "user")
+    private List<MessageDoctor> messageDoctors;
 
-	@OneToMany(mappedBy = "users")
-	private List<RDV> rendezVous;
-
-
-	@OneToMany(mappedBy = "doctors")
-	private List<RDV> rendezVousDoctors;
-	@OneToOne
-	private PathDoctors pathDoctors;
+    @OneToMany(mappedBy = "users")
+    private List<RDV> rendezVous;
 
 
+    @OneToMany(mappedBy = "doctors")
+    private List<RDV> rendezVousDoctors;
+    @OneToOne
+    private PathDoctors pathDoctors;
 
-	@XmlAttribute(name="id")
-	public int getId() {
-		return id;
-	}
 
-	public void setId(int id) {
-		this.id = id;
-	}
+    @XmlAttribute(name = "id")
+    public int getId() {
+        return id;
+    }
 
-	@XmlElement(name="firstName")
-	public String getFirstName() {
-		return firstName;
-	}
+    public void setId(int id) {
+        this.id = id;
+    }
 
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
+    @XmlElement(name = "firstName")
+    public String getFirstName() {
+        return firstName;
+    }
 
-	@XmlElement(name="lastName")
-	public String getLastName() {
-		return lastName;
-	}
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
 
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
+    @XmlElement(name = "lastName")
+    public String getLastName() {
+        return lastName;
+    }
 
-	@XmlElement(name="speciality")
-	public String getSpeciality() {
-		return speciality;
-	}
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
 
-	public void setSpeciality(String speciality) {
-		this.speciality = speciality;
-	}
+    @XmlElement(name = "speciality")
+    public String getSpeciality() {
+        return speciality;
+    }
 
-    @XmlElement(name="tariff")
+    public void setSpeciality(String speciality) {
+        this.speciality = speciality;
+    }
+
+    @XmlElement(name = "tariff")
     public String getTariff() {
         return tariff;
     }
@@ -144,11 +142,13 @@ public class User implements Serializable {
     public void setTariff(String tariff) {
         this.tariff = tariff;
     }
-    @XmlElement(name="paimentMethode")
+
+    @XmlElement(name = "paimentMethode")
     public String getPaimentMethode() {
         return paimentMethode;
     }
-    @XmlElement(name="language")
+
+    @XmlElement(name = "language")
     public String getLanguage() {
         return language;
     }
@@ -157,215 +157,213 @@ public class User implements Serializable {
         this.language = language;
     }
 
-	@XmlElement(name="state")
-	public String getState() {
-		return state;
-	}
+    @XmlElement(name = "state")
+    public String getState() {
+        return state;
+    }
 
-	public void setState(String state) {
-		this.state = state;
-	}
+    public void setState(String state) {
+        this.state = state;
+    }
 
-	public void setPaimentMethode(String paimentMethode) {
+    public void setPaimentMethode(String paimentMethode) {
         this.paimentMethode = paimentMethode;
     }
 
 
-	public List<Expertise> getExpertiseList() {
-		return expertiseList;
-	}
+    public List<Expertise> getExpertiseList() {
+        return expertiseList;
+    }
 
-	public void setExpertiseList(List<Expertise> expertiseList) {
-		this.expertiseList = expertiseList;
-	}
+    public void setExpertiseList(List<Expertise> expertiseList) {
+        this.expertiseList = expertiseList;
+    }
 
 
-	public String getPassword() {
-		return password;
-	}
+    public String getPassword() {
+        return password;
+    }
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
-	public Date getBirthday() {
-		return birthday;
-	}
+    public Date getBirthday() {
+        return birthday;
+    }
 
-	public void setBirthday(Date birthday) {
-		this.birthday = birthday;
-	}
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday;
+    }
 
-    @XmlElement(name="urlPhoto")
-	public String getUrlPhoto() {
-		return UrlPhoto;
-	}
+    @XmlElement(name = "urlPhoto")
+    public String getUrlPhoto() {
+        return UrlPhoto;
+    }
 
-	public void setUrlPhoto(String urlPhoto) {
-		UrlPhoto = urlPhoto;
-	}
+    public void setUrlPhoto(String urlPhoto) {
+        UrlPhoto = urlPhoto;
+    }
 
-	public boolean isEnabled() {
-		return enabled;
-	}
+    public boolean isEnabled() {
+        return enabled;
+    }
 
-	public void setEnabled(boolean enabled) {
-		this.enabled = enabled;
-	}
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
 
-	public Timestamp getLastLogin() {
-		return lastLogin;
-	}
+    public Timestamp getLastLogin() {
+        return lastLogin;
+    }
 
-	public void setLastLogin(Timestamp lastLogin) {
-		this.lastLogin = lastLogin;
-	}
+    public void setLastLogin(Timestamp lastLogin) {
+        this.lastLogin = lastLogin;
+    }
 
-	public String getConfirmation() {
-		return confirmation;
-	}
+    public String getConfirmation() {
+        return confirmation;
+    }
 
-	public void setConfirmation(String confirmation) {
-		this.confirmation = confirmation;
-	}
+    public void setConfirmation(String confirmation) {
+        this.confirmation = confirmation;
+    }
 
-	public String getConfirmationToken() {
-		return confirmationToken;
-	}
+    public String getConfirmationToken() {
+        return confirmationToken;
+    }
 
-	public void setConfirmationToken(String confirmationToken) {
-		this.confirmationToken = confirmationToken;
-	}
+    public void setConfirmationToken(String confirmationToken) {
+        this.confirmationToken = confirmationToken;
+    }
 
-	public Roles getRole() {
-		return role;
-	}
+    public Roles getRole() {
+        return role;
+    }
 
-	public void setRole(Roles role) {
-		this.role = role;
-	}
+    public void setRole(Roles role) {
+        this.role = role;
+    }
 
-	public int getPhoneNumber() {
-		return phoneNumber;
-	}
+    public int getPhoneNumber() {
+        return phoneNumber;
+    }
 
-	public void setPhoneNumber(int phoneNumber) {
-		this.phoneNumber = phoneNumber;
-	}
+    public void setPhoneNumber(int phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
 
-	@XmlElement(name="email")
-	public String getEmail() {
-		return email;
-	}
+    @XmlElement(name = "email")
+    public String getEmail() {
+        return email;
+    }
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-	public String getUsername() {
-		return username;
-	}
+    public String getUsername() {
+        return username;
+    }
 
-	public void setUsername(String username) {
-		this.username = username;
-	}
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
-    @XmlElement(name="address")
+    @XmlElement(name = "address")
     public Address getAddress() {
-		return address;
-	}
+        return address;
+    }
 
-	public void setAddress(Address address) {
-		this.address = address;
-	}
-
-
-
-	public List<Transport> getTransportList() {
-		return transportList;
-	}
-
-	public void setTransportList(List<Transport> transportList) {
-		this.transportList = transportList;
-	}
-
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
-		User user = (User) o;
-		return id == user.id &&
-				enabled == user.enabled &&
-				phoneNumber == user.phoneNumber &&
-				Objects.equals(firstName, user.firstName) &&
-				Objects.equals(lastName, user.lastName) &&
-				Objects.equals(password, user.password) &&
-				Objects.equals(birthday, user.birthday) &&
-				Objects.equals(UrlPhoto, user.UrlPhoto) &&
-				Objects.equals(lastLogin, user.lastLogin) &&
-				Objects.equals(confirmation, user.confirmation) &&
-				Objects.equals(confirmationToken, user.confirmationToken) &&
-				role == user.role &&
-				Objects.equals(email, user.email) &&
-				Objects.equals(username, user.username) &&
-				Objects.equals(address, user.address) &&
-				Objects.equals(conversations, user.conversations) &&
-				Objects.equals(messageDoctors, user.messageDoctors) ;
-	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(id, firstName, lastName, password, birthday, UrlPhoto, enabled, lastLogin, confirmation, confirmationToken, role, phoneNumber, email, username, address, conversations, messageDoctors);
-	}
+    public void setAddress(Address address) {
+        this.address = address;
+    }
 
 
+    public List<Transport> getTransportList() {
+        return transportList;
+    }
 
-	public List<RDV> getRendezVous() {
-		return rendezVous;
-	}
+    public void setTransportList(List<Transport> transportList) {
+        this.transportList = transportList;
+    }
 
-	public void setRendezVous(List<RDV> rendezVous) {
-		this.rendezVous = rendezVous;
-	}
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return id == user.id &&
+                enabled == user.enabled &&
+                phoneNumber == user.phoneNumber &&
+                Objects.equals(firstName, user.firstName) &&
+                Objects.equals(lastName, user.lastName) &&
+                Objects.equals(password, user.password) &&
+                Objects.equals(birthday, user.birthday) &&
+                Objects.equals(UrlPhoto, user.UrlPhoto) &&
+                Objects.equals(lastLogin, user.lastLogin) &&
+                Objects.equals(confirmation, user.confirmation) &&
+                Objects.equals(confirmationToken, user.confirmationToken) &&
+                role == user.role &&
+                Objects.equals(email, user.email) &&
+                Objects.equals(username, user.username) &&
+                Objects.equals(address, user.address) &&
+                Objects.equals(conversations, user.conversations) &&
+                Objects.equals(messageDoctors, user.messageDoctors);
+    }
 
-	public List<RDV> getRendezVousDoctors() {
-		return rendezVousDoctors;
-	}
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, firstName, lastName, password, birthday, UrlPhoto, enabled, lastLogin, confirmation, confirmationToken, role, phoneNumber, email, username, address, conversations, messageDoctors);
+    }
 
-	public void setRendezVousDoctors(List<RDV> rendezVousDoctors) {
-		this.rendezVousDoctors = rendezVousDoctors;
-	}
 
-	@Override
-	public String toString() {
-		return "User{" +
-				"id=" + id +
-				", firstName='" + firstName + '\'' +
-				", lastName='" + lastName + '\'' +
-				", UrlPhoto='" + UrlPhoto + '\'' +
-				", tariff='" + tariff + '\'' +
-				", paimentMethode='" + paimentMethode + '\'' +
-				", language='" + language + '\'' +
-				", speciality='" + speciality + '\'' +
-				", password='" + password + '\'' +
-				", birthday=" + birthday +
-				", enabled=" + enabled +
-				", lastLogin=" + lastLogin +
-				", confirmation='" + confirmation + '\'' +
-				", confirmationToken='" + confirmationToken + '\'' +
-				", role=" + role +
-				", phoneNumber=" + phoneNumber +
-				", email='" + email + '\'' +
-				", username='" + username + '\'' +
-				", state='" + state + '\'' +
-				", address=" + address +
-				", expertiseList=" + expertiseList +
-				", transportList=" + transportList +
-				", conversations=" + conversations +
-				", messageDoctors=" + messageDoctors +
-				", rendezVous=" + rendezVous +
-				", rendezVousDoctors=" + rendezVousDoctors +
-				", pathDoctors=" + pathDoctors +
-				'}';
-	}
+    public List<RDV> getRendezVous() {
+        return rendezVous;
+    }
+
+    public void setRendezVous(List<RDV> rendezVous) {
+        this.rendezVous = rendezVous;
+    }
+
+    public List<RDV> getRendezVousDoctors() {
+        return rendezVousDoctors;
+    }
+
+    public void setRendezVousDoctors(List<RDV> rendezVousDoctors) {
+        this.rendezVousDoctors = rendezVousDoctors;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", UrlPhoto='" + UrlPhoto + '\'' +
+                ", tariff='" + tariff + '\'' +
+                ", paimentMethode='" + paimentMethode + '\'' +
+                ", language='" + language + '\'' +
+                ", speciality='" + speciality + '\'' +
+                ", password='" + password + '\'' +
+                ", birthday=" + birthday +
+                ", enabled=" + enabled +
+                ", lastLogin=" + lastLogin +
+                ", confirmation='" + confirmation + '\'' +
+                ", confirmationToken='" + confirmationToken + '\'' +
+                ", role=" + role +
+                ", phoneNumber=" + phoneNumber +
+                ", email='" + email + '\'' +
+                ", username='" + username + '\'' +
+                ", state='" + state + '\'' +
+                ", address=" + address +
+                ", expertiseList=" + expertiseList +
+                ", transportList=" + transportList +
+                ", conversations=" + conversations +
+                ", messageDoctors=" + messageDoctors +
+                ", rendezVous=" + rendezVous +
+                ", rendezVousDoctors=" + rendezVousDoctors +
+                ", pathDoctors=" + pathDoctors +
+                '}';
+    }
 }

@@ -45,10 +45,9 @@ public class MedicalPathResource {
         int PathgenId;
 
         PathgenId = medipath.createPathForPatient(rdv, path);
-        if(PathgenId!=-1) {
-            return Response.ok().entity("Id of the generated Medical Path :"+PathgenId).build();
-        }
-        else
+        if (PathgenId != -1) {
+            return Response.ok().entity("Id of the generated Medical Path :" + PathgenId).build();
+        } else
             return Response.status(Response.Status.BAD_REQUEST).build();
 
     }
@@ -61,25 +60,23 @@ public class MedicalPathResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/getPathById/{pathId}")
-    public Response getPathById(@PathParam(value = "pathId") int pathId)
-    {
-            MedicalPath path=medipath.getPathById(pathId);
-                   // return Response.ok(medipath.getPathById(pathId)).build();
-        if(path != null) {
+    public Response getPathById(@PathParam(value = "pathId") int pathId) {
+        MedicalPath path = medipath.getPathById(pathId);
+        // return Response.ok(medipath.getPathById(pathId)).build();
+        if (path != null) {
             return Response.ok().entity(path).build();
-        }
-        else
+        } else
             return Response.status(Response.Status.NO_CONTENT).build();
     }
+
     /************UpdatePathById************************/
     @PUT
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/updatePath/{pathId}")
-    public Response updateMedicalPath(@PathParam(value = "pathId") int pathId,MedicalPath path)
-    {
-       // MedicalPath path=medipath.getPathById(pathId);
-        medipath.updatePathComponent(pathId,path);
+    public Response updateMedicalPath(@PathParam(value = "pathId") int pathId, MedicalPath path) {
+        // MedicalPath path=medipath.getPathById(pathId);
+        medipath.updatePathComponent(pathId, path);
         return Response.status(Status.STATUS_COMMITTED).build();
     }
 
@@ -90,20 +87,18 @@ public class MedicalPathResource {
     @Path("/addDoctorToPath/{pathId}/{doctorId}/{description}")
     public Response addDoctorToPatientPath(@PathParam(value = "pathId") int pathId,
                                            @PathParam(value = "doctorId") int doctorId,
-                                           @PathParam(value="description" )String description,
+                                           @PathParam(value = "description") String description,
                                            PathDoctors pathDoctors
-                                          ) {
+    ) {
 
-       String x= medipath.addDoctorsToPath(pathId, doctorId,pathDoctors,description);
-       if (!x.equals("Patient")){
-        if(x.equals("Added Doctor to path Successfully !"))
-        {
-        return Response.ok().entity("Added Doctor to path Successfully !" + " DoctorId\n" + doctorId + " \n" + "PathId" + pathId).build();
+        String x = medipath.addDoctorsToPath(pathId, doctorId, pathDoctors, description);
+        if (!x.equals("Patient")) {
+            if (x.equals("Added Doctor to path Successfully !")) {
+                return Response.ok().entity("Added Doctor to path Successfully !" + " DoctorId\n" + doctorId + " \n" + "PathId" + pathId).build();
+            } else
+                return Response.status(Response.Status.FOUND).build();
         }
-        else
-            return Response.status(Response.Status.FOUND).build();
-    }
-      return Response.status(Response.Status.FORBIDDEN).build();
+        return Response.status(Response.Status.FORBIDDEN).build();
     }
     /**** END Adding new Doctor for patient path Web****/
     /**
@@ -117,27 +112,26 @@ public class MedicalPathResource {
     public Response removeDoctorFromPath(@PathParam(value = "pathId") int pathId,
                                          @PathParam(value = "doctorId") int doctorId) {
 
-       String x= medipath.removeDoctorFromPath(pathId, doctorId);
-       if(x.equals("ok"))
-           return Response.status(Response.Status.ACCEPTED).build();
+        String x = medipath.removeDoctorFromPath(pathId, doctorId);
+        if (x.equals("ok"))
+            return Response.status(Response.Status.ACCEPTED).build();
         else
-           return Response.status(Response.Status.BAD_REQUEST).build();
+            return Response.status(Response.Status.BAD_REQUEST).build();
 
     }
     /****END Removing Doctor from patient path Web****/
     /**
      *
      */
-/******Update MedicalVisitStatus************************/
+    /******Update MedicalVisitStatus************************/
 
     @PUT
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/updateMedicalVisitStatus/{pathDocId}")
-    public Response updateMedicalPath(@PathParam(value = "pathDocId") int pathDocId,MedicalVisit medicalVisit)
-    {
+    public Response updateMedicalPath(@PathParam(value = "pathDocId") int pathDocId, MedicalVisit medicalVisit) {
         // MedicalPath path=medipath.getPathById(pathId);
-        medipath.updateMedicalVisitStatus(pathDocId,medicalVisit);
+        medipath.updateMedicalVisitStatus(pathDocId, medicalVisit);
         return Response.status(Status.STATUS_COMMITTED).build();
     }
 }

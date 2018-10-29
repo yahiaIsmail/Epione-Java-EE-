@@ -10,10 +10,14 @@ import EPIONE.JAVAEE.entities.User;
 @Local
 public interface MotifServiceLocal {
 
-	public int ajouterMotif(Motif motif);
-	public void affecterMotifDoctor(int motifId, int docId);
-	public int modifierMotif(int motifId, String desc);
-	public int supprimerMotif(int motifId);
-	public List<String> listerMotifByDoc(User user);
+    public int ajouterMotif(Motif motif);
+
+    public void affecterMotifDoctor(int motifId, int docId);
+
+    public int modifierMotif(int motifId, String desc);
+
+    public int supprimerMotif(int motifId);
+
+    public List<String> listerMotifByDoc(User user);
 
 }
