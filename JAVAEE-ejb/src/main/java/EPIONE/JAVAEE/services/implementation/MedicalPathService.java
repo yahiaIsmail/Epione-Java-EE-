@@ -7,6 +7,7 @@ import javax.ejb.Schedule;
 import javax.ejb.Stateless;
 import javax.enterprise.context.RequestScoped;
 import javax.json.JsonObject;
+import javax.naming.ldap.Rdn;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.validation.constraints.Null;
@@ -63,46 +64,44 @@ public class MedicalPathService implements MedicalPathServiceLocal {
 
     /************************Add Doctor To path EJB******************************************************/
     @Override
-    public String addDoctorsToPath(int idPath, int idDoctor, PathDoctors pathDoctors,String description) {
+    public String addDoctorsToPath(int idPath, int idDoctor, PathDoctors pathDoctors, String description) {
         MedicalPath path = em.find(MedicalPath.class, idPath);
         User doctor = em.find(User.class, idDoctor);
-        boolean exists;
+
         //test on connected user role
-        if (doctor.getRole().equals(Roles.Doctor))
-        {
+        if (doctor.getRole().equals(Roles.Doctor)) {
 
-        if (utils.verify(em, idDoctor, idPath).isEmpty() && path.isActive() ) {
+            if (utils.verify(em, idDoctor, idPath).isEmpty() && path.isActive()) {
 
-            pathDoctors.setDoctor(doctor);
-            pathDoctors.setPath(path);
-            em.persist(pathDoctors);
-            MedicalVisit medicalVisit=new MedicalVisit();
-            medicalVisit.setDescription(description);
-            medicalVisit.setPathDoctors(pathDoctors);
-            medicalVisit.setCreatedAt(new Date());
-            medicalVisit.setRating(0);
-            medicalVisit.setMedicalState(false);
-            em.persist(medicalVisit);
-            pathDoctors.setMedicalVisit(medicalVisit);
+                pathDoctors.setDoctor(doctor);
+                pathDoctors.setPath(path);
+                em.persist(pathDoctors);
+                //  doctor.setPathDoctors(pathDoctors);
+                MedicalVisit medicalVisit = new MedicalVisit();
+                medicalVisit.setDescription(description);
+                medicalVisit.setPathDoctors(pathDoctors);
+                medicalVisit.setCreatedAt(new Date());
+                medicalVisit.setRating(0);
+                medicalVisit.setMedicalState(false);
+                em.persist(medicalVisit);
+                pathDoctors.setMedicalVisit(medicalVisit);
 
-                    int i=pathDoctors.getOrdre();
-                for (PathDoctors d : utils.getDocPathByPathId(em,idPath))
-                {
-                    if(!d.equals(pathDoctors)) {
+                int i = pathDoctors.getOrdre();
+                for (PathDoctors d : utils.getDocPathByPathId(em, idPath)) {
+                    if (!d.equals(pathDoctors)) {
                         if (d.getOrdre() >= 0 && d.getOrdre() == i) {
                             //decrement ordre of steps of patient
                             d.setOrdre(d.getOrdre() + 1);
                         } else break;
                     }
                 }
-            em.flush();
-            return "Added Doctor to path Successfully !";
-        } else {
-            return "already added";
-        }
+                em.flush();
+                return "Added Doctor to path Successfully !";
+            } else {
+                return "already added";
+            }
 
-        }
-        else
+        } else
             return "Patient";
 
 
@@ -115,28 +114,26 @@ public class MedicalPathService implements MedicalPathServiceLocal {
     @Override
     public String removeDoctorFromPath(int pathId, int doctorId) {
 
-       // MedicalPath path=utils.getPathById(pathId);
-       PathDoctors pathDoc=em.find(PathDoctors.class,utils.getDesiredDoctorPath(em,pathId,doctorId));
-       if(!pathDoc.equals(null))
-       {        int i=pathDoc.getOrdre();
+        // MedicalPath path=utils.getPathById(pathId);
+        PathDoctors pathDoc = em.find(PathDoctors.class, utils.getDesiredDoctorPath(em, pathId, doctorId));
+        if (!pathDoc.equals(null)) {
+            int i = pathDoc.getOrdre();
 
-                em.remove(pathDoc);
-           for(PathDoctors d : utils.getDocPathByPathId(em,pathId) ) {
+            em.remove(pathDoc);
+            for (PathDoctors d : utils.getDocPathByPathId(em, pathId)) {
 
-               if (d.getOrdre() > 0 && d.getOrdre()==i+1) {
-                   //decrement ordre of steps of patient
-                   d.setOrdre(d.getOrdre() - 1);
+                if (d.getOrdre() > 0 && d.getOrdre() == i + 1) {
+                    //decrement ordre of steps of patient
+                    d.setOrdre(d.getOrdre() - 1);
 
-               } else break;
+                } else break;
 
-           }
+            }
 
-           return "ok";
-       }
-       else
-       {
-        return "no";
-       }
+            return "ok";
+        } else {
+            return "no";
+        }
 
     }
 
@@ -162,40 +159,91 @@ public class MedicalPathService implements MedicalPathServiceLocal {
     public void updatePathComponent(int id, MedicalPath path) {
         MedicalPath pathFind = getPathById(id);
         if (!pathFind.equals(null)) {
-            if(path.getRendezVous()!=null)
-            pathFind.setRendezVous(path.getRendezVous());
-            if (path.getJustification()!=null)
-            pathFind.setJustification(path.getJustification());
-            if (path.isStatus()!=null)
-            pathFind.setStatus(path.isStatus());
-            if(path.isActive()!=null)
-            pathFind.setActive(path.isActive());
+            if (path.getRendezVous() != null)
+                pathFind.setRendezVous(path.getRendezVous());
+            if (path.getJustification() != null)
+                pathFind.setJustification(path.getJustification());
+            if (path.isStatus() != null)
+                pathFind.setStatus(path.isStatus());
+            if (path.isActive() != null)
+                pathFind.setActive(path.isActive());
 
         }
     }
+
     /********************************update MedicalVisitStatus******************************/
     @Override
     public void updateMedicalVisitStatus(int pathDoc, MedicalVisit medicalVisit) {
-        System.out.println(utils.getVisitById(em,pathDoc));
-        MedicalVisit medi= utils.getVisitById(em,pathDoc);
+        System.out.println(utils.getVisitById(em, pathDoc));
+        MedicalVisit medi = utils.getVisitById(em, pathDoc);
         if (!medi.equals(null)) {
-           if(medicalVisit.getDescription()!=null)
-               medi.setDescription(medicalVisit.getDescription());
-            if (medicalVisit.getMedicalState()!=null)
+            if (medicalVisit.getDescription() != null)
+                medi.setDescription(medicalVisit.getDescription());
+            if (medicalVisit.getMedicalState() != null)
                 medi.setMedicalState(medicalVisit.getMedicalState());
-            if(medicalVisit.getRating()!=0)
+            if (medicalVisit.getRating() != 0)
                 medi.setRating(medicalVisit.getRating());
-            if (medicalVisit.getPathDoctors()!=null)
+            if (medicalVisit.getPathDoctors() != null)
                 medi.setPathDoctors(medicalVisit.getPathDoctors());
 
         }
 
     }
-    @Schedule(second = "*/5", minute = "*", hour = "*", persistent = false)
+    /**********************************update Path (active/status)**********************/
+            public void agentDisablePath(int id){
+                MedicalPath pathFind = em.find(MedicalPath.class,id);
+                pathFind.setActive(false);
+                pathFind.setStatus(true);
+                em.flush();
+            }
+
+    /**************************** Scan agent with cron "Automated tasks" ***************************/
+    @Schedule(second = "*/30", minute = "*", hour = "*", persistent = false)
 
     public void atSchedule() throws InterruptedException {
 
-        System.out.println("DeclarativeScheduler:: In atSchedule()");
+        // System.out.println("DeclarativeScheduler:: In atSchedule()");
+        // System.out.println(utils.referencedPathStatus(em));
+        List<MedicalVisit> list = new ArrayList<>();
+        List<Integer> paths=new ArrayList<>();
+        list = utils.referencedPathStatus(em);
+        int idpath;
+
+        for (int i = 0; i < list.size(); i++) {
+            MedicalPath pathf=em.find(MedicalPath.class,list.get(i).getPathDoctors().getPath().getId());
+            if(pathf.isStatus()==false && pathf.isActive()==true ) {
+                if (list.get(i).getMedicalState() == true) {
+                    idpath = list.get(i).getPathDoctors().getPath().getId();
+                    System.out.println("***************************INIT");
+                    System.out.println(list.get(i));
+                    if (!paths.contains(idpath)) {
+                        paths.add(idpath);
+                    }
+                }
+            }
+
+            else
+            {System.out.println("No visits to fetch ");
+            break;
+            }
+
+            //System.out.println(d.getPathDoctors().getPath().getId());
+
+        }
+        //System.out.println(paths);
+        paths.forEach(e->{
+            agentDisablePath(e);
+        });
+
+
     }
 
+    /***************************get all rdv for patient ejb ********************************************/
+    @Override
+    public List<RDV> getAllRDVPatient(int idPatient) {
+        //System.out.println(em.find(RDV.class,idPatient));
+        List<RDV> list = utils.getRdvPatient(em, idPatient);
+
+        return list;
+    }
 }

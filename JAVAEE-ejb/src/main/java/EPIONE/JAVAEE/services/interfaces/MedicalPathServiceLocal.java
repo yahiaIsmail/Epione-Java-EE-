@@ -3,6 +3,7 @@ package EPIONE.JAVAEE.services.interfaces;
 import EPIONE.JAVAEE.entities.MedicalPath;
 import EPIONE.JAVAEE.entities.MedicalVisit;
 import EPIONE.JAVAEE.entities.PathDoctors;
+import EPIONE.JAVAEE.entities.RDV;
 
 import javax.ejb.Local;
 import java.util.List;
@@ -23,6 +24,8 @@ public interface MedicalPathServiceLocal {
     void updatePathComponent(int id,MedicalPath path);
     /*******update MedicalVisit status**********/
     void updateMedicalVisitStatus(int pathDoc,MedicalVisit medicalVisit);
+    /*************get ALll RDV list for a signle user **************/
+    List<RDV> getAllRDVPatient(int idPatient);
 
 
 }

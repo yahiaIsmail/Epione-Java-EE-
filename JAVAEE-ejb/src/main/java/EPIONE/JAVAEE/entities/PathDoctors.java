@@ -62,7 +62,7 @@ public class PathDoctors implements Serializable {
         return "PathDoctors{" +
                 "id=" + id +
                 ", ordre=" + ordre +
-                ", path=" + path +
+
                 ", doctor=" + doctor +
                 ", medicalVisit=" + medicalVisit +
                 '}';

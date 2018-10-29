@@ -1,5 +1,7 @@
 package EPIONE.JAVAEE.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
@@ -78,13 +80,13 @@ public class Address implements Serializable {
 		return id == address.id &&
 				Objects.equals(fullAddress, address.fullAddress) &&
 				Objects.equals(longit, address.longit) &&
-				Objects.equals(latitude, address.latitude) &&
-				Objects.equals(doctor, address.doctor);
+				Objects.equals(latitude, address.latitude) ;
+
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id, fullAddress, longit, latitude, doctor);
+		return Objects.hash(id, fullAddress, longit, latitude);
 	}
 
 	@Override
@@ -94,7 +96,7 @@ public class Address implements Serializable {
 				", fullAddress='" + fullAddress + '\'' +
 				", longit='" + longit + '\'' +
 				", latitude='" + latitude + '\'' +
-				", doctor=" + doctor +
+
 				'}';
 	}
 }

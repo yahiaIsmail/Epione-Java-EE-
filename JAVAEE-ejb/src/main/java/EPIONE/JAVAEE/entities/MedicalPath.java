@@ -65,7 +65,7 @@ public class MedicalPath implements Serializable {
 				", status=" + status +
 				", justification='" + justification + '\'' +
 				", active=" + active +
-				", rendezVous=" + rendezVous +
+
 				", doctorPath=" + doctorPath +
 				'}';
 	}

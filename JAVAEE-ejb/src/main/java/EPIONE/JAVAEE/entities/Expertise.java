@@ -44,4 +44,12 @@ public class Expertise implements Serializable {
 	public void setDoctor(User doctor) {
 		this.doctor = doctor;
 	}
+
+	@Override
+	public String toString() {
+		return "Expertise{" +
+				"id=" + id +
+				", content='" + content + '\'' +
+				'}';
+	}
 }

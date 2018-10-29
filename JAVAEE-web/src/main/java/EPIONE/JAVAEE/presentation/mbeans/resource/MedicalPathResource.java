@@ -3,6 +3,7 @@ package EPIONE.JAVAEE.presentation.mbeans.resource;
 import EPIONE.JAVAEE.entities.MedicalPath;
 import EPIONE.JAVAEE.entities.MedicalVisit;
 import EPIONE.JAVAEE.entities.PathDoctors;
+import EPIONE.JAVAEE.entities.RDV;
 import EPIONE.JAVAEE.services.interfaces.MedicalPathServiceLocal;
 
 
@@ -15,6 +16,7 @@ import javax.transaction.Status;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.List;
 
 @Path("/medicalPath")
 @RequestScoped
@@ -139,5 +141,14 @@ public class MedicalPathResource {
         // MedicalPath path=medipath.getPathById(pathId);
         medipath.updateMedicalVisitStatus(pathDocId,medicalVisit);
         return Response.status(Status.STATUS_COMMITTED).build();
+    }
+    /***************************** get All RDV Patient ********************************************/
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/getAllRdvPatient/{idPatient}")
+    public Response getAllRdvPatientList(@PathParam(value = "idPatient") int idPatient)
+    {
+        List<RDV> list =medipath.getAllRDVPatient(idPatient);
+        return Response.ok().entity(list).build();
     }
 }
