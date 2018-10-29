@@ -143,5 +143,16 @@ public class UserResource {
 
     }
 
+    @POST
+    @Path("/takeRdv/{emailPatient}/{emailDoctor}/{motifId}/{year}/{month}/{day}/{hour}/{minutes}")
+    @Consumes(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.APPLICATION_JSON)
+    public String takeRdv(@PathParam(value = "emailPatient") String emailPatient,@PathParam(value = "emailDoctor") String emailDoctor,@PathParam(value = "motifId") int motifId, @PathParam(value = "year") int year, @PathParam(value = "month") int month, @PathParam(value = "hour") int day, @PathParam(value = "hour") int hour, @PathParam(value = "minutes") int minutes){
+        int takeRdvResponse = userServiceLocal.takeRvdPatient(emailPatient,emailDoctor,motifId,year,month,day,hour,minutes);
+        if (takeRdvResponse != 0)
+            return "added";
+        return "failed";
+    }
+
 
 }
