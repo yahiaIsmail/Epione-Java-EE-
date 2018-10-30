@@ -12,6 +12,7 @@ import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -58,11 +59,14 @@ public class UserResource {
     @Path("/adddoctor")
     @Consumes(MediaType.APPLICATION_XML)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response addDoctor(User doc) {
+    public Response addDoctor(User doc) throws UnsupportedEncodingException {
 
         String password = UUID.randomUUID().toString();
-
         Response.ResponseBuilder builder = null;
+        System.out.println(password + " base password");
+        String encode=Base64.getEncoder().encodeToString(password.getBytes());
+        System.out.println(encode + " password encrypted");
+        System.out.println(new String(Base64.getDecoder().decode(encode),"UTF-8") + " password dencrypted");
         //System.out.println(userServiceLocal.getDoctor(doc));
         if (userServiceLocal.getDoctor(doc).isEmpty()) {
             try {
@@ -71,7 +75,7 @@ public class UserResource {
                         doc.getSpeciality(),
                         doc.getState(),
                         doc.getEmail(),
-                        password
+                        encode
                 );
                 if (id == -1) {
                     sendMail(doc.getEmail(),
