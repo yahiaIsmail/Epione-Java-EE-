@@ -177,4 +177,15 @@ public class UserResource {
         return Response.ok().build();
     }
 
+    @POST
+    @Path("/addPatient")
+    @Consumes(MediaType.APPLICATION_XML)
+    @Produces(MediaType.APPLICATION_JSON)
+    public String addPatient(User user) {
+        int responce = userServiceLocal.addPatient(user);
+        if (responce == 0)
+            return " error";
+        return "added";
+    }
+
 }

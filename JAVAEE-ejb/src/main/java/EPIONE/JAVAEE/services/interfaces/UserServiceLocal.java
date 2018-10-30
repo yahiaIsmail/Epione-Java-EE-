@@ -15,7 +15,7 @@ public interface UserServiceLocal {
 
     List<User> getAllDoctors();
 
-    int addPatient(String firstName, String lastName, String username, String email, String Password);
+    int addPatient(User user);
 
     public boolean activatePatient(String activationToken);
 
