@@ -201,7 +201,7 @@ public class MedicalPathService implements MedicalPathServiceLocal {
 
     /**************************** Scan agent with cron "Automated tasks" ***************************/
 
-    @Schedule(second = "*/30", minute = "*", hour = "*", persistent = false)
+    @Schedule(second = "00", minute = "00", hour = "09", persistent = false)
 
     public void atSchedule() throws InterruptedException {
 
