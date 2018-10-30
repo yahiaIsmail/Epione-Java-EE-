@@ -73,7 +73,7 @@ public class UserService implements UserServiceLocal, UserServiceRemote {
 
 
                 //condition if the selected element is Doctor
-                if (fullName[0].equals("Dr")) {
+                if (fullName[0].equals("Dr") || fullName[0].equals("M.") || fullName[0].equals("Mme")) {
 
                     //initialize the name and last name
                     name = "";
