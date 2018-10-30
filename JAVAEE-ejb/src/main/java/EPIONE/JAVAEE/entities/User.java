@@ -87,6 +87,7 @@ public class User implements Serializable {
 
     @OneToMany(mappedBy = "user")
     private List<MessageDoctor> messageDoctors;
+
     @JsonIgnore
     @OneToMany(mappedBy = "users", fetch = FetchType.EAGER)
     private Set<RDV> rendezVous;
@@ -94,9 +95,13 @@ public class User implements Serializable {
     @JsonIgnore
     @OneToMany(mappedBy = "doctors",fetch= FetchType.EAGER)
     private Set<RDV> rendezVousDoctors;
+
     @JsonIgnore
     @OneToOne(mappedBy = "doctor" ,fetch = FetchType.EAGER)
     private PathDoctors pathDoctors;
+
+    @OneToMany(mappedBy = "sender")
+    private List<SentMessage> messages;
 
 
     @XmlAttribute(name = "id")
@@ -265,6 +270,14 @@ public class User implements Serializable {
         this.email = email;
     }
 
+    public List<Conversation> getConversations() {
+        return conversations;
+    }
+
+    public void setConversations(List<Conversation> conversations) {
+        this.conversations = conversations;
+    }
+
     public String getUsername() {
         return username;
     }
@@ -285,6 +298,14 @@ public class User implements Serializable {
 
     public Set<Transport> getTransportList() {
         return transportList;
+    }
+
+    public List<SentMessage> getMessages() {
+        return messages;
+    }
+
+    public void setMessages(List<SentMessage> messages) {
+        this.messages = messages;
     }
 
     @Override
