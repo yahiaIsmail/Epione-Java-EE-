@@ -24,7 +24,7 @@ public interface UserServiceLocal {
 
     public boolean logout();
 
-    boolean updateUserAdresse(User user);
+    boolean updateUserAddress(User user);
 
 
 }
