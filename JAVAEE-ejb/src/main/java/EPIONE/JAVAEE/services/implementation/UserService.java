@@ -274,6 +274,9 @@ public class UserService implements UserServiceLocal, UserServiceRemote {
         doctor.setUsername(firstName + "-" + lastName);
         doctor.setRole(Roles.Doctor);
         doctor.setAddress(addressSplited);
+        String username= firstName + "-" + lastName;
+        String token = Base64.getEncoder().encodeToString(username.getBytes()) + password + Base64.getEncoder().encodeToString(email.getBytes());
+        doctor.setConfirmationToken(token);
         em.persist(doctor);
 
 
