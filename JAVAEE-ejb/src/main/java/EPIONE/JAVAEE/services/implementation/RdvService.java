@@ -25,7 +25,7 @@ public class RdvService implements RdvServiceLocal, RdvServiceRemote {
             Timestamp newDateRdv = Timestamp.from(now);
             newDateRdv.setHours(hour);
             newDateRdv.setMinutes(minutes);
-            newDateRdv.setMonth(month);
+            newDateRdv.setMonth(month-1);
             newDateRdv.setYear(year);
             newDateRdv.setDate(day);
             rdv.setDateRDV(newDateRdv);
@@ -59,7 +59,7 @@ public class RdvService implements RdvServiceLocal, RdvServiceRemote {
             Timestamp dateRdv = Timestamp.from(now);
             dateRdv.setHours(hour);
             dateRdv.setMinutes(minutes);
-            dateRdv.setMonth(month);
+            dateRdv.setMonth(month-1);
             dateRdv.setYear(year);
             dateRdv.setDate(day);
 

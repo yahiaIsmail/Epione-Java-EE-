@@ -16,6 +16,7 @@ public class RdvResource {
     UserServiceLocal userServiceLocal;
     @EJB
     RdvServiceLocal rdvServiceLocal;
+
     @POST
     @Path("/takeRdv/{emailPatient}/{emailDoctor}/{motifId}/{year}/{month}/{day}/{hour}/{minutes}")
     @Consumes(MediaType.TEXT_PLAIN)
@@ -60,5 +61,14 @@ public class RdvResource {
         return token;
     }
 
+    @POST
+    @Path("modify/date/{id}/{year}/{month}/{day}/{hour}/{minutes}")
+    @Consumes(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.APPLICATION_JSON)
+    public String modifyRdvDate(@PathParam(value = "id") int id, @PathParam(value = "year") int year, @PathParam(value = "month") int month, @PathParam(value = "hour") int day, @PathParam(value = "hour") int hour, @PathParam(value = "minutes") int minutes) {
+        if (rdvServiceLocal.modifyRdvDate(id, year, month, day, hour, minutes))
+            return "modified";
+        return "failed";
+    }
 
 }
