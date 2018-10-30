@@ -23,4 +23,6 @@ public interface UserServiceRemote {
 
     boolean updateUserAddress(User user);
 
+    boolean sendMessagePatient2Doctor(int doctorId,String object, String message);
+
 }

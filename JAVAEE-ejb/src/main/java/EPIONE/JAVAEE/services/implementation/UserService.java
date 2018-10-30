@@ -384,8 +384,26 @@ public class UserService implements UserServiceLocal, UserServiceRemote {
         try {
             Address address = user.getAddress();
             em.persist(address);
-            User usr = em.find(User.class,user.getId());
+            User usr = em.find(User.class, user.getId());
             usr.setAddress(address);
+            return true;
+        } catch (javax.persistence.NoResultException exp) {
+            return false;
+        }
+    }
+
+    @Override
+    public boolean sendMessagePatient2Doctor(int doctorId, String object, String message) {
+        try {
+            User user = em.find(User.class, doctorId);
+            MessageDoctor msg = new MessageDoctor();
+            msg.setUser(user);
+            msg.setContent(message);
+            msg.setObject(object);
+            em.persist(msg);
+            List<MessageDoctor> listM = new ArrayList<MessageDoctor>();
+            listM.add(msg);
+            user.setMessageDoctors(listM);
             return true;
         } catch (javax.persistence.NoResultException exp) {
             return false;

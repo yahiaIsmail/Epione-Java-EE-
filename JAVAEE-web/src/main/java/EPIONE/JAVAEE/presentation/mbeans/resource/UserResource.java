@@ -215,5 +215,14 @@ public class UserResource {
         return "failed";
     }
 
+    @POST
+    @Path("message/send")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String sendMessagePatient2Doctor(@QueryParam(value = "doctorId") int doctorId, @QueryParam(value = "object") String object, @QueryParam(value = "message") String message) {
+        if (userServiceLocal.sendMessagePatient2Doctor(doctorId, object, message))
+            return "message sent";
+        return "failed";
+    }
+
 
 }
