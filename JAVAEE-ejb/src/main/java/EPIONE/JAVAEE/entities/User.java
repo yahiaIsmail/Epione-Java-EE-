@@ -89,7 +89,6 @@ public class User implements Serializable {
     @JsonIgnore
     @OneToMany(mappedBy = "user")
     private List<MessageDoctor> messageDoctors;
-
     @JsonIgnore
     @OneToMany(mappedBy = "users", fetch = FetchType.EAGER)
     private Set<RDV> rendezVous;
@@ -97,14 +96,13 @@ public class User implements Serializable {
     @JsonIgnore
     @OneToMany(mappedBy = "doctors",fetch= FetchType.EAGER)
     private Set<RDV> rendezVousDoctors;
-
     @JsonIgnore
     @OneToOne(mappedBy = "doctor" ,fetch = FetchType.EAGER)
     private PathDoctors pathDoctors;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "sender")
     private List<SentMessage> messages;
-
 
     @XmlAttribute(name = "id")
     public int getId() {
@@ -272,14 +270,6 @@ public class User implements Serializable {
         this.email = email;
     }
 
-    public List<Conversation> getConversations() {
-        return conversations;
-    }
-
-    public void setConversations(List<Conversation> conversations) {
-        this.conversations = conversations;
-    }
-
     public String getUsername() {
         return username;
     }
@@ -302,14 +292,6 @@ public class User implements Serializable {
         return transportList;
     }
 
-<<<<<<< HEAD
-    public List<SentMessage> getMessages() {
-        return messages;
-    }
-
-    public void setMessages(List<SentMessage> messages) {
-        this.messages = messages;
-=======
     public List<Conversation> getConversations() {
         return conversations;
     }
@@ -332,7 +314,14 @@ public class User implements Serializable {
 
     public void setPathDoctors(PathDoctors pathDoctors) {
         this.pathDoctors = pathDoctors;
->>>>>>> 1ed898d4d23f7dc912892a3f7c5caa6d62debd9d
+    }
+
+    public List<SentMessage> getMessages() {
+        return messages;
+    }
+
+    public void setMessages(List<SentMessage> messages) {
+        this.messages = messages;
     }
 
     @Override

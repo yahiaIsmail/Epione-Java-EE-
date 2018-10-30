@@ -302,7 +302,6 @@ public class UserService implements UserServiceLocal, UserServiceRemote {
     public List<User> getAllDoctors() {
 
         return em.createQuery("select u from User u" +
-                " join fetch u.expertiseList e " +
                 " where u.role=:role", User.class)
                 .setParameter("role", Roles.Doctor)
                 .getResultList();
