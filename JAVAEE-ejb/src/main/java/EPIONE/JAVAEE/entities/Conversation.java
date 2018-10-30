@@ -1,7 +1,7 @@
 package EPIONE.JAVAEE.entities;
 
 import java.io.Serializable;
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -15,6 +15,7 @@ public class Conversation implements Serializable {
     private int id;
 
     @Column(columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    @Temporal(TemporalType.TIMESTAMP)
     private Date dateCreated;
 
     @ManyToMany(mappedBy = "conversations", fetch = FetchType.EAGER)
@@ -87,6 +88,7 @@ public class Conversation implements Serializable {
         return "Conversation{" +
                 "id=" + id +
                 ", dateCreated=" + dateCreated +
+                ", users=" + users +
                 ", sentMessages=" + sentMessages +
                 ", recievedMessages=" + recievedMessages +
                 '}';

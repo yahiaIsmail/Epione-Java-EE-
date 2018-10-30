@@ -6,7 +6,6 @@ import EPIONE.JAVAEE.services.interfaces.MedicalPathServiceLocal;
 import javax.ejb.Schedule;
 import javax.ejb.Stateless;
 import javax.enterprise.context.RequestScoped;
-import javax.inject.Singleton;
 import javax.json.JsonObject;
 import javax.naming.ldap.Rdn;
 import javax.persistence.EntityManager;
@@ -202,14 +201,14 @@ public class MedicalPathService implements MedicalPathServiceLocal {
 
     /**************************** Scan agent with cron "Automated tasks" ***************************/
 
+    @Schedule(second = "*/30", minute = "*", hour = "*", persistent = false)
 
-    @Schedule(second = "00", minute = "57", hour = "19")
     public void atSchedule() throws InterruptedException {
 
         // System.out.println("DeclarativeScheduler:: In atSchedule()");
         // System.out.println(utils.referencedPathStatus(em));
         List<MedicalVisit> list = new ArrayList<>();
-        List<Integer> paths = new ArrayList<>();
+        List<Integer> paths=new ArrayList<>();
         list = utils.referencedPathStatus(em);
         int idpath;
         //System.out.println(list);
@@ -244,7 +243,7 @@ public class MedicalPathService implements MedicalPathServiceLocal {
 
         }
         //System.out.println(paths);
-        paths.forEach(e -> {
+        paths.forEach(e->{
             agentDisablePath(e);
         });
 
@@ -274,13 +273,15 @@ public class MedicalPathService implements MedicalPathServiceLocal {
     @Override
     public List<MedicalPath> allPathsForConnectedPatient(int idpatient) {
         User user = em.find(User.class, idpatient);
-        if (user != null) {
+        if (user != null ) {
 
-            List<MedicalPath> list = utils.getAllPathsForPatient(em, idpatient);
-            return list;
+                List<MedicalPath> list = utils.getAllPathsForPatient(em, idpatient);
+                return list;
 
 
-        } else return null;
+
+        }
+        else return null;
     }
 
     /****************************************** multiple search criteria ***************************************/
@@ -289,21 +290,21 @@ public class MedicalPathService implements MedicalPathServiceLocal {
         List<MedicalPath> list = utils.searchList(em, medicalPath, idPatient);
         return list;
     }
-
     /************************************* get doctor's visits *************************************************/
     @Override
     public List<MedicalVisit> getDoctorAllvisits(int idDoctor) {
-        User user = em.find(User.class, idDoctor);
-        if (user != null && user.getRole().equals(Roles.Doctor)) {
-            List<MedicalVisit> m = utils.doctorVisits(em, idDoctor);
-            return m;
-        }
+       User user=em.find(User.class,idDoctor);
+       if(user!=null && user.getRole().equals(Roles.Doctor))
+       {
+           List<MedicalVisit> m =utils.doctorVisits(em,idDoctor);
+           return  m;
+       }
         return null;
     }
 
     /*************************** Doctor update Medical Path *********************************/
     @Override
     public void updateDoctorInPath(int iddoctor) {
-        
+
     }
 }

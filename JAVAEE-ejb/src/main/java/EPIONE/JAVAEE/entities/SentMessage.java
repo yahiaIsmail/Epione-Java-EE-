@@ -1,7 +1,7 @@
 package EPIONE.JAVAEE.entities;
 
 import java.io.Serializable;
-import java.sql.Date;
+import java.util.Date;
 import java.util.Objects;
 
 import javax.persistence.*;
@@ -13,6 +13,7 @@ public class SentMessage implements Serializable {
     private int id;
 
     @Column(columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    @Temporal(TemporalType.TIMESTAMP)
     private Date dateCreated;
     private String content;
 

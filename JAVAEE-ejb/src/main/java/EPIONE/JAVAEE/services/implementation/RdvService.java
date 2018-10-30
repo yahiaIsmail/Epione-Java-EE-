@@ -9,6 +9,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.util.HashMap;
+import java.util.Map;
 
 @Stateless
 public class RdvService implements RdvServiceLocal, RdvServiceRemote {
@@ -25,7 +27,7 @@ public class RdvService implements RdvServiceLocal, RdvServiceRemote {
             Timestamp newDateRdv = Timestamp.from(now);
             newDateRdv.setHours(hour);
             newDateRdv.setMinutes(minutes);
-            newDateRdv.setMonth(month-1);
+            newDateRdv.setMonth(month - 1);
             newDateRdv.setYear(year);
             newDateRdv.setDate(day);
             rdv.setDateRDV(newDateRdv);
@@ -59,7 +61,7 @@ public class RdvService implements RdvServiceLocal, RdvServiceRemote {
             Timestamp dateRdv = Timestamp.from(now);
             dateRdv.setHours(hour);
             dateRdv.setMinutes(minutes);
-            dateRdv.setMonth(month-1);
+            dateRdv.setMonth(month - 1);
             dateRdv.setYear(year);
             dateRdv.setDate(day);
 
@@ -79,14 +81,14 @@ public class RdvService implements RdvServiceLocal, RdvServiceRemote {
     }
 
     @Override
-    public boolean confirmRdvPatient(String token) {
+    public boolean confirmRdvPatient(String token, int rdvId) {
         try {
             User usr = (User) em.createQuery(
                     "SELECT u FROM User u WHERE u.confirmationToken = :token")
                     .setParameter("token", token)
                     .getSingleResult();
-            RDV rdv = (RDV) em.createQuery("SELECT rdv FROM RDV rdv WHERE rdv.users = : id")
-                    .setParameter("id", usr.getId())
+            RDV rdv = (RDV) em.createQuery("SELECT rdv FROM RDV rdv WHERE rdv.id = :id")
+                    .setParameter("id", rdvId)
                     .getSingleResult();
             rdv.setConfirmationPatient(true);
             em.merge(rdv);
@@ -97,14 +99,14 @@ public class RdvService implements RdvServiceLocal, RdvServiceRemote {
     }
 
     @Override
-    public boolean confirmRdvDoctor(String token) {
+    public boolean confirmRdvDoctor(String token, int rdvId) {
         try {
             User usr = (User) em.createQuery(
                     "SELECT u FROM User u WHERE u.confirmationToken = :token")
                     .setParameter("token", token)
                     .getSingleResult();
-            RDV rdv = (RDV) em.createQuery("SELECT rdv FROM RDV rdv WHERE rdv.users = : id")
-                    .setParameter("id", usr.getId())
+            RDV rdv = (RDV) em.createQuery("SELECT rdv FROM RDV rdv WHERE rdv.id = :id")
+                    .setParameter("id", rdvId)
                     .getSingleResult();
             rdv.setConfirmationDoc(true);
             em.merge(rdv);
@@ -113,4 +115,42 @@ public class RdvService implements RdvServiceLocal, RdvServiceRemote {
             return false;
         }
     }
+
+    @Override
+    public boolean modifyRdvMotif(int id, int motifId) {
+        try {
+            RDV rdv = (RDV) em.createQuery("SELECT rdv FROM RDV rdv WHERE rdv.id = :id")
+                    .setParameter("id", id)
+                    .getSingleResult();
+            Motif newMotif = (Motif) em.createQuery("SELECT motif FROM Motif motif WHERE motif.id = :id ")
+                    .setParameter("id", motifId)
+                    .getSingleResult();
+            rdv.setMotif(newMotif);
+            em.merge(rdv);
+            return true;
+        } catch (javax.persistence.NoResultException exp) {
+            return false;
+        }
+    }
+
+    @Override
+    public Map<String, User> cancelRdv(int rdvId) {
+        try {
+            RDV rdv = (RDV) em.createQuery("SELECT rdv FROM RDV rdv WHERE rdv.id = :id")
+                    .setParameter("id", rdvId)
+                    .getSingleResult();
+            rdv.setStatus(Status.Canceled);
+            User usr = rdv.getUsers();
+            User doctor = rdv.getDoctors();
+            em.merge(rdv);
+            Map<String, User> map = new HashMap<>();
+            map.put("patient", usr);
+            map.put("doctor", doctor);
+            return map;
+        } catch (javax.persistence.NoResultException exp) {
+            return null;
+        }
+    }
+
+
 }
