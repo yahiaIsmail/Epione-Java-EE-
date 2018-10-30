@@ -309,16 +309,11 @@ public class UserService implements UserServiceLocal, UserServiceRemote {
     }
 
     @Override
-    public int addPatient(String firstName, String lastName, String username, String email, String Password) {
-        User user = new User();
+    public int addPatient(User user) {
         user.setConfirmation("0");
         user.setAddress(null);
         user.setEnabled(true);
-        user.setUsername(username);
-        user.setEmail(email);
-        user.setPassword(Password);
-        user.setFirstName(firstName);
-        user.setLastName(lastName);
+        user.setPassword(Base64.getEncoder().encodeToString(user.getPassword().getBytes()));
         String token = Base64.getEncoder().encodeToString(user.getUsername().getBytes()) + Base64.getEncoder().encodeToString(user.getPassword().getBytes()) + Base64.getEncoder().encodeToString(user.getEmail().getBytes());
         user.setConfirmationToken(token);
         em.persist(user);
@@ -359,6 +354,7 @@ public class UserService implements UserServiceLocal, UserServiceRemote {
                     "SELECT m FROM Motif m WHERE m.id = :id")
                     .setParameter("id", motifId)
                     .getSingleResult();
+
             RDV rdv = new RDV();
             Instant now = Instant.now();
             Timestamp dateRdv = Timestamp.from(now);
