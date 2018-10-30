@@ -273,7 +273,7 @@ public class UserService implements UserServiceLocal, UserServiceRemote {
         doctor.setLanguage(langues.replaceAll("Langues parlées", ""));
         doctor.setUsername(firstName+"-"+lastName);
         doctor.setRole(Roles.Doctor);
-
+        doctor.setAddress(addressSplited);
         em.persist(doctor);
 
 
