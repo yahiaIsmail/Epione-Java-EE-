@@ -152,5 +152,23 @@ public class RdvService implements RdvServiceLocal, RdvServiceRemote {
         }
     }
 
+    @Override
+    public User selectRdvMotif(int rdvId, int motifId) {
+        try {
+            RDV rdv = (RDV) em.createQuery("SELECT rdv FROM RDV rdv WHERE rdv.id = :id")
+                    .setParameter("id", rdvId)
+                    .getSingleResult();
+            Motif motif = (Motif) em.createQuery("SELECT motif FROM Motif motif WHERE motif.id = :id")
+                    .setParameter("id",motifId)
+                    .getSingleResult();
+            rdv.setMotif(motif);
+            User doctor = rdv.getDoctors();
+            em.merge(rdv);
+            return doctor;
+        } catch (javax.persistence.NoResultException exp) {
+            return null;
+        }
+    }
+
 
 }

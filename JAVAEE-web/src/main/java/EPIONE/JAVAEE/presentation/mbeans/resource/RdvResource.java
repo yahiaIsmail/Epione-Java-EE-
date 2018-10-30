@@ -48,8 +48,8 @@ public class RdvResource {
     @GET
     @Path("user/confirmRDV")
     @Produces(MediaType.APPLICATION_JSON)
-    public String confirmRdvPatient(@DefaultValue("empty") @QueryParam(value = "Token") String token,  @DefaultValue("1") @QueryParam(value = "rdvId") int rdvId) {
-        if (rdvServiceLocal.confirmRdvPatient(token,rdvId))
+    public String confirmRdvPatient(@DefaultValue("empty") @QueryParam(value = "Token") String token, @DefaultValue("1") @QueryParam(value = "rdvId") int rdvId) {
+        if (rdvServiceLocal.confirmRdvPatient(token, rdvId))
             return token + " done";
         return token;
     }
@@ -58,7 +58,7 @@ public class RdvResource {
     @Path("doctor/confirmRDV")
     @Produces(MediaType.APPLICATION_JSON)
     public String confirmRdvDoctor(@DefaultValue("empty") @QueryParam(value = "Token") String token, @DefaultValue("1") @QueryParam(value = "rdvId") int rdvId) {
-        if (rdvServiceLocal.confirmRdvDoctor(token,rdvId))
+        if (rdvServiceLocal.confirmRdvDoctor(token, rdvId))
             return token + " done";
         return token;
     }
@@ -96,7 +96,19 @@ public class RdvResource {
         if (SendMail.mail(map.get("doctor").getEmail(), "Canceled RDV", body) && SendMail.mail(map.get("doctor").getEmail(), "Canceled RDV", body))
             return "canceld";
         return "failed to send mail";
+    }
 
+    @GET
+    @Path("/motif/change")
+    @Consumes(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.APPLICATION_JSON)
+    public String selectRdvMotif(@QueryParam(value = "rdvId") int rdvId, @QueryParam(value = "motifId") int motifId) {
+        User doctor = rdvServiceLocal.selectRdvMotif(rdvId, motifId);
+        if (doctor == null)
+            return "Error";
+        if (SendMail.mail(doctor.getEmail(), "Modification de motif", "Un patient a changer de motif pour son Rdv"))
+            return "Motif modifier";
+        return "error send mail";
     }
 
 }
