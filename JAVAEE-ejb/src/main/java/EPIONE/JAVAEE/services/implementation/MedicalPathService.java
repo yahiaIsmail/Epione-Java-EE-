@@ -201,8 +201,8 @@ public class MedicalPathService implements MedicalPathServiceLocal {
 
     /**************************** Scan agent with cron "Automated tasks" ***************************/
 
-    @Schedule(second = "*/30", minute = "*", hour = "*", persistent = false)
-
+    //@Schedule(second = "*/30", minute = "*", hour = "*", persistent = false)
+/*
     public void atSchedule() throws InterruptedException {
 
         // System.out.println("DeclarativeScheduler:: In atSchedule()");
@@ -211,38 +211,24 @@ public class MedicalPathService implements MedicalPathServiceLocal {
         List<Integer> paths=new ArrayList<>();
         list = utils.referencedPathStatus(em);
         int idpath;
-        //System.out.println(list);
+
         for (int i = 0; i < list.size(); i++) {
-                 int cnt=0,j;
-                idpath = list.get(i).getPathDoctors().getPath().getId();
-               // System.out.println("***************************INIT");
-               // System.out.println(list.get(i));
-                for ( j = i ; j < list.size(); j++) {
-                    if (list.get(j).getPathDoctors().getPath().getId() == idpath) {
-                        //System.out.println(list.get(j));
-
-                        if (list.get(j).getMedicalState() == true)
-                        { cnt++;
-
-
-                        }
+            MedicalPath pathf=em.find(MedicalPath.class,list.get(i).getPathDoctors().getPath().getId());
+            if(pathf.isStatus()==false && pathf.isActive()==true ) {
+                if (list.get(i).getMedicalState() == true) {
+                    idpath = list.get(i).getPathDoctors().getPath().getId();
+                   // System.out.println("***************************INIT");
+                    //System.out.println(list.get(i));
+                    if (!paths.contains(idpath)) {
+                        paths.add(idpath);
                     }
-                     else  break;
-
                 }
+            }
 
-                if(cnt == j-i){
-                     paths.add(idpath);
-                    //System.out.println("***************************wa\n");
-                    System.out.println(list.get(i));
-
-                }
-                i=j-1;
-
-
-
-
-
+            else
+            {//System.out.println("No visits to fetch ");
+            break;
+            }
 
             //System.out.println(d.getPathDoctors().getPath().getId());
 
@@ -254,7 +240,7 @@ public class MedicalPathService implements MedicalPathServiceLocal {
 
 
     }
-
+    */
 
     /***************************get all rdv for patient ejb ********************************************/
     @Override

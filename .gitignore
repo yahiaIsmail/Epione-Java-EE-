@@ -230,6 +230,3 @@ JAVAEE-web/target/JAVAEE-web/WEB-INF/lib/servlet-api-2.5-20081211.jar
 JAVAEE-web/target/JAVAEE-web/WEB-INF/lib/slf4j-api-1.5.8.jar
 JAVAEE-web/target/JAVAEE-web/WEB-INF/lib/xml-apis-1.0.b2.jar
 JAVAEE-web/target/JAVAEE-web/WEB-INF/lib/xpp3-1.1.4c.jar
-*.class
-*.class
-JAVAEE-ejb/target/classes/EPIONE/JAVAEE/services/implementation/DemandeService.class
