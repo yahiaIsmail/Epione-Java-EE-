@@ -1,5 +1,6 @@
 package EPIONE.JAVAEE.presentation.mbeans.resource;
 
+import EPIONE.JAVAEE.entities.User;
 import EPIONE.JAVAEE.presentation.mbeans.util.SendMail;
 import EPIONE.JAVAEE.services.interfaces.RdvServiceLocal;
 import EPIONE.JAVAEE.services.interfaces.UserServiceLocal;
@@ -8,6 +9,7 @@ import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.util.Map;
 
 @Path("/rdv")
 @RequestScoped
@@ -46,8 +48,8 @@ public class RdvResource {
     @GET
     @Path("user/confirmRDV")
     @Produces(MediaType.APPLICATION_JSON)
-    public String confirmRdvPatient(@DefaultValue("empty") @QueryParam(value = "Token") String token) {
-        if (rdvServiceLocal.confirmRdvPatient(token))
+    public String confirmRdvPatient(@DefaultValue("empty") @QueryParam(value = "Token") String token,  @DefaultValue("1") @QueryParam(value = "rdvId") int rdvId) {
+        if (rdvServiceLocal.confirmRdvPatient(token,rdvId))
             return token + " done";
         return token;
     }
@@ -55,8 +57,8 @@ public class RdvResource {
     @GET
     @Path("doctor/confirmRDV")
     @Produces(MediaType.APPLICATION_JSON)
-    public String confirmRdvDoctor(@DefaultValue("empty") @QueryParam(value = "Token") String token) {
-        if (rdvServiceLocal.confirmRdvDoctor(token))
+    public String confirmRdvDoctor(@DefaultValue("empty") @QueryParam(value = "Token") String token, @DefaultValue("1") @QueryParam(value = "rdvId") int rdvId) {
+        if (rdvServiceLocal.confirmRdvDoctor(token,rdvId))
             return token + " done";
         return token;
     }
@@ -69,6 +71,32 @@ public class RdvResource {
         if (rdvServiceLocal.modifyRdvDate(id, year, month, day, hour, minutes))
             return "modified";
         return "failed";
+    }
+
+    @GET
+    @Path("modify/motif")
+    @Consumes(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.APPLICATION_JSON)
+    public String modifyRdvDate(@QueryParam(value = "rdvId") int rdvId, @QueryParam(value = "motifId") int motifId) {
+        if (rdvServiceLocal.modifyRdvMotif(rdvId, motifId))
+            return "modified";
+        return "failed";
+    }
+
+    @GET
+    @Path("/cancel")
+    @Consumes(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.APPLICATION_JSON)
+    public String cancelRdv(@QueryParam(value = "rdvId") int rdvId) {
+        Map<String, User> map = rdvServiceLocal.cancelRdv(rdvId);
+        if (map == null)
+            return "failed";
+        String body = "Patient " + map.get("patient").getFirstName() + " " + map.get("patient").getLastName() + " a annuler son Rdv avec Medecin" +
+                " " + map.get("doctor").getFirstName() + " " + map.get("doctor").getLastName();
+        if (SendMail.mail(map.get("doctor").getEmail(), "Canceled RDV", body) && SendMail.mail(map.get("doctor").getEmail(), "Canceled RDV", body))
+            return "canceld";
+        return "failed to send mail";
+
     }
 
 }
