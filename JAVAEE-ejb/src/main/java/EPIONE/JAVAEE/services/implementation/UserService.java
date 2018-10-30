@@ -12,6 +12,7 @@ import javax.inject.Inject;
 import javax.jws.soap.SOAPBinding;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -270,10 +271,9 @@ public class UserService implements UserServiceLocal, UserServiceRemote {
         doctor.setTariff(tariff.replaceAll("Voir les tarifs", ""));
         doctor.setPaimentMethode(moyenPaiement);
         doctor.setLanguage(langues.replaceAll("Langues parlées", ""));
-        //   doctor.setAddress(addressSplited);
-        //  doctor.setExpertiseList(expertises);
+        doctor.setUsername(firstName + "-" + lastName);
         doctor.setRole(Roles.Doctor);
-
+        doctor.setAddress(addressSplited);
         em.persist(doctor);
 
 
@@ -302,23 +302,17 @@ public class UserService implements UserServiceLocal, UserServiceRemote {
     public List<User> getAllDoctors() {
 
         return em.createQuery("select u from User u" +
-                " join fetch u.expertiseList e " +
                 " where u.role=:role", User.class)
                 .setParameter("role", Roles.Doctor)
                 .getResultList();
     }
 
     @Override
-    public int addPatient(String firstName, String lastName, String username, String email, String Password) {
-        User user = new User();
+    public int addPatient(User user) {
         user.setConfirmation("0");
         user.setAddress(null);
         user.setEnabled(true);
-        user.setUsername(username);
-        user.setEmail(email);
-        user.setPassword(Password);
-        user.setFirstName(firstName);
-        user.setLastName(lastName);
+        user.setPassword(Base64.getEncoder().encodeToString(user.getPassword().getBytes()));
         String token = Base64.getEncoder().encodeToString(user.getUsername().getBytes()) + Base64.getEncoder().encodeToString(user.getPassword().getBytes()) + Base64.getEncoder().encodeToString(user.getEmail().getBytes());
         user.setConfirmationToken(token);
         em.persist(user);
@@ -342,45 +336,25 @@ public class UserService implements UserServiceLocal, UserServiceRemote {
     }
 
     @Override
-    public int takeRvdPatient(String emailPatient, String emailDoctor, int motifId, int year, int month,
-                              int day, int hour, int minutes) {
-        try {
-            User patient = (User) em.createQuery(
-                    "SELECT u FROM User u WHERE u.email = :emailPatient")
-                    .setParameter("emailPatient", emailPatient)
-                    .getSingleResult();
-            User doctor = (User) em.createQuery(
-                    "SELECT u FROM User u WHERE u.email = :emailDoctor")
-                    .setParameter("emailDoctor", emailDoctor)
-                    .getSingleResult();
-            Address doctorAddress = doctor.getAddress();
-
-            Motif motif = (Motif) em.createQuery(
-                    "SELECT m FROM Motif m WHERE m.id = :id")
-                    .setParameter("id", motifId)
-                    .getSingleResult();
-            RDV rdv = new RDV();
-            Instant now = Instant.now();
-            Timestamp dateRdv = Timestamp.from(now);
-            dateRdv.setHours(hour);
-            dateRdv.setMinutes(minutes);
-            dateRdv.setMonth(month);
-            dateRdv.setYear(year);
-            dateRdv.setDate(day);
-
-            rdv.setMotif(motif);
-            rdv.setDateRDV(dateRdv);
-            rdv.setConfirmationDoc(false);
-            rdv.setConfirmationPatient(false);
-            rdv.setStatus(Status.InProgress);
-            rdv.setUsers(patient);
-            rdv.setDoctors(doctor);
-
-            em.persist(rdv);
-            return 1;
-        } catch (javax.persistence.NoResultException exp) {
-            return 0;
+    public boolean login(User u) throws Exception {
+        // System.out.println(u.getPassword() + "password ");
+        //  System.out.println(new String(Base64.getDecoder().decode(u.getPassword()),"UTF-8") + " password dencrypted");
+        //byte[] decode= Base64.getDecoder().decode(u.getPassword());
+        String encode = Base64.getEncoder().encodeToString(u.getPassword().getBytes());
+        System.out.println("encode: " + encode);
+        System.out.println("Login from service : " + u);
+        Query query = em.createQuery("SELECT u FROM User u WHERE u.username = :username "
+                + "AND u.password = :password");
+        query.setParameter("username", u.getUsername());
+        query.setParameter("password", encode);
+        // query.setParameter("password", decode);
+        int resultCount = query.getResultList().size();
+        System.out.println("Found " + resultCount + " Result(s) ");
+        if (resultCount != 1) {
+            return false;
         }
+        return true;
+
     }
 }
 

@@ -13,12 +13,14 @@ public class Conversation implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    @Column(columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private Date dateCreated;
 
     @ManyToMany(mappedBy = "conversations", fetch = FetchType.EAGER)
     private Set<User> users;
 
-    @OneToMany(mappedBy = "conversation")
+    @OneToMany(mappedBy = "conversation", fetch = FetchType.EAGER)
     private List<SentMessage> sentMessages;
 
     @OneToMany(mappedBy = "conversation")
@@ -40,6 +42,13 @@ public class Conversation implements Serializable {
         this.dateCreated = dateCreated;
     }
 
+    public Set<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(Set<User> users) {
+        this.users = users;
+    }
 
     public List<SentMessage> getSentMessages() {
         return sentMessages;

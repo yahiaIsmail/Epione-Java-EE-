@@ -15,11 +15,11 @@ public interface UserServiceRemote {
 
     List<User> getAllDoctors();
 
-    int addPatient(String firstName, String lastName, String username, String email, String Password);
+    int addPatient(User user);
 
     public boolean activatePatient(String activationToken);
 
-    int takeRvdPatient(String emailPatient, String emailDoctor, int motif, int year, int month, int day, int hour, int minutes);
+    public boolean login(User u) throws Exception;
 
 
 }
