@@ -174,12 +174,15 @@ public class UserResource {
         return true;
     }
 
-    @Path("logOut")
+    @Path("/logOut")
     @POST
     @Produces(MediaType.APPLICATION_JSON)
-    public Response logOut(@QueryParam(value = "idUser") int idUser) {
+    public Response logOut() {
         //  return Response.ok(userService.logOut(idUser)).build();
-        return Response.ok().build();
+        boolean x= userServiceLocal.logout();
+        if(x==true)
+            return Response.ok().build();
+        else return Response.status(Response.Status.FORBIDDEN).build();
     }
 
     @POST

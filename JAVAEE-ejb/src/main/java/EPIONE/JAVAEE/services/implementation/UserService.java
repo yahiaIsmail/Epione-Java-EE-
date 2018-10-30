@@ -34,7 +34,7 @@ import java.util.*;
 
 @Stateless
 public class UserService implements UserServiceLocal, UserServiceRemote {
-
+    public static User userConnected= new User();
     @PersistenceContext(unitName = "JAVAEE-ejb")
     EntityManager em;
 
@@ -353,9 +353,32 @@ public class UserService implements UserServiceLocal, UserServiceRemote {
         if (resultCount != 1) {
             return false;
         }
-        return true;
+        else{
+            User user=(User)query.getResultList().get(0);
+            user.setEnabled(true);
+            em.flush();
+            userConnected=user;
+
+
+            System.out.println(userConnected.getRole());
+            return true;
+        }
 
     }
+
+    @Override
+    public boolean logout() {
+        if(userConnected.isEnabled()) {
+            User user = em.find(User.class, userConnected.getId());
+            user.setEnabled(false);
+            userConnected = new User();
+            return true;
+        }
+        else
+            return false;
+    }
+
+
 }
 
 
