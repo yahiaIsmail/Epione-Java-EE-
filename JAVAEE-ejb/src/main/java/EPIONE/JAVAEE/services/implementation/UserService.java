@@ -398,6 +398,42 @@ public class UserService implements UserServiceLocal, UserServiceRemote {
         return true;
 
     }
+
+    @Override
+    public boolean confirmRdvPatient(String token) {
+        try {
+            User usr = (User) em.createQuery(
+                    "SELECT u FROM User u WHERE u.confirmationToken = :token")
+                    .setParameter("token", token)
+                    .getSingleResult();
+            RDV rdv = (RDV) em.createQuery("SELECT rdv FROM RDV rdv WHERE rdv.users = : id")
+                    .setParameter("id",usr.getId())
+                    .getSingleResult();
+            rdv.setConfirmationPatient(true);
+            em.merge(rdv);
+            return true;
+        } catch (javax.persistence.NoResultException exp) {
+            return false;
+        }
+    }
+
+    @Override
+    public boolean confirmRdvDoctor(String token) {
+        try {
+            User usr = (User) em.createQuery(
+                    "SELECT u FROM User u WHERE u.confirmationToken = :token")
+                    .setParameter("token", token)
+                    .getSingleResult();
+            RDV rdv = (RDV) em.createQuery("SELECT rdv FROM RDV rdv WHERE rdv.users = : id")
+                    .setParameter("id",usr.getId())
+                    .getSingleResult();
+            rdv.setConfirmationDoc(true);
+            em.merge(rdv);
+            return true;
+        } catch (javax.persistence.NoResultException exp) {
+            return false;
+        }
+    }
 }
 
 

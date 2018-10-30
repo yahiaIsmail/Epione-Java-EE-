@@ -21,4 +21,9 @@ public interface UserServiceLocal {
 
     int takeRvdPatient(String emailPatient, String emailDoctor, int motif, int year, int month, int day, int hour, int minutes);
     public boolean login(User u) throws Exception;
+
+    boolean confirmRdvPatient(String token);
+
+    boolean confirmRdvDoctor(String token);
+
 }
