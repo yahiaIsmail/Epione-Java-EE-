@@ -12,6 +12,7 @@ import javax.inject.Inject;
 import javax.jws.soap.SOAPBinding;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -270,8 +271,7 @@ public class UserService implements UserServiceLocal, UserServiceRemote {
         doctor.setTariff(tariff.replaceAll("Voir les tarifs", ""));
         doctor.setPaimentMethode(moyenPaiement);
         doctor.setLanguage(langues.replaceAll("Langues parlées", ""));
-        //   doctor.setAddress(addressSplited);
-        //  doctor.setExpertiseList(expertises);
+        doctor.setUsername(firstName+"-"+lastName);
         doctor.setRole(Roles.Doctor);
 
         em.persist(doctor);
@@ -381,6 +381,21 @@ public class UserService implements UserServiceLocal, UserServiceRemote {
         } catch (javax.persistence.NoResultException exp) {
             return 0;
         }
+    }
+    @Override
+    public boolean login(User u) throws Exception{
+        System.out.println("Login from service : "+u);
+        Query query = em.createQuery("SELECT u FROM User u WHERE u.username = :username "
+                + "AND u.password = :password");
+        query.setParameter("username", u.getUsername());
+        query.setParameter("password", u.getPassword());
+        int resultCount = query.getResultList().size();
+        System.out.println("Found "+resultCount+" Result(s) ");
+        if(resultCount != 1){
+            return false;
+        }
+        return true;
+
     }
 }
 

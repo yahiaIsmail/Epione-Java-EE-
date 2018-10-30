@@ -144,4 +144,37 @@ public class UserResource {
     }
 
 
+    @POST
+    @Consumes(MediaType.APPLICATION_XML)
+    @Produces(MediaType.TEXT_PLAIN)
+    @Path("/auth")
+    public Response authenticateUser(User u) throws Exception {
+        // Authenticate the user using the credentials provided
+        if(authenticate(u) == false){
+            System.out.println("Auth failed, Exiting with FORBIDDEN status");
+            return Response.status(Response.Status.FORBIDDEN).entity("Authentification failed !").build();
+        }
+        System.out.println("Authentification passed!");
+        //User user = userServiceLocal.findUser(u);
+        //String token = issueToken(user);
+        //System.out.println("Our token is now : "+token);
+
+     //   return Response.ok(token).header("Authorization", token).build();
+        return Response.ok("Authentification passed successfully !").build();
+    }
+
+    private boolean authenticate(User u) throws Exception{
+        if(userServiceLocal.login(u) == false)
+            return false;
+        return true;
+    }
+
+    @Path("logOut")
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response logOut(@QueryParam(value = "idUser") int idUser) {
+      //  return Response.ok(userService.logOut(idUser)).build();
+        return Response.ok().build();
+    }
+
 }
