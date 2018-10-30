@@ -25,13 +25,13 @@ public class RDV implements Serializable {
     @ManyToOne
     private User users;//patient
 
-    @JsonIgnore
+
     @ManyToOne
     private User doctors;
 
     @OneToOne
     private Motif motif;
-
+    @JsonIgnore
     @OneToOne(mappedBy = "rendezVous")
     private MedicalPath medicalPath;
 
@@ -121,13 +121,12 @@ public class RDV implements Serializable {
                 status == rdv.status &&
                 Objects.equals(users, rdv.users) &&
                 Objects.equals(doctors, rdv.doctors) &&
-                Objects.equals(motif, rdv.motif) &&
-                Objects.equals(medicalPath, rdv.medicalPath);
+                Objects.equals(motif, rdv.motif) ;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, dateRDV, confirmationDoc, confirmationPatient, status, users, doctors, motif, medicalPath);
+        return Objects.hash(id, dateRDV, confirmationDoc, confirmationPatient, status, users, doctors, motif);
     }
 
     @Override
@@ -141,7 +140,7 @@ public class RDV implements Serializable {
                 ", users=" + users +
                 ", doctors=" + doctors +
                 ", motif=" + motif +
-                ", medicalPath=" + medicalPath +
+
                 '}';
     }
 }

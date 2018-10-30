@@ -87,14 +87,15 @@ public class User implements Serializable {
 
     @OneToMany(mappedBy = "user")
     private List<MessageDoctor> messageDoctors;
-
+    @JsonIgnore
     @OneToMany(mappedBy = "users", fetch = FetchType.EAGER)
     private Set<RDV> rendezVous;
 
-
+    @JsonIgnore
     @OneToMany(mappedBy = "doctors",fetch= FetchType.EAGER)
     private Set<RDV> rendezVousDoctors;
-    @OneToOne
+    @JsonIgnore
+    @OneToOne(mappedBy = "doctor" ,fetch = FetchType.EAGER)
     private PathDoctors pathDoctors;
 
 

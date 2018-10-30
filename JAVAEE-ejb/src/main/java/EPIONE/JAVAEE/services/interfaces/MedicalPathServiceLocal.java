@@ -26,6 +26,15 @@ public interface MedicalPathServiceLocal {
     void updateMedicalVisitStatus(int pathDoc,MedicalVisit medicalVisit);
     /*************get ALll RDV list for a signle user **************/
     List<RDV> getAllRDVPatient(int idPatient);
+    /**********Get pathDoctor by path id********************/
+    List<PathDoctors> getDoctorsInPathById(int pathid);
+    /******************************* get all paths for patient ***********************************************/
+    List<MedicalPath> allPathsForConnectedPatient(int idpatient);
+    /******************************* get path with multiple search option ******************************/
+    List<MedicalPath> searchPathByOption(int idPatient,MedicalPath medicalPath);
+    /************************* get doctor's visits*****************************************/
+    List<MedicalVisit> getDoctorAllvisits(int idDoctor);
+    /*************************** Doctor update Medical Path *********************************/
 
 
 }

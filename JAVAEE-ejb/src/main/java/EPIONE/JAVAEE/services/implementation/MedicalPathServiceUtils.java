@@ -39,8 +39,9 @@ public class MedicalPathServiceUtils {
 
     public int getDesiredDoctorPath(EntityManager em, int iddoc, int idpath) {
 
-        TypedQuery<PathDoctors> query = em.createQuery("SELECT p FROM PathDoctors p WHERE p.doctor.id = :iddoc and p.path.id= :idpath", PathDoctors.class);
+       TypedQuery<PathDoctors> query =  em.createQuery("SELECT p FROM PathDoctors p WHERE p.doctor.id = :iddoc and p.path.id= :idpath", PathDoctors.class);
         PathDoctors list = query.setParameter("iddoc", iddoc).setParameter("idpath", idpath).getSingleResult();
+        System.out.println("**************************************"+list.getId());
         return list.getId();
     }
 
@@ -74,5 +75,27 @@ public class MedicalPathServiceUtils {
         List<MedicalVisit> query = list.getResultList();
         return query;
     }
-
+    public List<PathDoctors> getPathDocByIdPath(EntityManager em,int idPath)
+    {
+        TypedQuery<PathDoctors> list=em.createQuery("select p from PathDoctors p where p.path.id = :idpath",PathDoctors.class);
+        List<PathDoctors> query=list.setParameter("idpath",idPath).getResultList();
+        return query;
+    }
+    public List<MedicalPath> getAllPathsForPatient(EntityManager em,int idpatient)
+    {
+        TypedQuery<MedicalPath> list=em.createQuery("select p from MedicalPath p where p.rendezVous.users.id = :idpatient",MedicalPath.class);
+        List<MedicalPath> query=list.setParameter("idpatient",idpatient).getResultList();
+        return query;
+    }
+    public List<MedicalPath> searchList(EntityManager em,MedicalPath path,int idpatient)
+    {
+        TypedQuery<MedicalPath> list=em.createQuery("select p from MedicalPath p where p.rendezVous.users.id=:idpatient and p.id=:pid or p.justification=:justification or p.status=:status or p.active=:active ",MedicalPath.class);
+        List<MedicalPath> query=list.setParameter("pid",path.getId()).setParameter("idpatient",idpatient).setParameter("justification",path.getJustification()).setParameter("status",path.getStatus()).setParameter("active",path.getActive()).getResultList();
+        return query;
+    }
+    public List<MedicalVisit> doctorVisits(EntityManager em,int idDoc){
+            TypedQuery<MedicalVisit> visit=em.createQuery("select p from MedicalVisit p where p.pathDoctors.doctor.id=:idDoc",MedicalVisit.class);
+            List<MedicalVisit> m= visit.setParameter("idDoc",idDoc).getResultList();
+            return m;
+    }
 }

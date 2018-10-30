@@ -1,5 +1,7 @@
 package EPIONE.JAVAEE.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
@@ -10,11 +12,12 @@ public class PathDoctors implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private int ordre;
-    @ManyToOne
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.EAGER)
     private MedicalPath path;
     @OneToOne
     private User doctor;
-    @OneToOne(cascade = CascadeType.REMOVE)
+    @OneToOne(mappedBy = "pathDoctors" ,fetch = FetchType.EAGER,cascade = CascadeType.REMOVE)
     private MedicalVisit medicalVisit;
 
     public int getId() {

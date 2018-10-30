@@ -23,7 +23,7 @@ public class MedicalPath implements Serializable {
 	private RDV rendezVous;
 
 
-	@OneToMany(mappedBy = "path",cascade = CascadeType.REMOVE )
+	@OneToMany(mappedBy = "path",cascade = CascadeType.REMOVE,fetch = FetchType.EAGER)
 	private List<PathDoctors> doctorPath;
 
 	public int getId() {

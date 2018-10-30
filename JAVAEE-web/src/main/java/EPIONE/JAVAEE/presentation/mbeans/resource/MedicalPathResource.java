@@ -1,22 +1,26 @@
 package EPIONE.JAVAEE.presentation.mbeans.resource;
 
-import EPIONE.JAVAEE.entities.MedicalPath;
-import EPIONE.JAVAEE.entities.MedicalVisit;
-import EPIONE.JAVAEE.entities.PathDoctors;
-import EPIONE.JAVAEE.entities.RDV;
+import EPIONE.JAVAEE.entities.*;
 import EPIONE.JAVAEE.services.interfaces.MedicalPathServiceLocal;
 
 
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.json.JsonObject;
+import javax.jws.soap.SOAPBinding;
+import javax.mail.*;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Status;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.Date;
 import java.util.List;
+import java.util.Properties;
 
 @Path("/medicalPath")
 @RequestScoped
@@ -36,6 +40,36 @@ public class MedicalPathResource {
         String x = medipath.test();
         return x;
     }
+    public void sendMail(String mailTo, String subject, String body) {
+        String returnStatement = null;
+        Properties properties = new Properties();
+        properties.put("mail.smtp.host", "smtp.gmail.com");
+        properties.put("mail.smtp.port", "587");
+        properties.put("mail.smtp.auth", "true");
+        properties.put("mail.smtp.starttls.enable", "true");
+        try {
+            Authenticator auth = new Authenticator() {
+                public PasswordAuthentication getPasswordAuthentication() {
+                    return new PasswordAuthentication("amuari01@gmail.com", "mr8w8901g");
+                }
+            };
+            Session session = Session.getInstance(properties, auth);
+            Message message = new MimeMessage(session);
+            message.setFrom(new InternetAddress("amuari01@gmail.com"));
+            message.setRecipient(Message.RecipientType.TO, new InternetAddress(mailTo));
+            message.setSentDate(new Date());
+            message.setSubject(subject);
+            message.setText(body);
+            returnStatement = "The e-mail was sent successfully";
+            System.out.println(returnStatement);
+            Transport.send(message);
+        } catch (Exception e) {
+            returnStatement = "error in sending mail";
+            e.printStackTrace();
+        }
+
+    }
+
 
     /****Adding new path for patient Web****/
     @POST
@@ -48,6 +82,11 @@ public class MedicalPathResource {
 
         PathgenId = medipath.createPathForPatient(rdv, path);
         if (PathgenId != -1) {
+            RDV rdv1=em.find(RDV.class,rdv);
+
+            sendMail(rdv1.getUsers().getEmail(),
+                    "Your medical Path of the RDV :"+rdv+"",
+                    " Your medical Path of the RDV :"+rdv+"has been created successfully wait till the doctor add doctors to you path"+PathgenId+ "!");
             return Response.ok().entity("Id of the generated Medical Path :" + PathgenId).build();
         } else
             return Response.status(Response.Status.BAD_REQUEST).build();
@@ -96,6 +135,11 @@ public class MedicalPathResource {
         String x = medipath.addDoctorsToPath(pathId, doctorId, pathDoctors, description);
         if (!x.equals("Patient")) {
             if (x.equals("Added Doctor to path Successfully !")) {
+                MedicalPath user =em.find(MedicalPath.class,pathId);
+
+                sendMail(user.getRendezVous().getUsers().getEmail(),
+                        "Adding a Doctor to your path",
+                        " Your medical Path was updated : the doctor "+user.getRendezVous().getUsers().getFirstName()+"," +user.getRendezVous().getUsers().getLastName()+"  with the speciality  :"+user.getRendezVous().getUsers().getSpeciality()+"has been added successfully !");
                 return Response.ok().entity("Added Doctor to path Successfully !" + " DoctorId\n" + doctorId + " \n" + "PathId" + pathId).build();
             } else
                 return Response.status(Response.Status.FOUND).build();
@@ -144,5 +188,57 @@ public class MedicalPathResource {
     {
         List<RDV> list =medipath.getAllRDVPatient(idPatient);
         return Response.ok().entity(list).build();
+    }
+    /****************************** get path doc by id web********************************/
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("/getPathDocById/{pathId}")
+    public Response getPathDocById(@PathParam(value = "pathId") int pathId) {
+        List<PathDoctors> path = medipath.getDoctorsInPathById(pathId);
+        // return Response.ok(medipath.getPathById(pathId)).build();
+        if (!path.isEmpty()) {
+            return Response.ok().entity(path).build();
+        } else
+            return Response.status(Response.Status.NO_CONTENT).build();
+    }
+    /******************************************get all paths for patient************************/
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("/getAllPathsPatient/{patientId}")
+    public Response getAllpathsForPatient(@PathParam(value = "patientId") int patientId) {
+        List<MedicalPath> path = medipath.allPathsForConnectedPatient(patientId);
+        // return Response.ok(medipath.getPathById(pathId)).build();
+        if (!path.isEmpty()) {
+            return Response.ok().entity(path).build();
+        } else
+            return Response.status(Response.Status.NO_CONTENT).build();
+    }
+    /************************************** multi search ***********************************/
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("/smartSearch/{patientId}")
+    public Response smartSearchPatientPath(@PathParam(value = "patientId") int patientId,MedicalPath medicalPath) {
+        List<MedicalPath> path = medipath.searchPathByOption(patientId,medicalPath);
+        // return Response.ok(medipath.getPathById(pathId)).build();
+        if (!path.isEmpty()) {
+            return Response.ok().entity(path).build();
+        } else
+            return Response.status(Response.Status.NO_CONTENT).build();
+    }
+    /************************** doctor visits *************************************/
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("/getDoctorVisits/{idDoctor}")
+    public Response getDoctorVisits(@PathParam(value = "idDoctor") int idDoctor) {
+        List<MedicalVisit> path = medipath.getDoctorAllvisits(idDoctor);
+        // return Response.ok(medipath.getPathById(pathId)).build();
+        if (!path.isEmpty()) {
+            return Response.ok().entity(path).build();
+        } else
+            return Response.status(Response.Status.NO_CONTENT).build();
     }
 }

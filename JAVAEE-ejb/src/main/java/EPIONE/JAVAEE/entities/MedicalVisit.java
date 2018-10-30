@@ -1,5 +1,7 @@
 package EPIONE.JAVAEE.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
@@ -14,7 +16,8 @@ public class MedicalVisit implements Serializable {
     private Boolean medicalState;
     private int rating;
     private Date createdAt;
-    @OneToOne
+    @JsonIgnore
+    @OneToOne(cascade = CascadeType.REMOVE)
     private PathDoctors pathDoctors;
 
 

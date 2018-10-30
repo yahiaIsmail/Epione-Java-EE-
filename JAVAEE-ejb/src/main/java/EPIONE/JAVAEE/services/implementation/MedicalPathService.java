@@ -115,6 +115,7 @@ public class MedicalPathService implements MedicalPathServiceLocal {
     public String removeDoctorFromPath(int pathId, int doctorId) {
 
         // MedicalPath path=utils.getPathById(pathId);
+
         PathDoctors pathDoc = em.find(PathDoctors.class, utils.getDesiredDoctorPath(em, pathId, doctorId));
         if (!pathDoc.equals(null)) {
             int i = pathDoc.getOrdre();
@@ -189,17 +190,19 @@ public class MedicalPathService implements MedicalPathServiceLocal {
         }
 
     }
+
     /**********************************update Path (active/status)**********************/
-            public void agentDisablePath(int id){
-                MedicalPath pathFind = em.find(MedicalPath.class,id);
-                pathFind.setActive(false);
-                pathFind.setStatus(true);
-                em.flush();
-            }
+    public void agentDisablePath(int id) {
+        MedicalPath pathFind = em.find(MedicalPath.class, id);
+        pathFind.setActive(false);
+        pathFind.setStatus(true);
+        em.flush();
+    }
 
     /**************************** Scan agent with cron "Automated tasks" ***************************/
-    @Schedule(second = "*/30", minute = "*", hour = "*", persistent = false)
 
+    //@Schedule(second = "*/30", minute = "*", hour = "*", persistent = false)
+/*
     public void atSchedule() throws InterruptedException {
 
         // System.out.println("DeclarativeScheduler:: In atSchedule()");
@@ -214,8 +217,8 @@ public class MedicalPathService implements MedicalPathServiceLocal {
             if(pathf.isStatus()==false && pathf.isActive()==true ) {
                 if (list.get(i).getMedicalState() == true) {
                     idpath = list.get(i).getPathDoctors().getPath().getId();
-                    System.out.println("***************************INIT");
-                    System.out.println(list.get(i));
+                   // System.out.println("***************************INIT");
+                    //System.out.println(list.get(i));
                     if (!paths.contains(idpath)) {
                         paths.add(idpath);
                     }
@@ -223,7 +226,7 @@ public class MedicalPathService implements MedicalPathServiceLocal {
             }
 
             else
-            {System.out.println("No visits to fetch ");
+            {//System.out.println("No visits to fetch ");
             break;
             }
 
@@ -237,6 +240,7 @@ public class MedicalPathService implements MedicalPathServiceLocal {
 
 
     }
+    */
 
     /***************************get all rdv for patient ejb ********************************************/
     @Override
@@ -245,5 +249,47 @@ public class MedicalPathService implements MedicalPathServiceLocal {
         List<RDV> list = utils.getRdvPatient(em, idPatient);
 
         return list;
+    }
+
+    /************************************* get path doc by id**************************************
+     *
+     */
+    @Override
+    public List<PathDoctors> getDoctorsInPathById(int pathid) {
+        List<PathDoctors> list = utils.getPathDocByIdPath(em, pathid);
+        return list;
+    }
+
+    /********************************************************** get all paths for patient**********************/
+    @Override
+    public List<MedicalPath> allPathsForConnectedPatient(int idpatient) {
+        User user = em.find(User.class, idpatient);
+        if (user != null ) {
+
+                List<MedicalPath> list = utils.getAllPathsForPatient(em, idpatient);
+                return list;
+
+
+
+        }
+        else return null;
+    }
+
+    /****************************************** multiple search criteria ***************************************/
+    @Override
+    public List<MedicalPath> searchPathByOption(int idPatient, MedicalPath medicalPath) {
+        List<MedicalPath> list = utils.searchList(em, medicalPath, idPatient);
+        return list;
+    }
+    /************************************* get doctor's visits *************************************************/
+    @Override
+    public List<MedicalVisit> getDoctorAllvisits(int idDoctor) {
+       User user=em.find(User.class,idDoctor);
+       if(user!=null && user.getRole().equals(Roles.Doctor))
+       {
+           List<MedicalVisit> m =utils.doctorVisits(em,idDoctor);
+           return  m;
+       }
+        return null;
     }
 }
