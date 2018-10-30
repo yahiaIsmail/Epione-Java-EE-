@@ -5,6 +5,7 @@ import EPIONE.JAVAEE.entities.User;
 import EPIONE.JAVAEE.services.implementation.UserService;
 import EPIONE.JAVAEE.services.interfaces.DemandeServiceLocal;
 import EPIONE.JAVAEE.services.interfaces.UserServiceLocal;
+import EPIONE.JAVAEE.services.interfaces.UserServiceRemote;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
@@ -147,12 +148,22 @@ public class UserResource {
     @Path("/takeRdv/{emailPatient}/{emailDoctor}/{motifId}/{year}/{month}/{day}/{hour}/{minutes}")
     @Consumes(MediaType.TEXT_PLAIN)
     @Produces(MediaType.APPLICATION_JSON)
-    public String takeRdv(@PathParam(value = "emailPatient") String emailPatient,@PathParam(value = "emailDoctor") String emailDoctor,@PathParam(value = "motifId") int motifId, @PathParam(value = "year") int year, @PathParam(value = "month") int month, @PathParam(value = "hour") int day, @PathParam(value = "hour") int hour, @PathParam(value = "minutes") int minutes){
-        int takeRdvResponse = userServiceLocal.takeRvdPatient(emailPatient,emailDoctor,motifId,year,month,day,hour,minutes);
+    public String takeRdv(@PathParam(value = "emailPatient") String emailPatient, @PathParam(value = "emailDoctor") String emailDoctor, @PathParam(value = "motifId") int motifId, @PathParam(value = "year") int year, @PathParam(value = "month") int month, @PathParam(value = "hour") int day, @PathParam(value = "hour") int hour, @PathParam(value = "minutes") int minutes) {
+        int takeRdvResponse = userServiceLocal.takeRvdPatient(emailPatient, emailDoctor, motifId, year, month, day, hour, minutes);
         if (takeRdvResponse != 0)
             return "added";
         return "failed";
     }
 
+    @POST
+    @Path("/addPatient")
+    @Consumes(MediaType.APPLICATION_XML)
+    @Produces(MediaType.APPLICATION_JSON)
+    public String addPatient(User user) {
+        int responce = userServiceLocal.addPatient(user);
+        if (responce == 0)
+            return " error";
+        return "added";
+    }
 
 }
