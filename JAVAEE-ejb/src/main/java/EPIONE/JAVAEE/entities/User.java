@@ -82,9 +82,11 @@ public class User implements Serializable {
     @OneToMany(mappedBy = "doctor",fetch = FetchType.EAGER)
     private Set<Transport> transportList;
 
+    @JsonIgnore
     @ManyToMany
     private List<Conversation> conversations;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "user")
     private List<MessageDoctor> messageDoctors;
 
@@ -300,12 +302,37 @@ public class User implements Serializable {
         return transportList;
     }
 
+<<<<<<< HEAD
     public List<SentMessage> getMessages() {
         return messages;
     }
 
     public void setMessages(List<SentMessage> messages) {
         this.messages = messages;
+=======
+    public List<Conversation> getConversations() {
+        return conversations;
+    }
+
+    public void setConversations(List<Conversation> conversations) {
+        this.conversations = conversations;
+    }
+
+    public List<MessageDoctor> getMessageDoctors() {
+        return messageDoctors;
+    }
+
+    public void setMessageDoctors(List<MessageDoctor> messageDoctors) {
+        this.messageDoctors = messageDoctors;
+    }
+
+    public PathDoctors getPathDoctors() {
+        return pathDoctors;
+    }
+
+    public void setPathDoctors(PathDoctors pathDoctors) {
+        this.pathDoctors = pathDoctors;
+>>>>>>> 1ed898d4d23f7dc912892a3f7c5caa6d62debd9d
     }
 
     @Override

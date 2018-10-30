@@ -15,8 +15,8 @@ public class Address implements Serializable {
 	private String longit;
 	private String latitude;
 
-
-	@OneToOne(mappedBy = "address", fetch = FetchType.EAGER)
+	@JsonIgnore
+	@OneToOne(mappedBy = "address")
 	private User doctor;
 
 	public Address() {
