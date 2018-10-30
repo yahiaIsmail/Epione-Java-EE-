@@ -11,4 +11,5 @@ public interface ConversationServiceLocal {
     void addNewConversationMessage( int idDoctor , int idPatient);
     void addMessageToConversation(int idUser , int idConversation , String message);
     List<SentMessage> getMessagesByConvId(int idConversation);
+    boolean deleteConversation(int idUser , int idConversation);
 }

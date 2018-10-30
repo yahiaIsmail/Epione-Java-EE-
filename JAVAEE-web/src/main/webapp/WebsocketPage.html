@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>WebSocket Client</title>
+    <form>
+        <input id="textMessage" type="text">
+        <input onclick="sendMessage();" value="send message" type="button">
+    </form>
+    </br>
+    <textarea id="messagesTextArea" rows="20" cols="70"></textarea>
+    <script type="text/javascript">
+        var ws = new WebSocket("ws://localhost:18080/JAVAEE-web/example");
+        var messagesTextArea = document.getElementById("messagesTextArea");
+        var textMessage = document.getElementById("textMessage");
+        ws.onopen= function(message){ processOpen(message);};
+        ws.onmessage = function(message){processMessage(message);};
+        ws.onclose = function(message){ processClose(message); };
+        ws.onerror = function(message){ processError(message);};
+        function processOpen(message){
+            messagesTextArea.value += "Epionne connect ....."+"\n"+"Please enter the date of your current appoitment"+"\n";
+        }
+        function processMessage(message){
+            messagesTextArea.value += "Recieve from Epionne ..."+message.data+"\n";
+        }
+        function sendMessage()	{
+            if(textMessage.value != "close"){
+                ws.send(textMessage.value);
+                messagesTextArea.value += "Send to Epionne :"+textMessage.value+"\n";
+                textMessage.value="";
+            }else ws.close();
+        }
+        function processClose(message){
+            ws.send("Client is diconnected ...");
+            messagesTextArea.value += "Epionne disconnect ....."+"\n";
+        }
+        function processError(message){
+            messagesTextArea.value += "error....."+"\n";
+        }
+
+    </script>
+</head>
+<body>
+</body>
+</html>
