@@ -21,5 +21,6 @@ public interface UserServiceRemote {
 
     public boolean login(User u) throws Exception;
 
+    boolean updateUserAdresse(User user);
 
 }

@@ -21,6 +21,10 @@ public interface UserServiceLocal {
 
 
     public boolean login(User u) throws Exception;
+
     public boolean logout();
+
+    boolean updateUserAdresse(User user);
+
 
 }

@@ -381,6 +381,11 @@ public class UserService implements UserServiceLocal, UserServiceRemote {
             return false;
     }
 
+    @Override
+    public boolean updateUserAdresse(User user) {
+        return false;
+    }
+
 
 }
 
