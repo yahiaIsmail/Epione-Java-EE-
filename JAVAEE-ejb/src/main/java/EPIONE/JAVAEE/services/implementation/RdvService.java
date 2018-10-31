@@ -10,6 +10,7 @@ import javax.persistence.PersistenceContext;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Stateless
@@ -62,8 +63,8 @@ public class RdvService implements RdvServiceLocal, RdvServiceRemote {
             dateRdv.setHours(hour);
             dateRdv.setMinutes(minutes);
             dateRdv.setMonth(month - 1);
-            dateRdv.setYear(year);
-            dateRdv.setDate(day);
+            dateRdv.setYear(year - 1900);
+            dateRdv.setDate(day - 3);
 
             rdv.setMotif(motif);
             rdv.setDateRDV(dateRdv);
@@ -74,7 +75,7 @@ public class RdvService implements RdvServiceLocal, RdvServiceRemote {
             rdv.setDoctors(doctor);
 
             em.persist(rdv);
-            return 1;
+            return rdv.getId();
         } catch (javax.persistence.NoResultException exp) {
             return 0;
         }
@@ -159,7 +160,7 @@ public class RdvService implements RdvServiceLocal, RdvServiceRemote {
                     .setParameter("id", rdvId)
                     .getSingleResult();
             Motif motif = (Motif) em.createQuery("SELECT motif FROM Motif motif WHERE motif.id = :id")
-                    .setParameter("id",motifId)
+                    .setParameter("id", motifId)
                     .getSingleResult();
             rdv.setMotif(motif);
             User doctor = rdv.getDoctors();
@@ -170,5 +171,43 @@ public class RdvService implements RdvServiceLocal, RdvServiceRemote {
         }
     }
 
+    @Override
+    public List<RDV> searchRdvByDoctor(int doctorId) {
+        try {
+            User doc = new User();
+            doc.setId(doctorId);
+            List<RDV> rdvs = em.createQuery("SELECT rdv FROM RDV rdv where rdv.doctors = :id")
+                    .setParameter("id", doc)
+                    .getResultList();
+            return rdvs;
+        } catch (javax.persistence.NoResultException exp) {
+            return null;
+        }
+    }
+
+    @Override
+    public List<RDV> searchRdvByPatient(int patientId) {
+        try {
+            User pat = new User();
+            pat.setId(patientId);
+            List<RDV> rdvs = em.createQuery("SELECT rdv FROM RDV rdv where rdv.users = :id")
+                    .setParameter("id", pat)
+                    .getResultList();
+            return rdvs;
+        } catch (javax.persistence.NoResultException exp) {
+            return null;
+        }
+    }
+
+    @Override
+    public List<RDV> searchRdvConfirmed() {
+        try {
+            List<RDV> rdvs = em.createQuery("SELECT rdv FROM RDV rdv where rdv.confirmationDoc = true AND rdv.confirmationPatient = true")
+                    .getResultList();
+            return rdvs;
+        } catch (javax.persistence.NoResultException exp) {
+            return null;
+        }
+    }
 
 }

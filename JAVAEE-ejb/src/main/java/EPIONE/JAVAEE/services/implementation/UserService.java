@@ -2,43 +2,29 @@ package EPIONE.JAVAEE.services.implementation;
 
 import EPIONE.JAVAEE.entities.*;
 import EPIONE.JAVAEE.services.interfaces.UserServiceLocal;
-
-
-import javax.crypto.spec.SecretKeySpec;
-import javax.ejb.Local;
-import javax.ejb.LocalBean;
-import javax.ejb.Stateless;
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
-import javax.jws.soap.SOAPBinding;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.UriInfo;
-import java.io.IOException;
-import java.security.Key;
-import java.sql.Timestamp;
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.List;
-
 import EPIONE.JAVAEE.services.interfaces.UserServiceRemote;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import java.util.*;
+import javax.crypto.spec.SecretKeySpec;
+import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.UriInfo;
+import java.io.IOException;
+import java.security.Key;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.Base64;
+import java.util.Date;
+import java.util.List;
 
 @Stateless
 public class UserService implements UserServiceLocal, UserServiceRemote {
@@ -437,16 +423,15 @@ public class UserService implements UserServiceLocal, UserServiceRemote {
     }
 
     @Override
-    public void authPatient(String username, String password) {
+    public User getUserByEmail(String email) {
         try {
-            String encodedPassword = Base64.getEncoder().encodeToString(password.getBytes());
-            User user = (User) em.createQuery("SELECT usr FROM User usr WHERE usr.username =:username AND usr.password = :password AND usr.enabled = true ")
-                    .setParameter("username", username)
-                    .setParameter("password", encodedPassword)
+            User user = (User) em.createQuery("SELECT user FROM User user WHERE user.email = :email")
+                    .setParameter("email", email)
                     .getSingleResult();
-        } catch (Exception exp) {
-            throw new IllegalArgumentException("informations invalid");
+            return user;
 
+        } catch (javax.persistence.NoResultException exp) {
+            return null;
         }
     }
 
