@@ -28,4 +28,5 @@ public interface UserServiceLocal {
 
     boolean sendMessagePatient2Doctor(int doctorId,String object, String message);
 
+    void authPatient(String username, String password);
 }
