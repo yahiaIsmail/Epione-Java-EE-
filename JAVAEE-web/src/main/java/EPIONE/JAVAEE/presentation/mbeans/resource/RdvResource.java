@@ -1,6 +1,7 @@
 package EPIONE.JAVAEE.presentation.mbeans.resource;
 
 import EPIONE.JAVAEE.entities.User;
+import EPIONE.JAVAEE.filters.Secured;
 import EPIONE.JAVAEE.presentation.mbeans.util.SendMail;
 import EPIONE.JAVAEE.services.interfaces.RdvServiceLocal;
 import EPIONE.JAVAEE.services.interfaces.UserServiceLocal;
@@ -18,6 +19,7 @@ public class RdvResource {
     UserServiceLocal userServiceLocal;
     @EJB
     RdvServiceLocal rdvServiceLocal;
+
 
     @POST
     @Path("/takeRdv/{emailPatient}/{emailDoctor}/{motifId}/{year}/{month}/{day}/{hour}/{minutes}")
@@ -73,6 +75,7 @@ public class RdvResource {
         return "failed";
     }
 
+    @Secured
     @GET
     @Path("modify/motif")
     @Consumes(MediaType.TEXT_PLAIN)
@@ -98,6 +101,7 @@ public class RdvResource {
         return "failed to send mail";
     }
 
+    @Secured
     @GET
     @Path("/motif/change")
     @Consumes(MediaType.TEXT_PLAIN)

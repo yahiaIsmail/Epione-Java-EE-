@@ -2,6 +2,7 @@ package EPIONE.JAVAEE.presentation.mbeans.resource;
 
 import EPIONE.JAVAEE.entities.Demande;
 import EPIONE.JAVAEE.entities.User;
+import EPIONE.JAVAEE.filters.Secured;
 import EPIONE.JAVAEE.presentation.mbeans.util.SendMail;
 import EPIONE.JAVAEE.services.implementation.UserService;
 import EPIONE.JAVAEE.services.interfaces.DemandeServiceLocal;
@@ -205,6 +206,7 @@ public class UserResource {
         return "failed";
     }
 
+    @Secured
     @POST
     @Path("update/address")
     @Consumes(MediaType.APPLICATION_XML)
@@ -215,6 +217,7 @@ public class UserResource {
         return "failed";
     }
 
+    @Secured
     @POST
     @Path("message/send")
     @Produces(MediaType.APPLICATION_JSON)
@@ -224,5 +227,13 @@ public class UserResource {
         return "failed";
     }
 
+
+    @Secured
+    @GET
+    @Path("tokenTest")
+    @Produces(MediaType.TEXT_PLAIN)
+    public String tokenTest(){
+        return "worked";
+    }
 
 }

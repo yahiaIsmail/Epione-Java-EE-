@@ -4,6 +4,7 @@ import EPIONE.JAVAEE.entities.*;
 import EPIONE.JAVAEE.services.interfaces.UserServiceLocal;
 
 
+import javax.crypto.spec.SecretKeySpec;
 import javax.ejb.Local;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
@@ -16,14 +17,21 @@ import javax.persistence.Query;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.UriInfo;
 import java.io.IOException;
+import java.security.Key;
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 
 import EPIONE.JAVAEE.services.interfaces.UserServiceRemote;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -37,6 +45,9 @@ public class UserService implements UserServiceLocal, UserServiceRemote {
     public static User userConnected = new User();
     @PersistenceContext(unitName = "JAVAEE-ejb")
     EntityManager em;
+
+    @Context
+    private UriInfo uriInfo;
 
     @Override
     public List<User> scrapingAllDoctors(String speciality) {
@@ -316,8 +327,23 @@ public class UserService implements UserServiceLocal, UserServiceRemote {
         user.setAddress(null);
         user.setEnabled(true);
         user.setPassword(Base64.getEncoder().encodeToString(user.getPassword().getBytes()));
-        String token = Base64.getEncoder().encodeToString(user.getUsername().getBytes()) + Base64.getEncoder().encodeToString(user.getPassword().getBytes()) + Base64.getEncoder().encodeToString(user.getEmail().getBytes());
-        user.setConfirmationToken(token);
+
+        String keyString = "secretkey";
+        Key key = new SecretKeySpec(keyString.getBytes(), 0, keyString.getBytes().length, "DES");
+        System.out.println("the key is : " + key.hashCode());
+        System.out.println("Issuer : " + "Kais");
+        System.out.println("Expiration date: " + toDate(LocalDateTime.now().plusYears(2L)));
+
+        String jwtToken = Jwts.builder()
+                .setSubject(user.getUsername())
+                .setIssuer("Kais")
+                .setIssuedAt(new Date())
+                .setExpiration(toDate(LocalDateTime.now().plusYears(20L)))
+                .signWith(SignatureAlgorithm.HS512, key)
+                .compact();
+        user.setConfirmationToken(jwtToken);
+
+        System.out.println("the returned token is : " + jwtToken);
         em.persist(user);
         return user.getId();
     }
@@ -410,6 +436,24 @@ public class UserService implements UserServiceLocal, UserServiceRemote {
         }
     }
 
+    @Override
+    public void authPatient(String username, String password) {
+        try {
+            String encodedPassword = Base64.getEncoder().encodeToString(password.getBytes());
+            User user = (User) em.createQuery("SELECT usr FROM User usr WHERE usr.username =:username AND usr.password = :password AND usr.enabled = true ")
+                    .setParameter("username", username)
+                    .setParameter("password", encodedPassword)
+                    .getSingleResult();
+        } catch (Exception exp) {
+            throw new IllegalArgumentException("informations invalid");
+
+        }
+    }
+
+    private Date toDate(LocalDateTime localDateTime) {
+        return Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
+
+    }
 
 }
 
