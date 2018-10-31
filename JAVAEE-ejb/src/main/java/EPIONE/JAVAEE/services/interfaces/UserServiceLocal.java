@@ -19,14 +19,13 @@ public interface UserServiceLocal {
 
     public boolean activatePatient(String activationToken);
 
-
     public boolean login(User u) throws Exception;
 
     public boolean logout();
 
     boolean updateUserAddress(User user);
 
-    boolean sendMessagePatient2Doctor(int doctorId,String object, String message);
+    boolean sendMessagePatient2Doctor(int doctorId, String object, String message);
 
-    void authPatient(String username, String password);
+    User getUserByEmail(String email);
 }

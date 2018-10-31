@@ -227,13 +227,4 @@ public class UserResource {
         return "failed";
     }
 
-
-    @Secured
-    @GET
-    @Path("tokenTest")
-    @Produces(MediaType.TEXT_PLAIN)
-    public String tokenTest(){
-        return "worked";
-    }
-
 }

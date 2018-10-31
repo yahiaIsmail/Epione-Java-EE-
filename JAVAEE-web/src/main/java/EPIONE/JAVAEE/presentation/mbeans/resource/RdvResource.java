@@ -1,5 +1,6 @@
 package EPIONE.JAVAEE.presentation.mbeans.resource;
 
+import EPIONE.JAVAEE.entities.RDV;
 import EPIONE.JAVAEE.entities.User;
 import EPIONE.JAVAEE.filters.Secured;
 import EPIONE.JAVAEE.presentation.mbeans.util.SendMail;
@@ -10,6 +11,7 @@ import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.util.List;
 import java.util.Map;
 
 @Path("/rdv")
@@ -29,12 +31,14 @@ public class RdvResource {
         int takeRdvResponse = rdvServiceLocal.takeRvdPatient(emailPatient, emailDoctor, motifId, year, month, day, hour, minutes);
         String responce = "failed";
         if (takeRdvResponse != 0) {
+            User patient = userServiceLocal.getUserByEmail(emailPatient);
+            User doctor = userServiceLocal.getUserByEmail(emailDoctor);
             String bodyPatient = "This mail is Sent to patient to inform him that he took a rendez-vous<br>, " +
                     "Please confirm your attendency by clicking link below.<br>" +
-                    "<a href=></a>";
+                    "<a href=" + "htttp://localhost:18080/JAVAEE-web/rest/rdv/user/confirmRDV?Token=" + patient.getConfirmationToken() + "&rdvId=" + takeRdvResponse + ">Click here</a>";
             String bodyDoctor = "This mail is Sent to Doctor to inform him that a Patient he took a rendez-vous<br>," +
                     "                    Please confirm your attendency by clicking link below.<br>" +
-                    "                    <a href=></a>";
+                    "                    <a href=" + "htttp://localhost:18080/JAVAEE-web/rest/rdv/doctor/confirmRDV?Token=" + patient.getConfirmationToken() + "&rdvId=" + takeRdvResponse + ">Click here</a>";
             if (SendMail.mail(emailPatient, "Confirm RDV", bodyPatient))
                 responce = "sent";
             else
@@ -114,5 +118,30 @@ public class RdvResource {
             return "Motif modifier";
         return "error send mail";
     }
+
+    @GET
+    @Path("/doctor")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<RDV> searchRdvByDoctor(@QueryParam(value = "doctorId") int doctorId) {
+        List<RDV> rdvs = rdvServiceLocal.searchRdvByDoctor(doctorId);
+        return rdvs;
+    }
+
+    @GET
+    @Path("/patient")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<RDV> searchRdvByPatient(@QueryParam(value = "patientId") int patientId) {
+        List<RDV> rdvs = rdvServiceLocal.searchRdvByPatient(patientId);
+        return rdvs;
+    }
+
+    @GET
+    @Path("/confirmed")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<RDV> searchRdvConfirmed() {
+        List<RDV> rdvs = rdvServiceLocal.searchRdvConfirmed();
+        return rdvs;
+    }
+
 
 }

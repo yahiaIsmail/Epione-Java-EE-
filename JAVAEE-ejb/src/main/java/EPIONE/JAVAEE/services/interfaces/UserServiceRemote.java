@@ -1,5 +1,6 @@
 package EPIONE.JAVAEE.services.interfaces;
 
+import EPIONE.JAVAEE.entities.RDV;
 import EPIONE.JAVAEE.entities.User;
 
 import javax.ejb.Remote;
@@ -25,6 +26,7 @@ public interface UserServiceRemote {
 
     boolean sendMessagePatient2Doctor(int doctorId, String object, String message);
 
-    public void authPatient(String username, String password);
+    User getUserByEmail(String email);
+
 
 }

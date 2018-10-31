@@ -1,8 +1,10 @@
 package EPIONE.JAVAEE.services.interfaces;
 
+import EPIONE.JAVAEE.entities.RDV;
 import EPIONE.JAVAEE.entities.User;
 
 import javax.ejb.Local;
+import java.util.List;
 import java.util.Map;
 
 @Local
@@ -20,5 +22,11 @@ public interface RdvServiceLocal {
     Map<String, User> cancelRdv(int rdvId);
 
     User selectRdvMotif(int rdvId, int motifId);
+
+    List<RDV> searchRdvByDoctor(int doctorId);
+
+    List<RDV> searchRdvByPatient(int patientId);
+
+    List<RDV> searchRdvConfirmed();
 
 }
