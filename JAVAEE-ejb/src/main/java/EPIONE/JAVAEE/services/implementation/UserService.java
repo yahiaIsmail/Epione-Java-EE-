@@ -34,7 +34,7 @@ import java.util.*;
 
 @Stateless
 public class UserService implements UserServiceLocal, UserServiceRemote {
-    public static User userConnected= new User();
+    public static User userConnected = new User();
     @PersistenceContext(unitName = "JAVAEE-ejb")
     EntityManager em;
 
@@ -274,7 +274,7 @@ public class UserService implements UserServiceLocal, UserServiceRemote {
         doctor.setUsername(firstName + "-" + lastName);
         doctor.setRole(Roles.Doctor);
         doctor.setAddress(addressSplited);
-        String username= firstName + "-" + lastName;
+        String username = firstName + "-" + lastName;
         String token = Base64.getEncoder().encodeToString(username.getBytes()) + password + Base64.getEncoder().encodeToString(email.getBytes());
         doctor.setConfirmationToken(token);
         em.persist(doctor);
@@ -355,12 +355,11 @@ public class UserService implements UserServiceLocal, UserServiceRemote {
         System.out.println("Found " + resultCount + " Result(s) ");
         if (resultCount != 1) {
             return false;
-        }
-        else{
-            User user=(User)query.getResultList().get(0);
+        } else {
+            User user = (User) query.getResultList().get(0);
             user.setEnabled(true);
             em.flush();
-            userConnected=user;
+            userConnected = user;
 
 
             System.out.println(userConnected.getRole());
@@ -371,14 +370,44 @@ public class UserService implements UserServiceLocal, UserServiceRemote {
 
     @Override
     public boolean logout() {
-        if(userConnected.isEnabled()) {
+        if (userConnected.isEnabled()) {
             User user = em.find(User.class, userConnected.getId());
             user.setEnabled(false);
             userConnected = new User();
             return true;
-        }
-        else
+        } else
             return false;
+    }
+
+    @Override
+    public boolean updateUserAddress(User user) {
+        try {
+            Address address = user.getAddress();
+            em.persist(address);
+            User usr = em.find(User.class, user.getId());
+            usr.setAddress(address);
+            return true;
+        } catch (javax.persistence.NoResultException exp) {
+            return false;
+        }
+    }
+
+    @Override
+    public boolean sendMessagePatient2Doctor(int doctorId, String object, String message) {
+        try {
+            User user = em.find(User.class, doctorId);
+            MessageDoctor msg = new MessageDoctor();
+            msg.setUser(user);
+            msg.setContent(message);
+            msg.setObject(object);
+            em.persist(msg);
+            List<MessageDoctor> listM = new ArrayList<MessageDoctor>();
+            listM.add(msg);
+            user.setMessageDoctors(listM);
+            return true;
+        } catch (javax.persistence.NoResultException exp) {
+            return false;
+        }
     }
 
 

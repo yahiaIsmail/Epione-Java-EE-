@@ -21,6 +21,11 @@ public interface UserServiceLocal {
 
 
     public boolean login(User u) throws Exception;
+
     public boolean logout();
+
+    boolean updateUserAddress(User user);
+
+    boolean sendMessagePatient2Doctor(int doctorId,String object, String message);
 
 }

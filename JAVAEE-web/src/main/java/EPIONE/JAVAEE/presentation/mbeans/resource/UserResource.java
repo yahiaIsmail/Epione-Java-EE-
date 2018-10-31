@@ -179,8 +179,8 @@ public class UserResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response logOut() {
         //  return Response.ok(userService.logOut(idUser)).build();
-        boolean x= userServiceLocal.logout();
-        if(x==true)
+        boolean x = userServiceLocal.logout();
+        if (x == true)
             return Response.ok().build();
         else return Response.status(Response.Status.FORBIDDEN).build();
     }
@@ -202,6 +202,25 @@ public class UserResource {
     public String activatePatient(@DefaultValue("empty") @QueryParam(value = "activationToken") String activationToken) {
         if (userServiceLocal.activatePatient(activationToken))
             return "activated";
+        return "failed";
+    }
+
+    @POST
+    @Path("update/address")
+    @Consumes(MediaType.APPLICATION_XML)
+    @Produces(MediaType.APPLICATION_JSON)
+    public String updateUserAddress(User user) {
+        if (userServiceLocal.updateUserAddress(user))
+            return "address updated";
+        return "failed";
+    }
+
+    @POST
+    @Path("message/send")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String sendMessagePatient2Doctor(@QueryParam(value = "doctorId") int doctorId, @QueryParam(value = "object") String object, @QueryParam(value = "message") String message) {
+        if (userServiceLocal.sendMessagePatient2Doctor(doctorId, object, message))
+            return "message sent";
         return "failed";
     }
 

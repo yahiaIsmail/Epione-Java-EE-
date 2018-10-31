@@ -19,4 +19,6 @@ public interface RdvServiceLocal {
 
     Map<String, User> cancelRdv(int rdvId);
 
+    User selectRdvMotif(int rdvId, int motifId);
+
 }

@@ -21,5 +21,8 @@ public interface UserServiceRemote {
 
     public boolean login(User u) throws Exception;
 
+    boolean updateUserAddress(User user);
+
+    boolean sendMessagePatient2Doctor(int doctorId,String object, String message);
 
 }
