@@ -1,9 +1,6 @@
 package EPIONE.JAVAEE.services.interfaces;
 
-import EPIONE.JAVAEE.entities.MedicalPath;
-import EPIONE.JAVAEE.entities.MedicalVisit;
-import EPIONE.JAVAEE.entities.PathDoctors;
-import EPIONE.JAVAEE.entities.RDV;
+import EPIONE.JAVAEE.entities.*;
 
 import javax.ejb.Local;
 import java.util.List;
@@ -38,6 +35,8 @@ public interface MedicalPathServiceLocal {
     void updateDoctorInPath(String justification,int idpath,PathDoctors pathDoctors);
     /********************************* get all paths for doctor ****************************/
     List<PathDoctors> getAllPathForDoctor();
+    /******************************** find nearby doctors *************************************/
+    List<User> nearbyDoctors(double el1,double el2,int idPatient);
 
 
 }

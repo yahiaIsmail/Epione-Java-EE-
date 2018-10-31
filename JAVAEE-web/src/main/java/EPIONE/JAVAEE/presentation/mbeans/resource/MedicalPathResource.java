@@ -272,4 +272,13 @@ public class MedicalPathResource {
         } else
             return Response.status(Response.Status.NO_CONTENT).build();
     }
+    /****************************** nearby doctors ***************************************/
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/nearbyDoctors/{el1}/{el2}/{idPatient}")
+    public Response nearbyDoctors(@PathParam(value = "el1") double el1,@PathParam(value = "el2") double el2,@PathParam(value = "idPatient") int idPatient)
+    {
+        List<User> list =medipath.nearbyDoctors(el1,el2,idPatient);
+        return Response.ok().entity(list).build();
+    }
 }

@@ -396,8 +396,7 @@ public class User implements Serializable {
                 ", transportList=" + transportList +
                 ", conversations=" + conversations +
                 ", messageDoctors=" + messageDoctors +
-                ", rendezVous=" + rendezVous +
-                ", rendezVousDoctors=" + rendezVousDoctors +
+
                 ", pathDoctors=" + pathDoctors +
                 '}';
     }

@@ -137,8 +137,7 @@ public class RDV implements Serializable {
                 ", confirmationDoc=" + confirmationDoc +
                 ", confirmationPatient=" + confirmationPatient +
                 ", status=" + status +
-                ", users=" + users +
-                ", doctors=" + doctors +
+
                 ", motif=" + motif +
 
                 '}';

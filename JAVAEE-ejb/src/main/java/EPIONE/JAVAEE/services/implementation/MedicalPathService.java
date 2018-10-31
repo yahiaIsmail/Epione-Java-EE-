@@ -346,5 +346,34 @@ public class MedicalPathService implements MedicalPathServiceLocal {
         } else return null;
 
     }
+    /**************************************** nearby Doctors on adding doctors for patient path *-************************/
+    public double distance(double lat1, double lat2, double lon1,
+                                  double lon2, double el1, double el2) {
 
+        final int R = 6371; // Radius of the earth
+
+        double latDistance = Math.toRadians(lat2 - lat1);
+        double lonDistance = Math.toRadians(lon2 - lon1);
+        double a = Math.sin(latDistance / 2) * Math.sin(latDistance / 2)
+                + Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2))
+                * Math.sin(lonDistance / 2) * Math.sin(lonDistance / 2);
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        double distance = R * c * 1000; // convert to meters
+
+        double height = el1 - el2;
+
+        distance = Math.pow(distance, 2) + Math.pow(height, 2);
+
+        return Math.sqrt(distance);
+    }
+    @Override
+    public List<User> nearbyDoctors(double el1,double el2,int idPatient) {
+        System.out.println(em.find(User.class,idPatient));
+        double x=distance(43.2724008,73.2724008,5.39050539999994,7.39050539999994,el1,el2);
+        User li=em.find(User.class,idPatient);
+        System.out.println(x/1000);
+        List<User> lis=new ArrayList<>();
+        lis.add(li);
+        return lis;
+    }
 }
