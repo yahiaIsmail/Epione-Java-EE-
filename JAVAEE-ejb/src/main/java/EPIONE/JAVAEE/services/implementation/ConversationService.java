@@ -85,9 +85,9 @@ public class ConversationService implements ConversationServiceLocal , Conversat
     @Override
     public List<SentMessage> getMessagesByConvId(int idConversation) {
         List<SentMessage> messages = null ;
-       // TypedQuery<SentMessage> query = em.createQuery("select m from SentMessage m where m.conversation.id=:idConv", SentMessage.class);
-       // query.setParameter("idConv", idConversation);
-       // messages= query.getResultList();
+        TypedQuery<SentMessage> query = em.createQuery("select m from SentMessage m where m.conversation.id=:idConv", SentMessage.class);
+        query.setParameter("idConv", idConversation);
+        messages= query.getResultList();
         return messages;
     }
 
@@ -103,7 +103,13 @@ public class ConversationService implements ConversationServiceLocal , Conversat
     public void addSimpleConversation() {
         Conversation conv = new Conversation();
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-        //conv.setDateCreated(timestamp);
+        conv.setDateCreated(timestamp);
         em.persist(conv);
+    }
+
+    @Override
+    public List<SentMessage> getListMessages() {
+        TypedQuery<SentMessage> query  = em.createQuery("SELECT e FROM SentMessage e",SentMessage.class);
+        return query.getResultList();
     }
 }

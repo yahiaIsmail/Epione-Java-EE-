@@ -18,19 +18,23 @@ public class ConversationResource {
     EntityManager em;
 
     @EJB
-    ConversationServiceLocal conv;
+    ConversationServiceLocal convLocal;
 
+    ////////////////////////////// Add a new conversation /////////////////////////////////////
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/add")
     public Response addConversation(int idDoctor ) {
 
-        conv.addNewConversationMessage(idDoctor,1);
+        convLocal.addNewConversationMessage(idDoctor,7);
 
         return Response.ok().entity("New conversation created ").build();
 
     }
+    ////////////////////////////////////////////////////////////////////////////////////////////
+
+    ///////////////////////// Add a new message to a conversation //////////////////////////////
 
     @POST
     @Produces(MediaType.APPLICATION_JSON)
@@ -38,18 +42,22 @@ public class ConversationResource {
     @Path("/addMessage/{idConv}")
     public Response addMessageToConv(@PathParam("idConv") int idConv , String message) {
 
-        conv.addMessageToConversation(6 , idConv , message);
+        convLocal.addMessageToConversation(6 , idConv , message);
 
         return Response.ok().entity("New conversation created ").build();
 
     }
+    ////////////////////////////////////////////////////////////////////////////////////////////
+
+    //////////////// Display all messages of a conversation ////////////////////////////////////
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/displayConv/{idConv}")
     public Response getAllMessagesByConv(@PathParam("idConv") int idConv){
-        return Response.ok(conv.getMessagesByConvId(idConv)).build();
+        return Response.ok(convLocal.getMessagesByConvId(idConv)).build();
 
     }
+    ///////////////////////////////////////////////////////////////////////////////////////////
 }

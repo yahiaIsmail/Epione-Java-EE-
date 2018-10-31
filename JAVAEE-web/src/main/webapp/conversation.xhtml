@@ -4,17 +4,64 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui">
+
 <head>
-    <link rel="stylesheet" type="text/css" href="../styles/style.css"></link>
+    <link rel="stylesheet" type="text/css" href="style.css"></link>
+
+    <script type="text/javascript">
+        function start() {
+            PF('statusDialog').show();
+        }
+
+        function stop() {
+            PF('statusDialog').hide();
+        }
+    </script>
 </head>
 
 <body>
-<h1>Conversation</h1>
-<h:form enctype="multipart/form-data">
-    <p:commandButton id="btn"
-                     action="#{conversationBean.addConv()}" value="Add conversation" />
+<h:form>
+    <p:commandButton action="#{conversationBean.addConv}"
+                     value="Add a new conversation" />
 </h:form>
-<input type="button" value="Add conversation"/>
+<h1 style="text-align:center"> Conversation </h1>
+<center>
+    <h:form id="formInput">
+    <p:inputText id="input" placeholder="Type your message" value="#{conversationBean.input}"></p:inputText>
+        <p:commandButton id="send" action="#{conversationBean.addMessageToConv(8,conversationBean.input)}"
+                         value="Send" onConfirmComplete="#{conversationBean.reload}" />
+    </h:form>
+    <p:dataTable id="chat" value="#{conversationBean.sentMessages}"
+                 var="message" boder="1">
+        <p:column class="column">
+            <f:facet name="header">
+                <p:outputLabel value="" />
+            </f:facet>
+            <p:outputLabel value="#{message.dateCreated}" />
+
+        </p:column>
+        <p:column class="column">
+            <f:facet name="header">
+                <p:outputLabel value="" />
+            </f:facet>
+            <p:outputLabel value="#{message.sender.username}" />
+
+        </p:column>
+
+        <p:column class="column">
+            <f:facet name="header">
+                <p:outputLabel value="" />
+            </f:facet>
+            <p:outputLabel value="#{message.content}" />
+        </p:column>
+
+
+
+    </p:dataTable>
+
+</center>
 </body>
+
+
 
 </html>
