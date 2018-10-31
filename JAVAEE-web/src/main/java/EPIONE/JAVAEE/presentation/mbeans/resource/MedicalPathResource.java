@@ -18,6 +18,7 @@ import javax.transaction.Status;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Properties;
@@ -237,6 +238,36 @@ public class MedicalPathResource {
         List<MedicalVisit> path = medipath.getDoctorAllvisits(idDoctor);
         // return Response.ok(medipath.getPathById(pathId)).build();
         if (!path.isEmpty()) {
+            return Response.ok().entity(path).build();
+        } else
+            return Response.status(Response.Status.NO_CONTENT).build();
+    }
+    /***************************doctors in path they can update path *******************************************/
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("/updatePathByDoctorPath/{justif}/{idPath}")
+    public Response updatePathByDoctorPath(@PathParam("justif") String justif,@PathParam("idPath") int idPath, PathDoctors pathDoctors) {
+            medipath.updateDoctorInPath(justif,idPath ,pathDoctors);
+            // return Response.ok(medipath.getPathById(pathId)).build();
+
+
+            return Response.ok().build();
+    }
+    /************************** doctor paths all *************************************/
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("/doctorPaths")
+    public Response getDoctorVisits() {
+        List<PathDoctors> path = medipath.getAllPathForDoctor();
+        // return Response.ok(medipath.getPathById(pathId)).build();
+        List<Integer> pathsid=new ArrayList<>();
+        if (!path.isEmpty()) {
+            for(PathDoctors p : path)
+            {
+                pathsid.add(p.getPath().getId());
+            }
             return Response.ok().entity(path).build();
         } else
             return Response.status(Response.Status.NO_CONTENT).build();

@@ -35,6 +35,9 @@ public interface MedicalPathServiceLocal {
     /************************* get doctor's visits*****************************************/
     List<MedicalVisit> getDoctorAllvisits(int idDoctor);
     /*************************** Doctor update Medical Path *********************************/
-    void updateDoctorInPath(int iddoctor);
+    void updateDoctorInPath(String justification,int idpath,PathDoctors pathDoctors);
+    /********************************* get all paths for doctor ****************************/
+    List<PathDoctors> getAllPathForDoctor();
+
 
 }

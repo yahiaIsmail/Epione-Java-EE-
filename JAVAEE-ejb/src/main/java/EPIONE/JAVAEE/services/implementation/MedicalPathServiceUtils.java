@@ -6,6 +6,8 @@ import com.sun.org.apache.xpath.internal.operations.Bool;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MedicalPathServiceUtils {
@@ -97,5 +99,23 @@ public class MedicalPathServiceUtils {
             TypedQuery<MedicalVisit> visit=em.createQuery("select p from MedicalVisit p where p.pathDoctors.doctor.id=:idDoc",MedicalVisit.class);
             List<MedicalVisit> m= visit.setParameter("idDoc",idDoc).getResultList();
             return m;
+    }
+    public List<PathDoctors> listpathsforDoctor(EntityManager em , int idDoctor){
+        TypedQuery<PathDoctors> list= em.createQuery("select p from PathDoctors p ,MedicalPath  m where p.doctor.id=:idDoctor and m.id= p.path.id ",PathDoctors.class);
+
+
+        List<PathDoctors> query=list.setParameter("idDoctor",idDoctor).getResultList();
+
+
+        return query;
+    }
+    public List<Integer> listpathsIdforDoctor(EntityManager em , int idDoctor){
+        TypedQuery<Integer> list= em.createQuery("select p.path.id from PathDoctors p ,MedicalPath  m where p.doctor.id=:idDoctor and m.id= p.path.id ",Integer.class);
+
+
+        List<Integer> query=list.setParameter("idDoctor",idDoctor).getResultList();
+
+
+        return query;
     }
 }

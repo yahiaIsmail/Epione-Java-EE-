@@ -16,6 +16,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import static EPIONE.JAVAEE.services.implementation.UserService.userConnected;
+
 @Stateless
 public class MedicalPathService implements MedicalPathServiceLocal {
 
@@ -177,6 +179,7 @@ public class MedicalPathService implements MedicalPathServiceLocal {
     public void updateMedicalVisitStatus(int pathDoc, MedicalVisit medicalVisit) {
         System.out.println(utils.getVisitById(em, pathDoc));
         MedicalVisit medi = utils.getVisitById(em, pathDoc);
+
         if (!medi.equals(null)) {
             if (medicalVisit.getDescription() != null)
                 medi.setDescription(medicalVisit.getDescription());
@@ -196,6 +199,7 @@ public class MedicalPathService implements MedicalPathServiceLocal {
         MedicalPath pathFind = em.find(MedicalPath.class, id);
         pathFind.setActive(false);
         pathFind.setStatus(true);
+        pathFind.getRendezVous().setStatus(Status.Completed);
         em.flush();
     }
 
@@ -208,7 +212,7 @@ public class MedicalPathService implements MedicalPathServiceLocal {
         // System.out.println("DeclarativeScheduler:: In atSchedule()");
         // System.out.println(utils.referencedPathStatus(em));
         List<MedicalVisit> list = new ArrayList<>();
-        List<Integer> paths=new ArrayList<>();
+        List<Integer> paths = new ArrayList<>();
         list = utils.referencedPathStatus(em);
         int idpath;
         //System.out.println(list);
@@ -243,7 +247,7 @@ public class MedicalPathService implements MedicalPathServiceLocal {
 
         }
         //System.out.println(paths);
-        paths.forEach(e->{
+        paths.forEach(e -> {
             agentDisablePath(e);
         });
 
@@ -273,15 +277,13 @@ public class MedicalPathService implements MedicalPathServiceLocal {
     @Override
     public List<MedicalPath> allPathsForConnectedPatient(int idpatient) {
         User user = em.find(User.class, idpatient);
-        if (user != null ) {
+        if (user != null) {
 
-                List<MedicalPath> list = utils.getAllPathsForPatient(em, idpatient);
-                return list;
+            List<MedicalPath> list = utils.getAllPathsForPatient(em, idpatient);
+            return list;
 
 
-
-        }
-        else return null;
+        } else return null;
     }
 
     /****************************************** multiple search criteria ***************************************/
@@ -290,21 +292,59 @@ public class MedicalPathService implements MedicalPathServiceLocal {
         List<MedicalPath> list = utils.searchList(em, medicalPath, idPatient);
         return list;
     }
+
     /************************************* get doctor's visits *************************************************/
     @Override
     public List<MedicalVisit> getDoctorAllvisits(int idDoctor) {
-       User user=em.find(User.class,idDoctor);
-       if(user!=null && user.getRole().equals(Roles.Doctor))
-       {
-           List<MedicalVisit> m =utils.doctorVisits(em,idDoctor);
-           return  m;
-       }
+        User user = em.find(User.class, idDoctor);
+        if (user != null && user.getRole().equals(Roles.Doctor)) {
+            List<MedicalVisit> m = utils.doctorVisits(em, idDoctor);
+            return m;
+        }
         return null;
     }
 
     /*************************** Doctor update Medical Path *********************************/
     @Override
-    public void updateDoctorInPath(int iddoctor) {
+    public void updateDoctorInPath(String justification, int idpath, PathDoctors pathDoctors) {
+
+        if (userConnected.getRole().equals(Roles.Doctor)) {
+            List<Integer> pathids = utils.listpathsIdforDoctor(em, userConnected.getId());
+            for (Integer i : pathids) {
+                if (i == idpath) {
+
+                    if (pathDoctors.getDoctor().getId() != 0) {
+                        PathDoctors ptdoc = em.find(PathDoctors.class, pathDoctors.getId());
+                        ptdoc.setDoctor(em.find(User.class, pathDoctors.getDoctor().getId()));
+                        if (!pathDoctors.getMedicalVisit().getDescription().equals(null))
+                            ptdoc.getMedicalVisit().setDescription(pathDoctors.getMedicalVisit().getDescription());
+                        if (pathDoctors.getOrdre() != 0) {
+                            ptdoc.setOrdre(pathDoctors.getOrdre());
+                        }
+                        if (justification != null) {
+                            MedicalPath pathfinder = em.find(MedicalPath.class, i);
+                            pathfinder.setJustification(justification);
+                            em.flush();
+                        }
+                        em.flush();
+                    }
+
+
+                }
+            }
+        }
 
     }
+
+    /**************************************** get all paths for doctor**************************/
+    @Override
+    public List<PathDoctors> getAllPathForDoctor() {
+        if (userConnected.getRole().equals(Roles.Doctor)) {
+            List<PathDoctors> list = utils.listpathsforDoctor(em, userConnected.getId());
+            System.out.println(list);
+            return list;
+        } else return null;
+
+    }
+
 }
