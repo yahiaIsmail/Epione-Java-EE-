@@ -1,6 +1,7 @@
 package EPIONE.JAVAEE.presentation.mbeans.resource;
 
 import EPIONE.JAVAEE.entities.*;
+import EPIONE.JAVAEE.filters.Secured;
 import EPIONE.JAVAEE.services.interfaces.MedicalPathServiceLocal;
 
 
@@ -273,6 +274,7 @@ public class MedicalPathResource {
             return Response.status(Response.Status.NO_CONTENT).build();
     }
     /****************************** nearby doctors ***************************************/
+    @Secured
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/nearbyDoctors/{el1}/{el2}/{idPatient}")
