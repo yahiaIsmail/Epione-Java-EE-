@@ -394,8 +394,6 @@ public class User implements Serializable {
                 ", address=" + address +
                 ", expertiseList=" + expertiseList +
                 ", transportList=" + transportList +
-                ", conversations=" + conversations +
-                ", messageDoctors=" + messageDoctors +
 
                 ", pathDoctors=" + pathDoctors +
                 '}';

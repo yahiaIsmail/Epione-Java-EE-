@@ -350,6 +350,8 @@ public class UserService implements UserServiceLocal, UserServiceRemote {
         }
     }
 
+
+
     @Override
     public boolean login(User u) throws Exception {
         // System.out.println(u.getPassword() + "password ");
@@ -358,9 +360,9 @@ public class UserService implements UserServiceLocal, UserServiceRemote {
         String encode = Base64.getEncoder().encodeToString(u.getPassword().getBytes());
         System.out.println("encode: " + encode);
         System.out.println("Login from service : " + u);
-        Query query = em.createQuery("SELECT u FROM User u WHERE u.username = :username "
+        Query query = em.createQuery("SELECT u FROM User u WHERE u.email = :email "
                 + "AND u.password = :password");
-        query.setParameter("username", u.getUsername());
+        query.setParameter("email", u.getEmail());
         query.setParameter("password", encode);
         // query.setParameter("password", decode);
         int resultCount = query.getResultList().size();

@@ -150,6 +150,7 @@ public class UserResource {
     }
 
 
+
     @POST
     @Consumes(MediaType.APPLICATION_XML)
     @Produces(MediaType.TEXT_PLAIN)
@@ -166,7 +167,8 @@ public class UserResource {
         //System.out.println("Our token is now : "+token);
 
         //   return Response.ok(token).header("Authorization", token).build();
-        return Response.ok("Authentification passed successfully !").build();
+        User us=userServiceLocal.getUserByEmail(u.getEmail());
+        return Response.ok(us).build();
     }
 
     private boolean authenticate(User u) throws Exception {
@@ -174,6 +176,8 @@ public class UserResource {
             return false;
         return true;
     }
+
+
 
     @Path("/logOut")
     @POST
