@@ -30,10 +30,11 @@ public class AdminResource {
     }
 
     @POST
-    @Consumes(MediaType.APPLICATION_XML)
+    @Consumes(MediaType.APPLICATION_JSON)
     @Path("/adddemande")
     @Produces(MediaType.TEXT_PLAIN)
     public Response addDemande(Demande demande) {
+        System.out.println("ok");
         Response.ResponseBuilder builder = null;
         System.out.println(demandeServiceLocal.getDemande(demande));
         // Demande exist= demandeServiceLocal.getDemande(demande);
