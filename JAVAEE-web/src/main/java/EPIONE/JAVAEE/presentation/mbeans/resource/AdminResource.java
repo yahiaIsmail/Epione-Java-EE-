@@ -26,6 +26,7 @@ public class AdminResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/demandes")
     public List<Demande> displayAllDemandes() {
+        System.out.println("done!");
         return demandeServiceLocal.getAllDemandes();
     }
 
@@ -51,8 +52,8 @@ public class AdminResource {
         return builder.build();
     }
 
-    @DELETE
-    @Consumes(MediaType.APPLICATION_XML)
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
     @Path("/deletedemande")
     @Produces(MediaType.TEXT_PLAIN)
     public Response deleteDemande(Demande demande) {
