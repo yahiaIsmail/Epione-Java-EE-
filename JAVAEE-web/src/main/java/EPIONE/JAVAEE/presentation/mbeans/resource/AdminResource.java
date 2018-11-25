@@ -32,6 +32,29 @@ public class AdminResource {
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
+    @Path("/getonedemand")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getonedemand(Demande demande) {
+        Response.ResponseBuilder builder = null;
+//        System.out.println(demandeServiceLocal.getDemande(demande));
+        List<Demande> demandes = demandeServiceLocal.getDemande(demande);
+
+        if (demandes.isEmpty()) {
+
+            Map<String, String> responseObj = new HashMap<>();
+            responseObj.put("Not Exist: ", "Demand does not exist");
+            builder = Response.status(Response.Status.CONFLICT).entity(responseObj);
+
+
+        } else {
+            builder = Response.ok(demandes.get(0));
+
+        }
+
+        return builder.build();
+    }
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
     @Path("/adddemande")
     @Produces(MediaType.TEXT_PLAIN)
     public Response addDemande(Demande demande) {
@@ -69,7 +92,6 @@ public class AdminResource {
 
 
         } else {
-
             demandeServiceLocal.deleteDemande(demandes.get(0));
             builder = Response.ok("deleted");
 
