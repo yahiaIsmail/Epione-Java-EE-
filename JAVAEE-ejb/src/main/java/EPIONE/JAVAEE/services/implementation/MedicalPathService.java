@@ -10,11 +10,10 @@ import javax.json.JsonObject;
 import javax.naming.ldap.Rdn;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import javax.validation.constraints.Null;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static EPIONE.JAVAEE.services.implementation.UserService.userConnected;
 
@@ -205,7 +204,10 @@ public class MedicalPathService implements MedicalPathServiceLocal {
 
     /**************************** Scan agent with cron "Automated tasks" ***************************/
 
-    @Schedule(second = "00", minute = "00", hour = "09", persistent = false)
+    /**
+     *
+     * @Schedule(second = "*10", minute = "*", hour = "*", persistent = false)
+     */
 
     public void atSchedule() throws InterruptedException {
 
@@ -375,5 +377,31 @@ public class MedicalPathService implements MedicalPathServiceLocal {
         List<User> lis=new ArrayList<>();
         lis.add(li);
         return lis;
+    }
+
+    @Override
+    public List<MedicalPath> pathsforOneDoctor(int id) {
+        TypedQuery<MedicalPath> list= em.createQuery("select p from MedicalPath p " +
+                "where p.rendezVous.doctors.id=:id   ",MedicalPath.class);
+
+
+        List<MedicalPath> query;
+        query=list.setParameter("id",id).getResultList();
+        for (MedicalPath p : query ) {
+            List<PathDoctors> personsWithoutDuplicates = p.getDoctorPath().stream()
+                    .distinct()
+                    .collect(Collectors.toList());
+            p.setDoctorPath(null);
+            p.setDoctorPath(personsWithoutDuplicates);
+        }
+        return query;
+
+    }
+    /************************* list rdv for doc ******************/
+    @Override
+    public List<RDV> getDocRDVS(int id) {
+        TypedQuery<RDV> list= em.createQuery("select p from RDV p WHERE NOT EXISTS (SELECT m.rendezVous.id FROM MedicalPath m)and p.doctors.id=:id and p.status=1  ",RDV.class);
+
+        return list.setParameter("id",id).getResultList();
     }
 }

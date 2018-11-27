@@ -21,7 +21,7 @@ public class RDV implements Serializable {
     private Status status;
 
 
-    @JsonIgnore
+
     @ManyToOne
     private User users;//patient
 

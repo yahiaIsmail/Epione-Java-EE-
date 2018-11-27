@@ -74,6 +74,7 @@ public class MedicalPathResource {
 
 
     /****Adding new path for patient Web****/
+
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
@@ -85,11 +86,11 @@ public class MedicalPathResource {
         PathgenId = medipath.createPathForPatient(rdv, path);
         if (PathgenId != -1) {
             RDV rdv1=em.find(RDV.class,rdv);
-
+            System.out.println( PathgenId);
             sendMail(rdv1.getUsers().getEmail(),
                     "Your medical Path of the RDV :"+rdv+"",
                     " Your medical Path of the RDV :"+rdv+"has been created successfully wait till the doctor add doctors to you path"+PathgenId+ "!");
-            return Response.ok().entity("Id of the generated Medical Path :" + PathgenId).build();
+            return Response.ok().entity(PathgenId).build();
         } else
             return Response.status(Response.Status.BAD_REQUEST).build();
 
@@ -105,9 +106,11 @@ public class MedicalPathResource {
     @Path("/getPathById/{pathId}")
     public Response getPathById(@PathParam(value = "pathId") int pathId) {
         MedicalPath path = medipath.getPathById(pathId);
+        List<MedicalPath> listpath=new ArrayList<>();
+        listpath.add(path);
         // return Response.ok(medipath.getPathById(pathId)).build();
         if (path != null) {
-            return Response.ok().entity(path).build();
+            return Response.ok().entity(listpath).build();
         } else
             return Response.status(Response.Status.NO_CONTENT).build();
     }
@@ -282,5 +285,19 @@ public class MedicalPathResource {
     {
         List<User> list =medipath.nearbyDoctors(el1,el2,idPatient);
         return Response.ok().entity(list).build();
+    }
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/AllPathsForoneDoc/{id}")
+    public Response AllPathsForoneDoc(@PathParam(value = "id") int id){
+        List<MedicalPath> list =medipath.pathsforOneDoctor(id);
+
+        return Response.ok().entity(list).build();
+    }
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/RdvsDoc/{id}")
+    public Response allRDVForDoc(@PathParam("id") int id){
+        return Response.ok().entity(medipath.getDocRDVS(id)).build();
     }
 }

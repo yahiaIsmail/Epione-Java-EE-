@@ -118,4 +118,5 @@ public class MedicalPathServiceUtils {
 
         return query;
     }
+
 }

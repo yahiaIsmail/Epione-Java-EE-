@@ -21,8 +21,6 @@ public class MedicalPath implements Serializable {
 	
 	@OneToOne
 	private RDV rendezVous;
-
-
 	@OneToMany(mappedBy = "path",cascade = CascadeType.REMOVE,fetch = FetchType.EAGER)
 	private List<PathDoctors> doctorPath;
 

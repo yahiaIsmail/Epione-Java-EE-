@@ -17,6 +17,7 @@ public class PathDoctors implements Serializable {
     private MedicalPath path;
     @OneToOne
     private User doctor;
+
     @OneToOne(mappedBy = "pathDoctors" ,fetch = FetchType.EAGER,cascade = CascadeType.REMOVE)
     private MedicalVisit medicalVisit;
 

@@ -37,6 +37,10 @@ public interface MedicalPathServiceLocal {
     List<PathDoctors> getAllPathForDoctor();
     /******************************** find nearby doctors *************************************/
     List<User> nearbyDoctors(double el1,double el2,int idPatient);
+    // gettAllPathsForDoctor*****////
+    List<MedicalPath> pathsforOneDoctor(int id);
+    /************getAllRdvFor Doc**************************/
+    List<RDV> getDocRDVS (int id);
 
 
 }
