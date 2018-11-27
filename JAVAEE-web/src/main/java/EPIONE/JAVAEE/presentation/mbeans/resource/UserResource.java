@@ -151,11 +151,13 @@ public class UserResource {
 
 
 
+
     @POST
-    @Consumes(MediaType.APPLICATION_XML)
-    @Produces(MediaType.TEXT_PLAIN)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("/auth")
     public Response authenticateUser(User u) throws Exception {
+        System.out.println("done");
         // Authenticate the user using the credentials provided
         if (authenticate(u) == false) {
             System.out.println("Auth failed, Exiting with FORBIDDEN status");
@@ -168,8 +170,12 @@ public class UserResource {
 
         //   return Response.ok(token).header("Authorization", token).build();
         User us=userServiceLocal.getUserByEmail(u.getEmail());
+        us.setConfirmation("");
+        us.setPassword("");
+       // return Response.ok(us).build();
         return Response.ok(us).build();
     }
+
 
     private boolean authenticate(User u) throws Exception {
         if (userServiceLocal.login(u) == false)

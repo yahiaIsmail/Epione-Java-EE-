@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head class="headWS">
+    <meta charset="UTF-8">
+    <title>WebSocket Client</title>
+    <h3>Chat to change RDV date</h3>
+    <link rel="stylesheet" type="text/css" href="style.css"/>
+    <form>
+        <input id="textMessage" type="text" placeholder="aaaa/MM/dd hh-mm">
+        <input onclick="sendMessage();" value="send message" type="button">
+    </form>
+    </br>
+    <textarea id="messagesTextArea" rows="30" cols="80"></textarea>
+    <script type="text/javascript">
+        var ws = new WebSocket("ws://localhost:18080/JAVAEE-web/example");
+        var messagesTextArea = document.getElementById("messagesTextArea");
+        var textMessage = document.getElementById("textMessage");
+        ws.onopen= function(message){ processOpen(message);};
+        ws.onmessage = function(message){processMessage(message);};
+        ws.onclose = function(message){ processClose(message); };
+        ws.onerror = function(message){ processError(message);};
+        function processOpen(message){
+            messagesTextArea.value += "Epionne connect ....."+"\n"+"Please enter the new date of the RDV you want to change (yyyy/MM/dd hh-mm)"+"\n";
+        }
+        function processMessage(message){
+            messagesTextArea.value += "Recieve from Epionne ..."+message.data+"\n";
+        }
+        function sendMessage()	{
+            if(textMessage.value != "close"){
+                var regex = RegExp("[0-9]{4}/[0-9]{2}/[0-9]{2} [0-9]{2}-[0-9]{2}");
+                console.log(regex.test(textMessage.value));
+                if(regex.test(textMessage.value) == true){
+                     ws.send(textMessage.value);
+                     messagesTextArea.value += "Send to Epionne :"+textMessage.value+"\n";
+                     textMessage.value="";
+                }
+                else{
+                  window.alert("Please enter a valid structure "+"\n"+"Example : 2018/31/10 09-00");
+                }
+            }else ws.close();
+        }
+        function processClose(message){
+            ws.send("Client is disconnected ...");
+            messagesTextArea.value += "Epionne disconnect ....."+"\n";
+        }
+        function processError(message){
+            messagesTextArea.value += "error....."+"\n";
+        }
+
+    </script>
+</head>
+<body>
+</body>
+</html>
