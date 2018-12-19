@@ -26,7 +26,7 @@ import javax.mail.internet.*;
 
 @Path("/users")
 @RequestScoped
-public class UserResource {
+public class UserResource  {
 
 
     @EJB
@@ -36,15 +36,17 @@ public class UserResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/doctors/{speciality}")
-    public List<User> scrapingAllDoctors(
+    public Response scrapingAllDoctors(
             @PathParam(value = "speciality") String speciality
     ) {
+        Response.ResponseBuilder builder = null;
         List<User> listDoc = new ArrayList<User>();
         listDoc = userServiceLocal.scrapingAllDoctors(speciality);
         if (listDoc.isEmpty()) {
             return null;
         } else
-            return listDoc;
+          //  return listDoc;
+        return Response.ok(listDoc).build();
 
     }
 //    @POST
