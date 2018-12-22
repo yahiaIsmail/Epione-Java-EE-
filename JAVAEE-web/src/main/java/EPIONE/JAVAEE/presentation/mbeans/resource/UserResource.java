@@ -61,7 +61,7 @@ public class UserResource  {
 
     @POST
     @Path("/adddoctor")
-    @Consumes(MediaType.APPLICATION_XML)
+    @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response addDoctor(User doc) throws UnsupportedEncodingException {
 
@@ -94,7 +94,7 @@ public class UserResource  {
                             "Account added",
                             "you're account has been added your password is:" + password);
 
-                    builder = Response.ok(id);
+                    builder = Response.ok("Account added successfully !");
                 }
 
             } catch (Exception e) {

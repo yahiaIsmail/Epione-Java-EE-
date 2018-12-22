@@ -25,9 +25,10 @@ public class AdminResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/demandes")
-    public List<Demande> displayAllDemandes() {
+    public Response displayAllDemandes() {
         System.out.println("done!");
-        return demandeServiceLocal.getAllDemandes();
+       // return demandeServiceLocal.getAllDemandes();
+        return Response.ok(demandeServiceLocal.getAllDemandes()).build();
     }
 
     @POST
@@ -66,6 +67,7 @@ public class AdminResource {
             int id = demandeServiceLocal.addDemande(demande);
             builder = Response.ok(id);
         } else {
+
             Map<String, String> responseObj = new HashMap<>();
             responseObj.put("Duplicated: ", "Demand already exist");
             builder = Response.status(Response.Status.CONFLICT).entity(responseObj);
