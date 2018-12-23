@@ -10,6 +10,7 @@ public interface UserServiceLocal {
     List<User> scrapingAllDoctors(String speciality);
 
     int addDoctors(String firstName, String lastName, String speciality, String state, String email, String password);
+    int ValidateDoctors(String firstName, String lastName, String speciality, String state, String email);
 
     List<User> getDoctor(User user);
 

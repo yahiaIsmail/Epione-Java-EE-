@@ -1,6 +1,7 @@
 package EPIONE.JAVAEE.presentation.mbeans.resource;
 
 import EPIONE.JAVAEE.entities.Demande;
+import EPIONE.JAVAEE.entities.User;
 import EPIONE.JAVAEE.services.interfaces.DemandeServiceLocal;
 import EPIONE.JAVAEE.services.interfaces.UserServiceLocal;
 
@@ -21,6 +22,9 @@ public class AdminResource {
 
     @EJB
     DemandeServiceLocal demandeServiceLocal;
+
+    @EJB
+    UserServiceLocal userServiceLocal;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -64,8 +68,30 @@ public class AdminResource {
         System.out.println(demandeServiceLocal.getDemande(demande));
         // Demande exist= demandeServiceLocal.getDemande(demande);
         if (demandeServiceLocal.getDemande(demande).isEmpty()) {
-            int id = demandeServiceLocal.addDemande(demande);
-            builder = Response.ok(id);
+            User doc = new User();
+            doc.setFirstName(demande.getFirstName());
+            doc.setLastName(demande.getLastName());
+            doc.setEmail(demande.getEmail());
+            doc.setSpeciality(demande.getSpeciality());
+            doc.setState(demande.getState());
+            //    int ValidateDoctors(String firstName, String lastName, String speciality, String state, String email);
+
+            if (userServiceLocal.getDoctor(doc).isEmpty()) {
+                int ok = userServiceLocal.ValidateDoctors(doc.getFirstName(),
+                        doc.getLastName(),
+                        doc.getSpeciality(),
+                        doc.getState(),
+                        doc.getEmail());
+                if(ok == (-1)){
+                    Map<String, String> responseObj = new HashMap<>();
+                    responseObj.put("Not Found: ", "Account does not exist in doctolib");
+                    builder = Response.status(Response.Status.CONFLICT).entity(responseObj);
+                }
+                else {
+                    int id = demandeServiceLocal.addDemande(demande);
+                    builder = Response.ok(id);
+                }
+            }
         } else {
 
             Map<String, String> responseObj = new HashMap<>();
@@ -76,6 +102,8 @@ public class AdminResource {
 
         return builder.build();
     }
+
+
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)

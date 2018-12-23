@@ -112,6 +112,45 @@ public class UserService implements UserServiceLocal, UserServiceRemote {
         return listDoc;
     }
 
+
+    ///
+    @Override
+    public int ValidateDoctors(String firstName, String lastName, String speciality, String state, String email) {
+        String urlDocteur = "https://www.doctolib.fr/" + speciality + "/" + state + "/" + firstName.toLowerCase() + "-" + lastName.toLowerCase();
+        String url = "";
+        String tariff = "";
+        String moyenPaiement = "";
+        String langues = "";
+        String imgAddress = "";
+
+        String address;
+        Address addressSplited = new Address();
+        String fullAddress = "";
+        String longitude = "";
+        String latitude = "";
+        List<Expertise> expertises = new ArrayList<Expertise>();
+        List<Transport> moyenTrasnsport = new ArrayList<Transport>();
+        User doctor = new User();
+        int ok = -1;
+        String exist = "";
+        try {
+            Document documentDocteur = Jsoup.connect(urlDocteur).userAgent("Mozilla").get();
+
+            //if user does not exist
+            exist = documentDocteur.select(".dl-profile").text();
+            if (exist.isEmpty()) {
+                return -1;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+
+        }
+
+        return 1;
+    }
+
+
+
     @Override
     public int addDoctors(String firstName, String lastName, String speciality, String state, String email, String password) {
         String urlDocteur = "https://www.doctolib.fr/" + speciality + "/" + state + "/" + firstName.toLowerCase() + "-" + lastName.toLowerCase();
