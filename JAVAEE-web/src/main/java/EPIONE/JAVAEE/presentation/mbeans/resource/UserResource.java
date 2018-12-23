@@ -49,6 +49,8 @@ public class UserResource  {
         return Response.ok(listDoc).build();
 
     }
+
+
 //    @POST
 //    @Path("/adddoctor/{fullName}/{speciality}/{state}/{email}")
 //    @Consumes(MediaType.APPLICATION_JSON)
