@@ -51,16 +51,6 @@ public class UserResource  {
     }
 
 
-//    @POST
-//    @Path("/adddoctor/{fullName}/{speciality}/{state}/{email}")
-//    @Consumes(MediaType.APPLICATION_JSON)
-//    @Produces(MediaType.APPLICATION_JSON)
-//    public Response addDoctor(@PathParam(value = "fullName")String fullName,
-//                          @PathParam(value="speciality")String speciality,
-//                          @PathParam(value = "state")String state,
-//                              @PathParam(value="email")String email
-//    ){
-
     @POST
     @Path("/adddoctor")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -119,8 +109,10 @@ public class UserResource  {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/registereddoctors")
-    public List<User> displayRegistredDoctors() {
-        return userServiceLocal.getAllDoctors();
+    public Response  displayRegistredDoctors() {
+        Response.ResponseBuilder builder = null;
+    //    return ;
+        return Response.ok(userServiceLocal.getAllDoctors()).build();
     }
 
     public void sendMail(String mailTo, String subject, String body) {
