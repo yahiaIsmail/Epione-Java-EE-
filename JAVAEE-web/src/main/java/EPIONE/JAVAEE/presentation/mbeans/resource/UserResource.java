@@ -112,7 +112,14 @@ public class UserResource  {
     public Response  displayRegistredDoctors() {
         Response.ResponseBuilder builder = null;
     //    return ;
-        return Response.ok(userServiceLocal.getAllDoctors()).build();
+        List<User> listUser = userServiceLocal.getAllDoctors();
+        for (User u:listUser
+             ) {
+                u.setPassword("");
+                u.setConfirmation("");
+        }
+
+        return Response.ok(listUser).build();
     }
 
     public void sendMail(String mailTo, String subject, String body) {
