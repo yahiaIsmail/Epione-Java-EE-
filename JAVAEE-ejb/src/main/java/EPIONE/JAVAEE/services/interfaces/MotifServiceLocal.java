@@ -18,6 +18,6 @@ public interface MotifServiceLocal {
 
     public int supprimerMotif(int motifId);
 
-    public List<String> listerMotifByDoc(User user);
+    public List<Motif> listerMotifByDoc(User user);
 
 }
