@@ -41,6 +41,17 @@ public interface MedicalPathServiceLocal {
     List<MedicalPath> pathsforOneDoctor(int id);
     /************getAllRdvFor Doc**************************/
     List<RDV> getDocRDVS (int id);
-
+    /*********************getAllIncludedMedicalPath*****************************************/
+    List<MedicalPath> getAllIncludedMedicalPath(int id);
+    
+    MedicalVisit getVisitByPathId(int pathid,int iduser);
+    
+    void updateMedicalvisit(MedicalVisit medicalVisit);
+    
+    List<User>getDoctors(int id);
+    List<MedicalPath>getCompletedPath(int id);
+    List<MedicalPath>getunCompletedPath(int id);
+    	
+    
 
 }

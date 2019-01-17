@@ -246,6 +246,32 @@ public class MedicalPathResource {
         } else
             return Response.status(Response.Status.NO_CONTENT).build();
     }
+    /************************** doctor visits2 *************************************/
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("/getIncludedPath/{id}")
+    public Response getIncludedPath(@PathParam(value = "id") int idDoctor) {
+        List<MedicalPath> path = medipath.getAllIncludedMedicalPath(idDoctor);
+        // return Response.ok(medipath.getPathById(pathId)).build();
+        if (!path.isEmpty()) {
+            return Response.ok().entity(path).build();
+        } else
+            return Response.status(Response.Status.NO_CONTENT).build();
+    }
+    /************************** doctor visits2 *************************************/
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("/getVisitByPathId/{id}/{user}")
+    public Response getVisitByPathId(@PathParam(value = "id") int pathid,@PathParam(value = "user") int user) {
+        MedicalVisit visit = medipath.getVisitByPathId(pathid, user);
+        // return Response.ok(medipath.getPathById(pathId)).build();
+        if (visit.getId()!=0) {
+            return Response.ok().entity(visit).build();
+        } else
+            return Response.status(Response.Status.NO_CONTENT).build();
+    }
     /***************************doctors in path they can update path *******************************************/
     @POST
     @Produces(MediaType.APPLICATION_JSON)
@@ -294,10 +320,36 @@ public class MedicalPathResource {
 
         return Response.ok().entity(list).build();
     }
+   
+    
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/RdvsDoc/{id}")
     public Response allRDVForDoc(@PathParam("id") int id){
         return Response.ok().entity(medipath.getDocRDVS(id)).build();
+    }
+    @PUT
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("/updateMedicalVisit/")
+    public Response updateMedicalVisit (MedicalVisit Visit) {
+        // MedicalPath path=medipath.getPathById(pathId);
+    	medipath.updateMedicalvisit(Visit);
+        return Response.ok(Visit).build();
+    }
+    
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("/getDoctors/{id}")
+    public Response getDoctors(@PathParam("id") int id ) {
+        List<User> docs = medipath.getDoctors(id);
+        // return Response.ok(medipath.getPathById(pathId)).build();
+       // List<Integer> pathsid=new ArrayList<>();
+        if (!docs.isEmpty()) {
+            
+            return Response.ok().entity(docs).build();
+        } else
+            return Response.status(Response.Status.NO_CONTENT).build();
     }
 }

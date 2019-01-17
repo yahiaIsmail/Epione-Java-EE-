@@ -56,7 +56,7 @@ public class MedicalPathServiceUtils {
     }
 
     public MedicalVisit getVisitById(EntityManager em, int id) {
-        TypedQuery<MedicalVisit> query = (TypedQuery<MedicalVisit>) em.createQuery("SELECT p FROM MedicalVisit p WHERE p.pathDoctors.id= :id", MedicalVisit.class);
+        TypedQuery<MedicalVisit> query = (TypedQuery<MedicalVisit>) em.createQuery("SELECT p FROM MedicalVisit p WHERE p.pathDoctors.id=:id", MedicalVisit.class);
 
         return query.setParameter("id", id).getSingleResult();
     }
