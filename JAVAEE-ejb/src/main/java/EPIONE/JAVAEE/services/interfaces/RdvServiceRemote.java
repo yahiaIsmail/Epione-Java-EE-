@@ -21,6 +21,7 @@ public interface RdvServiceRemote {
     boolean modifyRdvMotif(int id, int motifId);
 
     Map<String, User> cancelRdv(int rdvId);
+    Map<String, User> confirmRdv(int rdvId);
 
     User selectRdvMotif(int rdvId, int motifId);
 
@@ -29,6 +30,8 @@ public interface RdvServiceRemote {
     List<RDV> searchRdvByPatient(int patientId);
 
     List<RDV> searchRdvConfirmed();
+
+    List<RDV> getAllRdv();
 
 
 }

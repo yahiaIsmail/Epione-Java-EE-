@@ -154,6 +154,25 @@ public class RdvService implements RdvServiceLocal, RdvServiceRemote {
     }
 
     @Override
+    public Map<String, User> confirmRdv(int rdvId) {
+        try {
+            RDV rdv = (RDV) em.createQuery("SELECT rdv FROM RDV rdv WHERE rdv.id = :id")
+                    .setParameter("id", rdvId)
+                    .getSingleResult();
+            rdv.setStatus(Status.Completed);
+            User usr = rdv.getUsers();
+            User doctor = rdv.getDoctors();
+            em.merge(rdv);
+            Map<String, User> map = new HashMap<>();
+            map.put("patient", usr);
+            map.put("doctor", doctor);
+            return map;
+        } catch (javax.persistence.NoResultException exp) {
+            return null;
+        }
+    }
+
+    @Override
     public User selectRdvMotif(int rdvId, int motifId) {
         try {
             RDV rdv = (RDV) em.createQuery("SELECT rdv FROM RDV rdv WHERE rdv.id = :id")
@@ -203,6 +222,16 @@ public class RdvService implements RdvServiceLocal, RdvServiceRemote {
     public List<RDV> searchRdvConfirmed() {
         try {
             List<RDV> rdvs = em.createQuery("SELECT rdv FROM RDV rdv where rdv.confirmationDoc = true AND rdv.confirmationPatient = true")
+                    .getResultList();
+            return rdvs;
+        } catch (javax.persistence.NoResultException exp) {
+            return null;
+        }
+    }
+    @Override
+    public List<RDV> getAllRdv() {
+        try {
+            List<RDV> rdvs = em.createQuery("SELECT rdv FROM RDV rdv ")
                     .getResultList();
             return rdvs;
         } catch (javax.persistence.NoResultException exp) {

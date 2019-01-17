@@ -25,7 +25,6 @@ public class RdvResource {
 
     @POST
     @Path("/takeRdv/{emailPatient}/{emailDoctor}/{motifId}/{year}/{month}/{day}/{hour}/{minutes}")
-    @Consumes(MediaType.TEXT_PLAIN)
     @Produces(MediaType.APPLICATION_JSON)
     public String takeRdv(@PathParam(value = "emailPatient") String emailPatient, @PathParam(value = "emailDoctor") String emailDoctor, @PathParam(value = "motifId") int motifId, @PathParam(value = "year") int year, @PathParam(value = "month") int month, @PathParam(value = "hour") int day, @PathParam(value = "hour") int hour, @PathParam(value = "minutes") int minutes) {
         int takeRdvResponse = rdvServiceLocal.takeRvdPatient(emailPatient, emailDoctor, motifId, year, month, day, hour, minutes);
@@ -92,16 +91,31 @@ public class RdvResource {
 
     @GET
     @Path("/cancel")
-    @Consumes(MediaType.TEXT_PLAIN)
+//    @Consumes(MediaType.TEXT_PLAIN)
     @Produces(MediaType.APPLICATION_JSON)
     public String cancelRdv(@QueryParam(value = "rdvId") int rdvId) {
         Map<String, User> map = rdvServiceLocal.cancelRdv(rdvId);
         if (map == null)
             return "failed";
-        String body = "Patient " + map.get("patient").getFirstName() + " " + map.get("patient").getLastName() + " a annuler son Rdv avec Medecin" +
+        String body = "Patient " + map.get("patient").getFirstName() + " " + map.get("patient").getLastName() + " a annule son Rdv avec Medecin" +
                 " " + map.get("doctor").getFirstName() + " " + map.get("doctor").getLastName();
         if (SendMail.mail(map.get("doctor").getEmail(), "Canceled RDV", body) && SendMail.mail(map.get("doctor").getEmail(), "Canceled RDV", body))
             return "canceld";
+        return "failed to send mail";
+    }
+
+    @GET
+    @Path("/complete")
+//    @Consumes(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.APPLICATION_JSON)
+    public String completeRdv(@QueryParam(value = "rdvId") int rdvId) {
+        Map<String, User> map = rdvServiceLocal.confirmRdv(rdvId);
+        if (map == null)
+            return "failed";
+        String body = "Patient " + map.get("patient").getFirstName() + " " + map.get("patient").getLastName() + " a confirme son Rdv avec Medecin" +
+                " " + map.get("doctor").getFirstName() + " " + map.get("doctor").getLastName();
+        if (SendMail.mail(map.get("doctor").getEmail(), "Confirmed RDV", body) && SendMail.mail(map.get("doctor").getEmail(), "Canceled RDV", body))
+            return "confirmed";
         return "failed to send mail";
     }
 
@@ -141,6 +155,12 @@ public class RdvResource {
     public List<RDV> searchRdvConfirmed() {
         List<RDV> rdvs = rdvServiceLocal.searchRdvConfirmed();
         return rdvs;
+    }
+    @GET
+    @Path("/all")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<RDV> getAllRdv(){
+        return rdvServiceLocal.getAllRdv();
     }
 
 

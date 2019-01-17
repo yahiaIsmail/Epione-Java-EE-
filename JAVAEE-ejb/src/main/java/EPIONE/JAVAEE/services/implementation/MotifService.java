@@ -53,10 +53,10 @@ public class MotifService implements MotifServiceLocal {
 
 
     @Override
-    public List<String> listerMotifByDoc(User doc) {
-        TypedQuery<String> query = em.createQuery("select m.description from Motif m where m.doctor.id=:id", String.class);
+    public List<Motif> listerMotifByDoc(User doc) {
+        TypedQuery<Motif> query = em.createQuery("select m from Motif m where m.doctor.id=:id", Motif.class);
         query.setParameter("id", doc.getId());
-        List<String> lst = new ArrayList<String>();
+        List<Motif> lst = new ArrayList<Motif>();
         lst = query.getResultList();
 
         return lst;
